@@ -33,30 +33,19 @@
         Get started
       </button>
     </div>
-    <div class="w-screen h-screen">
-      <img
-        class="h-full w-full object-cover object-center"
-        src="@/assets/image-1.svg"
-      />
-    </div>
-    <div class="w-screen h-screen">
-      <img
-        class="h-full w-full object-cover object-center"
-        src="@/assets/image-2.svg"
-      />
-    </div>
-    <div class="w-screen h-screen">
-      <img
-        class="h-full w-full object-cover object-center"
-        src="@/assets/image-3.svg"
-      />
-    </div>
+    <TheLandingBanner :src="image1" />
+    <TheLandingBanner :src="image2" />
+    <TheLandingBanner :src="image3" />
   </div>
 </template>
 <script setup>
 import { ref } from "vue";
 import TheModal from "@/components/TheModal.vue";
+import TheLandingBanner from "@/components/TheLandingBanner.vue";
 import router from "@/router";
+import image1 from "@/assets/image-1.svg";
+import image2 from "@/assets/image-2.svg";
+import image3 from "@/assets/image-3.svg";
 
 const showModal = ref(false);
 const openModal = (pagename) => {
