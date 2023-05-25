@@ -1,13 +1,6 @@
 <template class="bq">
   <div class="h-screen w-screen">
     <div class="my-5 lg:mx-12 mx-5 relative">
-      <!-- <div v-if="showModal" class="modal">
-        <div class="modal-content">
-          <button @click="closeModal">Close</button>
-          <router-view />
-        </div>
-      </div> -->
-
       <TheModal :show="showModal" @close-modal="closeModal">
         <router-view />
       </TheModal>
@@ -18,7 +11,10 @@
       >
         Log In
       </button>
-      <button class="text-white bg-red-600 py-1 px-4 rounded float-right">
+      <button
+        @click="openModal('RegisterPage')"
+        class="text-white bg-red-600 py-1 px-4 rounded float-right"
+      >
         Sign Up
       </button>
     </div>
@@ -33,19 +29,33 @@
         Get started
       </button>
     </div>
-    <TheLandingBanner :src="image1" />
-    <TheLandingBanner :src="image2" />
-    <TheLandingBanner :src="image3" />
+    <div class="w-screen h-screen">
+      <img
+        class="h-full w-full object-cover object-center top:2"
+        src="@/assets/image-1.svg"
+      />
+      <div class="text-white text-4xl relative">
+        - "You have to leave something behind to go forward"
+      </div>
+    </div>
+    <div class="w-screen h-screen">
+      <img
+        class="h-full w-full object-cover object-center"
+        src="@/assets/image-2.svg"
+      />
+    </div>
+    <div class="w-screen h-screen">
+      <img
+        class="h-full w-full object-cover object-center"
+        src="@/assets/image-3.svg"
+      />
+    </div>
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 import TheModal from "@/components/TheModal.vue";
-import TheLandingBanner from "@/components/TheLandingBanner.vue";
 import router from "@/router";
-import image1 from "@/assets/image-1.svg";
-import image2 from "@/assets/image-2.svg";
-import image3 from "@/assets/image-3.svg";
 
 const showModal = ref(false);
 const openModal = (pagename) => {
@@ -56,4 +66,25 @@ const closeModal = () => {
   showModal.value = false;
   router.push({ name: "LandingPage" });
 };
+const disableBackgroundScroll = () => {
+  document.body.classList.add("modal-open");
+  document.body.style.overflow = "hidden";
+};
+
+const enableBackgroundScroll = () => {
+  document.body.classList.remove("modal-open");
+  document.body.style.overflow = "";
+};
+watchEffect(() => {
+  if (showModal.value) {
+    disableBackgroundScroll();
+  } else {
+    enableBackgroundScroll();
+  }
+});
 </script>
+<style scoped>
+.modal-open {
+  overflow: hidden;
+}
+</style>
