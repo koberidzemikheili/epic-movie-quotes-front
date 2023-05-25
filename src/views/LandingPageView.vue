@@ -1,5 +1,5 @@
 <template class="bq">
-  <div class="h-screen w-screen">
+  <div :class="['h-screen', 'w-screen', overflow]">
     <div class="my-5 lg:mx-12 mx-5 relative">
       <TheModal :show="showModal" @close-modal="closeModal">
         <router-view />
@@ -58,6 +58,7 @@ import TheModal from "@/components/TheModal.vue";
 import router from "@/router";
 
 const showModal = ref(false);
+const overflow = ref("");
 const openModal = (pagename) => {
   showModal.value = true;
   router.push({ name: pagename });
@@ -66,25 +67,11 @@ const closeModal = () => {
   showModal.value = false;
   router.push({ name: "LandingPage" });
 };
-const disableBackgroundScroll = () => {
-  document.body.classList.add("modal-open");
-  document.body.style.overflow = "hidden";
-};
-
-const enableBackgroundScroll = () => {
-  document.body.classList.remove("modal-open");
-  document.body.style.overflow = "";
-};
 watchEffect(() => {
   if (showModal.value) {
-    disableBackgroundScroll();
+    overflow.value = "overflow-hidden";
   } else {
-    enableBackgroundScroll();
+    overflow.value = "";
   }
 });
 </script>
-<style scoped>
-.modal-open {
-  overflow: hidden;
-}
-</style>
