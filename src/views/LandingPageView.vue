@@ -1,9 +1,7 @@
 <template class="bq">
   <div :class="['h-screen', 'w-screen', overflow]">
     <div class="my-5 lg:mx-12 mx-5 relative">
-      <TheModal :show="showModal" @close-modal="closeModal">
-        <router-view />
-      </TheModal>
+      <router-view />
       <div class="text-orange-200 inline-flex">MOVIE QUOTES</div>
       <button
         @click="openModal('LoginPage')"
@@ -54,24 +52,18 @@
 </template>
 <script setup>
 import { ref, watchEffect } from "vue";
-import TheModal from "@/components/TheModal.vue";
 import router from "@/router";
-
-const showModal = ref(false);
+import { useRoute } from "vue-router";
+const route = useRoute();
 const overflow = ref("");
 const openModal = (pagename) => {
-  showModal.value = true;
   router.push({ name: pagename });
 };
-const closeModal = () => {
-  showModal.value = false;
-  router.push({ name: "LandingPage" });
-};
 watchEffect(() => {
-  if (showModal.value) {
-    overflow.value = "overflow-hidden";
-  } else {
+  if (route.name === "LandingPage") {
     overflow.value = "";
+  } else {
+    overflow.value = "overflow-hidden";
   }
 });
 </script>
