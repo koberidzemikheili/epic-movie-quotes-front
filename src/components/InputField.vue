@@ -1,5 +1,5 @@
 <template>
-  <label class="text-white flex mb-2 mt-2"
+  <label class="text-white flex mb-2 mt-4"
     >{{ label }}
     <div class="text-red-600">*</div></label
   >
@@ -20,7 +20,7 @@ defineProps({
   name: { type: String, required: true },
   label: { type: String, required: true },
   type: { type: String, required: true },
-  rules: { type: String, required: true },
+  rules: { type: String, required: false },
   placeholder: { type: String, required: false },
 });
 </script>
