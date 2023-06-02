@@ -46,29 +46,18 @@ import InputField from "@/components/InputField.vue";
 import axios from "axios";
 import GoogleButton from "@/components/GoogleButton.vue";
 import TheModal from "@/components/TheModal.vue";
-import { apiurl, headers } from "@/api/index.js";
+import { headers } from "@/api/index.js";
 axios.defaults.withCredentials = true;
 const submitForm = (values) => {
-  axios
-    .post("http://localhost:8000/api/login", values, { headers })
-    .then((response) => {
-      console.log(response.data);
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
-};
-const Getuserdata = () => {
-  axios.get(apiurl + "user").then((response) => {
-    console.log(response);
+  axios.get("http://localhost:8000/sanctum/csrf-cookie").then(() => {
+    axios
+      .post("http://localhost:8000/api/login", values, { headers })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   });
-};
-const Getuserloggedout = () => {
-  axios.post(apiurl + "logout").then((response) => {
-    console.log(response);
-  });
-};
-const getcsrftoken = () => {
-  axios.get("http://localhost:8000/sanctum/csrf-cookie").then(() => {});
 };
 </script>
