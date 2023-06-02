@@ -1,22 +1,12 @@
 <template>
-  <TheModal addclass="md:h-4/6">
-    <div class="text-2xl text-white">Create an account</div>
-    <div class="text-gray-500">start your journey !</div>
+  <TheModal addclass="md:h-1/2">
+    <div class="text-2xl text-white">Create new password</div>
+    <div class="text-gray-500">
+      Your new password must be different from previous used passwords.
+    </div>
     <Form @submit="submitForm" class="flex flex-col w-full">
-      <InputField
-        label="Name"
-        name="username"
-        type="text"
-        rules="required|min:3|max:15|alpha_num"
-        placeholder="At least 3 & max.15 lower case characters"
-      />
-      <InputField
-        label="Email"
-        name="email"
-        type="text"
-        rules="required|email"
-        placeholder="Enter your email"
-      />
+      <Field :value="email" type="hidden" name="email" />
+      <Field :value="token" type="hidden" name="token" />
       <InputField
         label="Password"
         name="password"
@@ -31,29 +21,32 @@
         rules="confirmed:@password"
         placeholder="Confirm password"
       />
-      <GoogleButton />
       <button class="text-white text-l mt-5 bg-red-600 py-2 px-2 rounded">
-        Get started
+        Reset Password
       </button>
     </Form>
   </TheModal>
 </template>
 <script setup>
-import { Form } from "vee-validate";
+import { Form, Field } from "vee-validate";
 import InputField from "@/components/InputField.vue";
 import axios from "axios";
-import GoogleButton from "@/components/GoogleButton.vue";
-import { headers2, baseurl } from "@/api/index.js";
+import { ref } from "vue";
 import TheModal from "@/components/TheModal.vue";
+import { headers } from "@/api/index.js";
+import { useRoute } from "vue-router";
 import router from "@/router";
+const route = useRoute();
+const email = ref(route.query.email);
+const token = ref(route.query.token);
+
 axios.defaults.withCredentials = true;
 const submitForm = (values) => {
   axios
-    .post(baseurl + "api/register", values, { headers2 })
+    .post("http://localhost:8000/api/reset-password", values, { headers })
     .then((response) => {
-      console.log(response.data);
       if (response.status === 201) {
-        router.push({ name: "VerifyAccount" });
+        router.push({ name: "PasswordSuccess" });
       }
     })
     .catch((error) => {

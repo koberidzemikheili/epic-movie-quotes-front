@@ -4,7 +4,16 @@
     @click="closeModal"
   >
     <div
-      class="bg-gray-900 p-6 md:w-1/4 md:h-3/5 w-screen h-screen rounded-md"
+      :class="[
+        'bg-gray-900',
+        'p-6',
+        'md:w-1/4',
+        'w-screen',
+        'h-screen',
+        'rounded-md',
+        'md:h-1/2',
+        addclass,
+      ]"
       @click.stop
     >
       <div class="w-full">
@@ -20,4 +29,7 @@ import router from "@/router";
 const closeModal = () => {
   router.push({ name: "LandingPage" });
 };
+defineProps({
+  addclass: { type: String, required: false },
+});
 </script>
