@@ -1,7 +1,7 @@
-<template class="bq">
+<template>
   <div :class="['h-screen', 'w-screen', overflow]">
-    <div class="my-5 lg:mx-12 mx-5 relative">
-      <router-view />
+    <router-view />
+    <div class="lg:mx-12 mx-5 mb-5 relative">
       <div class="text-orange-200 inline-flex">MOVIE QUOTES</div>
       <button
         @click="openModal('LoginPage')"
@@ -30,7 +30,7 @@
     <div class="w-screen h-screen">
       <img
         class="h-full w-full object-cover object-center top:2"
-        src="@/assets/image-1.svg"
+        src="@/assets/image-1.png"
       />
       <div class="text-white text-4xl relative">
         - "You have to leave something behind to go forward"
@@ -39,13 +39,13 @@
     <div class="w-screen h-screen">
       <img
         class="h-full w-full object-cover object-center"
-        src="@/assets/image-2.svg"
+        src="@/assets/image-2.png"
       />
     </div>
     <div class="w-screen h-screen">
       <img
         class="h-full w-full object-cover object-center"
-        src="@/assets/image-3.svg"
+        src="@/assets/image-3.png"
       />
     </div>
   </div>
@@ -60,10 +60,8 @@ const openModal = (pagename) => {
   router.push({ name: pagename });
 };
 watchEffect(() => {
-  if (route.name === "LandingPage") {
-    overflow.value = "";
-  } else {
-    overflow.value = "overflow-hidden";
-  }
+  route.name === "LandingPage"
+    ? (overflow.value = "")
+    : (overflow.value = "overflow-hidden");
 });
 </script>

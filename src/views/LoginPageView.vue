@@ -31,27 +31,18 @@
       </button>
       <GoogleButton />
     </Form>
-    <button @click="Getuserdata" class="text-2xl text-white">
-      getuserdata
-    </button>
-    <button @click="Getuserloggedout" class="text-2xl text-white">
-      logout
-    </button>
-    <button @click="getcsrftoken" class="text-2xl text-white">gettoken</button>
   </TheModal>
 </template>
 <script setup>
 import { Form, Field } from "vee-validate";
 import InputField from "@/components/InputField.vue";
-import axios from "axios";
 import GoogleButton from "@/components/GoogleButton.vue";
 import TheModal from "@/components/TheModal.vue";
-import { headers } from "@/api/index.js";
-axios.defaults.withCredentials = true;
+import instance from "@/api/index.js";
 const submitForm = (values) => {
-  axios.get("http://localhost:8000/sanctum/csrf-cookie").then(() => {
-    axios
-      .post("http://localhost:8000/api/login", values, { headers })
+  instance.get("sanctum/csrf-cookie").then(() => {
+    instance
+      .post("/api/login", values)
       .then((response) => {
         console.log(response.data);
       })

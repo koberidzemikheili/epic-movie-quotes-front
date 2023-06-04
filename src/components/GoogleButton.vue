@@ -9,8 +9,8 @@
 </template>
 <script setup>
 import IconGoogle from "@/components/icons/IconGoogle.vue";
-import axios from "axios";
+const backendurl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
 const googleLogin = () => {
-  window.location.href = "http://127.0.0.1:8000/api/auth/redirect";
+  window.location.href = backendurl + "/api/auth/redirect";
 };
 </script>

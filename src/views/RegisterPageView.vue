@@ -41,15 +41,13 @@
 <script setup>
 import { Form } from "vee-validate";
 import InputField from "@/components/InputField.vue";
-import axios from "axios";
 import GoogleButton from "@/components/GoogleButton.vue";
-import { headers2, baseurl } from "@/api/index.js";
 import TheModal from "@/components/TheModal.vue";
 import router from "@/router";
-axios.defaults.withCredentials = true;
+import instance from "@/api/index.js";
 const submitForm = (values) => {
-  axios
-    .post(baseurl + "api/register", values, { headers2 })
+  instance
+    .post("api/register", values)
     .then((response) => {
       console.log(response.data);
       if (response.status === 201) {

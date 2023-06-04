@@ -19,14 +19,13 @@
 <script setup>
 import { Form } from "vee-validate";
 import InputField from "@/components/InputField.vue";
-import axios from "axios";
 import TheModal from "@/components/TheModal.vue";
-import { headers } from "@/api/index.js";
 import router from "@/router";
-axios.defaults.withCredentials = true;
+import instance from "@/api/index.js";
+
 const submitForm = (values) => {
-  axios
-    .post("http://localhost:8000/api/forgot-password", values, { headers })
+  instance
+    .post("http://127.0.0.1:8000/api/forgot-password", values)
     .then((response) => {
       if (response.status === 201) {
         router.push({ name: "CheckEmail" });

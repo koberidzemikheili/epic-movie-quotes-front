@@ -30,20 +30,18 @@
 <script setup>
 import { Form, Field } from "vee-validate";
 import InputField from "@/components/InputField.vue";
-import axios from "axios";
 import { ref } from "vue";
 import TheModal from "@/components/TheModal.vue";
-import { headers } from "@/api/index.js";
 import { useRoute } from "vue-router";
 import router from "@/router";
+import instance from "@/api/index.js";
 const route = useRoute();
 const email = ref(route.query.email);
 const token = ref(route.query.token);
 
-axios.defaults.withCredentials = true;
 const submitForm = (values) => {
-  axios
-    .post("http://localhost:8000/api/reset-password", values, { headers })
+  instance
+    .post("http://127.0.0.1:8000/api/reset-password", values)
     .then((response) => {
       if (response.status === 201) {
         router.push({ name: "PasswordSuccess" });
