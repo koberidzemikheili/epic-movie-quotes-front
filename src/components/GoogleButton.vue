@@ -1,7 +1,7 @@
 <template>
   <button
     @click="googleLogin"
-    class="text-white bg-transparent border py-2 px-2 rounded inline-flex mt-5"
+    class="text-white bg-transparent border py-2 px-2 rounded inline-flex mt-5 w-full justify-center"
   >
     <IconGoogle class="relative top-1 mr-1" />
     Sign in with Google

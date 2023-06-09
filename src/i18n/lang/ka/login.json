@@ -1,0 +1,17 @@
+{
+    "texts": {
+        "sign_into_account": "პროფილში შესვლა",
+        "welcome_back": "გთხოვთ შეიყვანოთ თქვენი დეტალები.",
+        "already_have" : "უკვე გაქვს ანგარიში ?",
+        "dont_have" : "არ გაქვს ანგარიში ?"
+    },
+    "labels": {
+        "email": "ელ-ფოსტა",
+        "password": "პაროლი"
+    },
+    "buttons": {
+        "register": "რეგისტრაცია",
+        "remember": "დამიმახსოვრე",
+        "forgot_password": "დაგავიწყდა პაროლი"
+    }
+}
