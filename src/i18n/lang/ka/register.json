@@ -1,0 +1,16 @@
+{
+    "texts": {
+        "create_an_account": "პროფილის შექმნა",
+        "start_journey": "დაიწყე შენი მოგზაურობა!",
+        "already_have" : "უკვე გაქვს ანგარიში ?"
+    },
+    "labels": {
+        "name": "სახელი",
+        "email": "ელ-ფოსტა",
+        "password": "პაროლი",
+        "password_confirmation": "გაიმეორე პაროლი"
+    },
+    "buttons": {
+        "get_started": "დაწყება"
+    }
+}

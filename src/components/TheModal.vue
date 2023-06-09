@@ -7,7 +7,7 @@
       :class="[
         'bg-gray-900',
         'p-6',
-        'md:w-1/4',
+        'md:w-1/3',
         'w-screen',
         'h-screen',
         'rounded-md',
@@ -17,7 +17,7 @@
       @click.stop
     >
       <div class="w-full">
-        <div class="flex flex-col md:m-16 mt-16 justify-center items-center">
+        <div class="flex flex-col md:m-12 mt-16 justify-center items-center">
           <slot></slot>
         </div>
       </div>
