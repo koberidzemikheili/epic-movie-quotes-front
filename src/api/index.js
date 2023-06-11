@@ -1,7 +1,8 @@
 import axios from "axios";
+const backendurl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
 const locale = localStorage.getItem("last-locale") || "en";
 const instance = axios.create({
-  baseURL: "http://127.0.0.1:8000",
+  baseURL: backendurl,
   withCredentials: true,
   headers: {
     Accept: "application/json",
