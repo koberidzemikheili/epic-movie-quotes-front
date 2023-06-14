@@ -31,7 +31,7 @@
 import { Form, Field } from "vee-validate";
 import InputField from "@/components/InputField.vue";
 import { ref } from "vue";
-import TheModal from "@/components/TheModal.vue";
+import TheModal from "@/components/Modals/TheModal.vue";
 import { useRoute } from "vue-router";
 import router from "@/router";
 import instance from "@/api/index.js";

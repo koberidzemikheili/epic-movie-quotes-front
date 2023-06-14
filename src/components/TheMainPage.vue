@@ -9,7 +9,7 @@
         >
           <IconMenu />
         </button>
-        <div class="text-orange-200">MOVIE QUOTES</div>
+        <div class="text-orange-200 md:block hidden">MOVIE QUOTES</div>
       </div>
       <div class="flex items-center">
         <TheNotifications></TheNotifications>
@@ -26,7 +26,11 @@
     <div class="absolute w-full h-screen bg-gray-800" v-show="showMenu">
       <!-- User avatar and name -->
       <div class="flex items-center p-5">
-        <div class="w-10 h-10 rounded-full bg-gray-400"></div>
+        <img
+          class="w-10 h-10 rounded-full bg-gray-400"
+          :src="backendurl + '/storage/' + userData.profile_pictures"
+          alt="profile picture"
+        />
         <div class="ml-3 text-orange-200">
           {{ userData.username || "Loading..." }}
         </div>
@@ -53,7 +57,11 @@
     <div class="flex flex-col sm:flex-row">
       <div class="w-full sm:w-1/4 m-10 sm:block hidden">
         <div class="flex items-center">
-          <div class="w-10 h-10 rounded-full bg-gray-400"></div>
+          <img
+            class="w-10 h-10 rounded-full bg-gray-400"
+            :src="backendurl + '/storage/' + userData.profile_pictures"
+            alt="profile picture"
+          />
           <div class="ml-3 text-orange-200">
             {{ userData.username || "Loading..." }}
           </div>
@@ -65,7 +73,7 @@
           <IconCamera class="mr-5" /> Movie List
         </button>
       </div>
-      <div class="w-full sm:w-3/4 mr-10 mt-10">
+      <div class="w-full sm:w-3/4 mr-10">
         <slot></slot>
       </div>
     </div>
@@ -80,7 +88,7 @@ import { ref, onMounted } from "vue";
 import instance from "@/api/index.js";
 import LanguageSelect from "@/components/LanguageSelect.vue";
 import TheNotifications from "@/components/TheNotifications.vue";
-
+const backendurl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
 const showMenu = ref(false);
 const userData = ref({});
 
@@ -91,7 +99,6 @@ const LogOut = () => {
 onMounted(() => {
   instance.get("api/user").then((response) => {
     userData.value = response.data;
-    console.log(response.data);
   });
 });
 </script>

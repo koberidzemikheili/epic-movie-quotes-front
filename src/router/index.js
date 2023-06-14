@@ -55,6 +55,11 @@ const router = createRouter({
       name: "NewsFeed",
       component: () => import("@/views/LoggedInPages/NewsFeedView.vue"),
     },
+    {
+      path: "/profile-page",
+      name: "ProfilePage",
+      component: () => import("@/views/LoggedInPages/ProfilePageView.vue"),
+    },
   ],
 });
 

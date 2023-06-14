@@ -52,7 +52,7 @@
 import { Form } from "vee-validate";
 import InputField from "@/components/InputField.vue";
 import GoogleButton from "@/components/GoogleButton.vue";
-import TheModal from "@/components/TheModal.vue";
+import TheModal from "@/components/Modals/TheModal.vue";
 import router from "@/router";
 import instance from "@/api/index.js";
 import { setLocale } from "@vee-validate/i18n";
