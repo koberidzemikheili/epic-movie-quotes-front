@@ -71,8 +71,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { Form, Field } from "vee-validate";
+import { useUserStore } from "@/stores/user.js";
 import IconSmallArrowLeft from "@/components/icons/IconSmallArrowLeft.vue";
 import TheMainPage from "@/components/TheMainPage.vue";
 import ProfileInputField from "@/components/ProfileInputField.vue";
@@ -119,13 +120,14 @@ let fields = ref([
   },
 ]);
 
-const fetchUserData = async () => {
-  let response = await instance.get("api/user");
-  userData.value = response.data;
-  fields.value[0].value = response.data.username;
-  fields.value[1].value = response.data.email;
+const userStore = useUserStore();
 
-  if (!response.data.google_id) {
+const initializeFields = () => {
+  userData.value = userStore.userData;
+  fields.value[0].value = userStore.userData.username;
+  fields.value[1].value = userStore.userData.email;
+
+  if (!userStore.userData.google_id) {
     fields.value.forEach((field) => {
       field.editable = true;
       field.visible = true;
@@ -140,10 +142,19 @@ const fetchUserData = async () => {
     newValues[field.name] = field.value;
   });
 };
-
-onMounted(() => {
-  fetchUserData();
+onMounted(async () => {
+  if (!userStore.userData) {
+    await userStore.fetchUserData();
+  }
+  initializeFields();
 });
+
+watch(
+  () => userStore.userData,
+  () => {
+    initializeFields();
+  }
+);
 
 const editField = (fieldName) => {
   editing.value = true;
@@ -167,7 +178,7 @@ const saveEdit = (values) => {
       },
     })
     .then(() => {
-      fetchUserData();
+      userStore.fetchUserData();
     })
     .catch((error) => {
       console.error("Error:", error);
