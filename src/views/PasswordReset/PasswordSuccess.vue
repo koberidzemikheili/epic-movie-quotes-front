@@ -8,6 +8,6 @@
   </TheModal>
 </template>
 <script setup>
-import TheModal from "@/components/TheModal.vue";
+import TheModal from "@/components/Modals/TheModal.vue";
 import IconSuccess from "@/components/icons/IconSuccess.vue";
 </script>

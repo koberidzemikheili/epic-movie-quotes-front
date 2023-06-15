@@ -19,7 +19,7 @@
 <script setup>
 import { Form } from "vee-validate";
 import InputField from "@/components/InputField.vue";
-import TheModal from "@/components/TheModal.vue";
+import TheModal from "@/components/Modals/TheModal.vue";
 import router from "@/router";
 import instance from "@/api/index.js";
 

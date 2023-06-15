@@ -26,6 +26,7 @@
 </template>
 <script setup>
 import router from "@/router";
+
 const closeModal = () => {
   router.push({ name: "LandingPage" });
 };
