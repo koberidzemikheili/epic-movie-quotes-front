@@ -13,6 +13,7 @@
 <script setup>
 import instance from "@/api/index.js";
 import LanguageSelect from "@/components/LanguageSelect.vue";
+
 const LogOut = () => {
   instance.post("api/logout").then(() => {});
 };

@@ -11,7 +11,7 @@
       />
       <button
         class="text-blue-500 py-1 px-2 rounded bg-transparent"
-        v-if="editable"
+        :style="{ visibility: editable ? 'visible' : 'hidden' }"
         @click.prevent="editField"
       >
         Edit
@@ -57,8 +57,9 @@ import "@/Rules/rules";
 import { ref } from "vue";
 import ProfileInputModal from "@/components/Modals/ProfileInputModal.vue";
 import SuccessModal from "@/components/Modals/SuccessModal.vue";
-let isModalOpen = ref(false);
-let isSuccessModalOpen = ref(false);
+
+const emit = defineEmits(["edit-started"], ["save-field"]);
+
 const props = defineProps({
   label: { type: String, required: true },
   name: { type: String, required: true },
@@ -69,9 +70,12 @@ const props = defineProps({
   editable: { type: Boolean, default: false },
   editing: { type: Boolean, default: false },
 });
+
+let isModalOpen = ref(false);
+let isSuccessModalOpen = ref(false);
 let newValue = ref(props.value);
 let isSmaill = ref();
-const emit = defineEmits(["edit-started"], ["save-field"]);
+
 const editField = () => {
   if (window.innerWidth < 640) {
     isModalOpen.value = true;

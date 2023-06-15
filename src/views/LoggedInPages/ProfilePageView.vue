@@ -78,8 +78,11 @@ import TheMainPage from "@/components/TheMainPage.vue";
 import ProfileInputField from "@/components/ProfileInputField.vue";
 import instance from "@/api/index.js";
 import router from "@/router";
+
 const backendurl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
 let userData = ref();
+let editing = ref(false);
+let newValues = ref({});
 let fields = ref([
   {
     label: "Username",
@@ -115,7 +118,6 @@ let fields = ref([
     rules: "required|min:8|max:15",
   },
 ]);
-let newValues = ref({});
 
 const fetchUserData = async () => {
   let response = await instance.get("api/user");
@@ -142,8 +144,6 @@ const fetchUserData = async () => {
 onMounted(() => {
   fetchUserData();
 });
-
-let editing = ref(false);
 
 const editField = (fieldName) => {
   editing.value = true;

@@ -38,6 +38,7 @@
 <script setup>
 import { ref } from "vue";
 import ConfirmEditModal from "@/components/Modals/ConfirmEditModal.vue";
+
 defineProps({
   isOpen: Boolean,
 });

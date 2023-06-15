@@ -26,6 +26,7 @@
 <script setup>
 import IconSuccessSecond from "@/components/icons/IconSuccessSecond.vue";
 import IconCloseSuccess from "@/components/icons/IconCloseSuccess.vue";
+
 defineProps({
   isOpen: Boolean,
 });
