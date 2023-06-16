@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import { useUserStore } from "@/stores/user.js";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,6 +8,14 @@ const router = createRouter({
       path: "/",
       name: "LandingPage",
       component: () => import("@/views/LandingPageView.vue"),
+      beforeEnter: (to, from, next) => {
+        const userStore = useUserStore();
+        if (userStore.isLoggedIn) {
+          next({ name: "AccessDenied" });
+        } else {
+          next();
+        }
+      },
       children: [
         {
           path: "/login-page",
@@ -54,11 +63,27 @@ const router = createRouter({
       path: "/news-feed",
       name: "NewsFeed",
       component: () => import("@/views/LoggedInPages/NewsFeedView.vue"),
+      beforeEnter: (to, from, next) => {
+        const userStore = useUserStore();
+        if (!userStore.isLoggedIn) {
+          next({ name: "AccessDenied" });
+        } else {
+          next();
+        }
+      },
     },
     {
       path: "/movie-page",
       name: "MoviePage",
       component: () => import("@/views/LoggedInPages/MoviePageView.vue"),
+      beforeEnter: (to, from, next) => {
+        const userStore = useUserStore();
+        if (!userStore.isLoggedIn) {
+          next({ name: "AccessDenied" });
+        } else {
+          next();
+        }
+      },
       children: [
         {
           path: "/add-movie",
@@ -76,6 +101,24 @@ const router = createRouter({
       path: "/profile-page",
       name: "ProfilePage",
       component: () => import("@/views/LoggedInPages/ProfilePageView.vue"),
+      beforeEnter: (to, from, next) => {
+        const userStore = useUserStore();
+        if (!userStore.isLoggedIn) {
+          next({ name: "AccessDenied" });
+        } else {
+          next();
+        }
+      },
+    },
+    {
+      path: "/access-denied",
+      name: "AccessDenied",
+      component: () => import("@/views/AccessDeniedView.vue"),
+    },
+    {
+      path: "/:pathMatch(.*)*",
+      name: "NotFound",
+      component: () => import("@/views/NotFoundView.vue"),
     },
   ],
 });

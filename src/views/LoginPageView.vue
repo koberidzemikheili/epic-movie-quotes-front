@@ -37,7 +37,7 @@
     <GoogleButton />
     <div class="text-white mt-5">
       {{ $t("login.texts.dont_have") }}
-      <router-link to="RegisterPage" class="text-blue-700"
+      <router-link :to="{ name: 'RegisterPage' }" class="text-blue-700"
         >{{ $t("login.buttons.register") }}
       </router-link>
     </div>
@@ -52,13 +52,19 @@ import instance from "@/api/index.js";
 import { setLocale } from "@vee-validate/i18n";
 import { onMounted, watch } from "vue";
 import { useI18n } from "vue-i18n";
+import router from "@/router";
+import { useUserStore } from "@/stores/user.js";
+
+const userStore = useUserStore();
 const { locale } = useI18n();
 const submitForm = (values) => {
   instance.get("sanctum/csrf-cookie").then(() => {
     instance
       .post("/api/login", values)
       .then((response) => {
-        console.log(response.data);
+        if (response.status === 201);
+        userStore.login();
+        router.push({ name: "NewsFeed" });
       })
       .catch((error) => {
         console.error("Error:", error);

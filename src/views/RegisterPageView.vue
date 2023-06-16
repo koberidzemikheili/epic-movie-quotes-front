@@ -42,7 +42,7 @@
     <GoogleButton />
     <div class="text-white mt-5">
       {{ $t("register.texts.already_have") }}
-      <router-link to="RegisterPage" class="text-blue-700"
+      <router-link :to="{ name: 'RegisterPage' }" class="text-blue-700"
         >{{ $t("login.buttons.register") }}
       </router-link>
     </div>
