@@ -56,6 +56,23 @@ const router = createRouter({
       component: () => import("@/views/LoggedInPages/NewsFeedView.vue"),
     },
     {
+      path: "/movie-page",
+      name: "MoviePage",
+      component: () => import("@/views/LoggedInPages/MoviePageView.vue"),
+      children: [
+        {
+          path: "/add-movie",
+          name: "AddMovie",
+          component: () => import("@/views/LoggedInPages/AddMovieView.vue"),
+        },
+        {
+          path: "/add-quote",
+          name: "AddQuote",
+          component: () => import("@/views/LoggedInPages/AddQuoteView.vue"),
+        },
+      ],
+    },
+    {
       path: "/profile-page",
       name: "ProfilePage",
       component: () => import("@/views/LoggedInPages/ProfilePageView.vue"),
