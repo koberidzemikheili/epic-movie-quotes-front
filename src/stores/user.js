@@ -13,8 +13,12 @@ export const useUserStore = defineStore("user", {
       this.userData = response.data;
     },
     login() {
-      localStorage.setItem("isLoggedIn", "true");
       this.isLoggedIn = true;
+      localStorage.setItem("isLoggedIn", "true");
+    },
+    logout() {
+      this.isLoggedIn = false;
+      localStorage.removeItem("isLoggedIn");
     },
   },
 });

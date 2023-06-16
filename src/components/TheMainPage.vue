@@ -89,6 +89,7 @@ import { ref, onMounted } from "vue";
 import instance from "@/api/index.js";
 import LanguageSelect from "@/components/LanguageSelect.vue";
 import TheNotifications from "@/components/TheNotifications.vue";
+import router from "@/router";
 import { useUserStore } from "@/stores/user.js";
 
 const userStore = useUserStore();
@@ -97,7 +98,17 @@ const showMenu = ref(false);
 let isLoading = ref(true);
 
 const LogOut = () => {
-  instance.post("api/logout").then(() => {});
+  instance
+    .post("api/logout")
+    .then((response) => {
+      if (response.status === 201) {
+        userStore.logout();
+        router.push({ name: "LandingPage" });
+      }
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
 };
 onMounted(async () => {
   await userStore.fetchUserData();
