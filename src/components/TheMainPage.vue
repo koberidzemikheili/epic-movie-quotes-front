@@ -1,5 +1,5 @@
 <template>
-  <div class="h-screen w-screen">
+  <div class="min-h-screen w-screen">
     <div v-if="isLoading">Loading...</div>
     <div v-else>
       <div class="p-5 bg-gray-800 flex justify-between items-center">
@@ -23,7 +23,7 @@
           </button>
         </div>
       </div>
-      <div class="absolute w-full h-screen bg-gray-800" v-show="showMenu">
+      <div class="absolute w-full bg-gray-800" v-show="showMenu">
         <div class="flex items-center p-5">
           <img
             class="w-10 h-10 rounded-full bg-gray-400"

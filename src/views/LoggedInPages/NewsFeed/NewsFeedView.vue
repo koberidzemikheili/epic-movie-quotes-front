@@ -1,11 +1,10 @@
 <template>
   <TheMainPage>
-    <div class="w-full bg-gray-500">
-      <!-- Posts -->
-      <!-- Add your posts content here -->
-      <button @click="openModal('AddMovie')">add movies</button>
+    <div class="w-full lg:w-2/3 bg-gray-500">
+      <button @click="openModal('AddQuote')">add quotes</button>
       <router-view />
     </div>
+    <div class="w-full lg:w-1/3"></div>
   </TheMainPage>
 </template>
 

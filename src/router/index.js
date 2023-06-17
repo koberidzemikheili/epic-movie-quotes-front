@@ -62,7 +62,8 @@ const router = createRouter({
     {
       path: "/news-feed",
       name: "NewsFeed",
-      component: () => import("@/views/LoggedInPages/NewsFeedView.vue"),
+      component: () =>
+        import("@/views/LoggedInPages/NewsFeed/NewsFeedView.vue"),
       beforeEnter: (to, from, next) => {
         const userStore = useUserStore();
         if (!userStore.isLoggedIn) {
@@ -71,11 +72,19 @@ const router = createRouter({
           next();
         }
       },
+      children: [
+        {
+          path: "/add-quote",
+          name: "AddQuote",
+          component: () =>
+            import("@/views/LoggedInPages/NewsFeed/AddQuoteView.vue"),
+        },
+      ],
     },
     {
       path: "/movie-page",
       name: "MoviePage",
-      component: () => import("@/views/LoggedInPages/MoviePageView.vue"),
+      component: () => import("@/views/LoggedInPages/Movie/MoviePageView.vue"),
       beforeEnter: (to, from, next) => {
         const userStore = useUserStore();
         if (!userStore.isLoggedIn) {
@@ -88,19 +97,30 @@ const router = createRouter({
         {
           path: "/add-movie",
           name: "AddMovie",
-          component: () => import("@/views/LoggedInPages/AddMovieView.vue"),
-        },
-        {
-          path: "/add-quote",
-          name: "AddQuote",
-          component: () => import("@/views/LoggedInPages/AddQuoteView.vue"),
+          component: () =>
+            import("@/views/LoggedInPages/Movie/AddMovieView.vue"),
         },
       ],
     },
     {
       path: "/profile-page",
       name: "ProfilePage",
-      component: () => import("@/views/LoggedInPages/ProfilePageView.vue"),
+      component: () =>
+        import("@/views/LoggedInPages/Profile/ProfilePageView.vue"),
+      beforeEnter: (to, from, next) => {
+        const userStore = useUserStore();
+        if (!userStore.isLoggedIn) {
+          next({ name: "AccessDenied" });
+        } else {
+          next();
+        }
+      },
+    },
+    {
+      path: "/movie/:id",
+      name: "MovieDetails",
+      component: () =>
+        import("@/views/LoggedInPages/Movie/MovieDetailsView.vue"),
       beforeEnter: (to, from, next) => {
         const userStore = useUserStore();
         if (!userStore.isLoggedIn) {
