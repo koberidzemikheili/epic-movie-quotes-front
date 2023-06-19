@@ -129,6 +129,20 @@ const router = createRouter({
           next();
         }
       },
+      children: [
+        {
+          path: "/edit-movie/:id",
+          name: "EditMovie",
+          component: () =>
+            import("@/views/LoggedInPages/Movie/EditMovieView.vue"),
+        },
+        {
+          path: "/add-movie-quote/:id",
+          name: "AddMovieQuote",
+          component: () =>
+            import("@/views/LoggedInPages/Movie/AddMovieQuoteView.vue"),
+        },
+      ],
     },
     {
       path: "/access-denied",

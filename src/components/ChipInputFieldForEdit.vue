@@ -10,7 +10,10 @@
           class="px-1 mx-1 bg-gray-500 text-white text-sm rounded flex items-center"
         >
           {{ tag.genre }}
-          <button @click="removeTag(index)" class="ml-2 text-white text-sm">
+          <button
+            @click.prevent="removeTag(index)"
+            class="ml-2 text-white text-sm"
+          >
             X
           </button>
         </div>
@@ -31,46 +34,41 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted, defineProps, defineEmits } from "vue";
+import { ref, onMounted, defineProps, defineEmits } from "vue";
 import { Field, ErrorMessage } from "vee-validate";
 import instance from "@/api/index.js";
 
-defineProps({
+const props = defineProps({
   name: { type: String, required: true },
   rules: { type: String, required: false },
+  modelValue: Array,
 });
 
 const emit = defineEmits(["update:modelValue"]);
 
 let selected = ref(null);
 let genres = ref([]);
-let selectedTags = ref([]);
-
-watch(
-  selectedTags,
-  (newTags) => {
-    emit(
-      "update:modelValue",
-      newTags.map((tag) => tag.id)
-    );
-  },
-  { deep: true }
-);
+let selectedTags = ref(props.modelValue || []);
 
 onMounted(async () => {
   const { data } = await instance.get("/api/genres");
   genres.value = data.genres;
 });
-
+const updateModelValue = () => {
+  emit("update:modelValue", selectedTags.value);
+};
 const addTag = (id) => {
   const tag = genres.value.find((genre) => genre.id === Number(id));
   if (tag && !selectedTags.value.find((t) => t.id === tag.id)) {
     selectedTags.value.push(tag);
+    updateModelValue();
   }
 };
-
 const removeTag = (index) => {
-  selectedTags.value.splice(index, 1);
+  if (index !== -1) {
+    selectedTags.value.splice(index, 1);
+    updateModelValue();
+  }
 };
 </script>
 

@@ -25,11 +25,7 @@
         rules="required|min:3"
         placeholder="ფილმის სახელი"
       />
-      <ChipInputField
-        name="tags"
-        v-model="tags"
-        class="mt-2 py-1 px-3 border-gray-300 rounded outline-none minheight-9"
-      />
+      <ChipInputField v-model="genres" name="genres" rules="required" />
       <InputFieldForAdd
         name="year"
         type="text"
@@ -64,7 +60,7 @@
         addclass="h-20"
         placeholder="აღწერა"
       />
-      <ImageUpload v-model="moviepic" name="profile_picture" rules="required" />
+      <ImageUpload name="movie_image" rules="required" />
       <button class="text-white text-l mt-5 bg-red-600 py-2 px-2 rounded">
         Submit
       </button>
@@ -80,14 +76,14 @@ import instance from "@/api/index.js";
 import ChipInputField from "@/components/ChipInputField.vue";
 import ImageUpload from "@/components/ImageUpload.vue";
 import { useUserStore } from "@/stores/user.js";
+import { useRouter } from "vue-router";
 
+let router = useRouter();
 const backendurl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
 const userStore = useUserStore();
-let tags = ref([]);
-let moviepic = ref();
+let genres = ref([]);
 const submitForm = (values) => {
-  values.genres = tags.value;
-  values.movie_image = moviepic.value;
+  values.genres = genres.value;
   instance
     .post("/api/add-movie", values, {
       headers: {
@@ -95,15 +91,12 @@ const submitForm = (values) => {
       },
     })
     .then((response) => {
-      console.log(response.data);
+      if (response.status === 201) {
+        router.push({ name: "MoviePage" });
+      }
     })
     .catch((error) => {
       console.error("Error:", error);
     });
 };
 </script>
-<style scoped>
-.minheight-9 {
-  min-height: 36px;
-}
-</style>

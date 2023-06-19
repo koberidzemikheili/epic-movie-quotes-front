@@ -52,7 +52,7 @@
           <LanguageSelect />
         </div>
       </div>
-      <div class="flex flex-col sm:flex-row">
+      <div class="flex flex-col sm:flex-row mx-8 lg:mx-0">
         <div class="w-full sm:w-1/4 m-10 sm:block hidden">
           <div class="flex items-center">
             <img

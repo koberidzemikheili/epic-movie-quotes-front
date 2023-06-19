@@ -12,6 +12,7 @@
         'h-screen',
         'rounded-md',
         'md:h-1/2',
+        'relative',
         addclass,
       ]"
       @click.stop
@@ -20,10 +21,17 @@
         <div class="flex flex-col md:m-0 mt-2 justify-center items-center">
           <slot></slot>
         </div>
+        <button
+          class="absolute top-4 right-8 text-white text-2xl"
+          @click="closeModal"
+        >
+          &times;
+        </button>
       </div>
     </div>
   </div>
 </template>
+
 <script setup>
 import router from "@/router";
 

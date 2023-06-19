@@ -1,6 +1,6 @@
 <template>
   <ModalForAdd addclass="md:h-auto">
-    <div class="text-xl text-white">Add Movie</div>
+    <div class="text-xl text-white">Add Quote</div>
     <hr class="mt-4 mb-4 border border-gray-600 w-full" />
     <div class="flex items-center w-full">
       <img
@@ -12,7 +12,11 @@
         {{ userStore.userData.username }}
       </div>
     </div>
-    <Form @submit="submitForm" class="flex flex-col w-full mt-2">
+    <Form
+      @submit="submitForm"
+      v-if="selectedMovie"
+      class="flex flex-col w-full mt-2"
+    >
       <InputFieldForAdd
         name="title[en]"
         type="textarea"
@@ -34,27 +38,27 @@
           as="select"
           id="movie"
           name="movie"
-          v-model="selectedMovie"
+          v-model="selectedMovie.id"
           rules="required"
+          :disabled="selectedMovie"
           class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-black rounded-md shadow-sm text-white"
         >
-          <option disabled value="" selected hidden>
-            <div class="flex">Choose a Movie</div>
-          </option>
+          <option disabled value="" selected hidden>Choose a Movie</option>
           <option v-for="movie in movies" :key="movie.id" :value="movie.id">
             {{ movie.name.en }}
           </option>
-          5lari
         </Field>
         <ErrorMessage name="movie" class="text-red-600 mt-1" />
       </div>
-      <ImageUpload v-model="quotepic" name="quote_picture" rules="required" />
+      <ImageUpload name="quote_image" rules="required" />
       <button class="text-white text-l mt-5 bg-red-600 py-2 px-2 rounded">
         Submit
       </button>
     </Form>
+    <div v-else>Loading...</div>
   </ModalForAdd>
 </template>
+
 <script setup>
 import { ref, onMounted } from "vue";
 import { Form, Field, ErrorMessage } from "vee-validate";
@@ -63,26 +67,29 @@ import ModalForAdd from "@/components/Modals/ModalForAdd.vue";
 import instance from "@/api/index.js";
 import ImageUpload from "@/components/ImageUpload.vue";
 import { useUserStore } from "@/stores/user.js";
+import { useRouter } from "vue-router";
 
+let router = useRouter();
+let id = router.currentRoute.value.params.id;
 const backendurl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
 const userStore = useUserStore();
-let quotepic = ref();
 let selectedMovie = ref(null);
 let movies = ref([]);
 
 onMounted(async () => {
   try {
-    const response = await instance.get("/api/movies");
+    const response = await instance.get("/api/usermovies");
     movies.value = response.data.movies;
-    console.log(response.data);
+    selectedMovie.value = movies.value.find(
+      (movie) => movie.id === parseInt(id)
+    );
   } catch (error) {
     console.error("Error:", error);
   }
 });
 
 const submitForm = (values) => {
-  values.quote_image = quotepic.value;
-  values.movie_id = selectedMovie.value;
+  values.movie_id = selectedMovie.value.id;
   console.log(values);
   instance
     .post("/api/add-quote", values, {
@@ -91,13 +98,16 @@ const submitForm = (values) => {
       },
     })
     .then((response) => {
-      console.log(response.data);
+      if (response.status === 201) {
+        router.push({ name: "MovieDetails", params: { id: id } });
+      }
     })
     .catch((error) => {
       console.error("Error:", error);
     });
 };
 </script>
+
 <style scoped>
 .minheight-9 {
   min-height: 36px;

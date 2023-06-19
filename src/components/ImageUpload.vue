@@ -16,7 +16,7 @@
       <span class="bg-purple-800 text-white py-1 px-2">Choose file</span>
       <Field
         type="file"
-        name="profile_picture"
+        :name="name"
         class="hidden"
         rules="required"
         @change="onFileChange"
@@ -43,7 +43,7 @@
       />
     </label>
 
-    <ErrorMessage name="profile_picture" class="text-red-600 mt-1" />
+    <ErrorMessage :name="name" class="text-red-600 mt-1" />
   </div>
 </template>
 

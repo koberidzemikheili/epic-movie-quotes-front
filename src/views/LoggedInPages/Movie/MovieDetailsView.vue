@@ -16,9 +16,19 @@
               {{ movie.name.en }} ({{ movie.year }})
             </div>
             <div class="flex bg-gray-800 p-2 rounded-md px-4">
-              <button class="text-white rounded mr-4"><IconPencil /></button>
+              <button
+                @click="OpenEditMovie(movie.id)"
+                class="text-white rounded mr-4"
+              >
+                <IconPencil />
+              </button>
               <div class="w-px bg-gray-500 h-full"></div>
-              <button class="text-white rounded ml-4"><IconTrashCan /></button>
+              <button
+                @click="DeleteMovie(movie.id)"
+                class="text-white rounded ml-4"
+              >
+                <IconTrashCan />
+              </button>
             </div>
           </div>
           <div class="mt-2">
@@ -41,25 +51,22 @@
           <div class="text-white text-xl font-bold">
             Quotes (total {{ movie.quotes.length }})
           </div>
-          <button class="bg-red-500 text-white py-1 px-2 rounded">
+          <button
+            @click="OpenAddQuote(movie.id)"
+            class="bg-red-500 text-white py-1 px-2 rounded"
+          >
             Add Quote
           </button>
         </div>
         <div class="flex flex-col mt-4">
-          <div
-            class="flex items-center bg-zinc-950 shadow-lg rounded-lg p-4 mt-4"
+          <QuoteCard
             v-for="quote in movie.quotes"
             :key="quote.id"
-          >
-            <img
-              class="w-20 h-20 object-cover rounded-lg mr-4"
-              :src="backendurl + '/storage/' + quote.quote_image"
-              :alt="quote.title"
-            />
-            <div class="text-white">{{ quote.title.en }}</div>
-          </div>
+            :quote="quote"
+          />
         </div>
       </div>
+      <router-view />
     </div>
     <div v-else>Loading...</div>
   </TheMainPage>
@@ -67,24 +74,56 @@
 
 <script setup>
 import TheMainPage from "@/components/TheMainPage.vue";
+import QuoteCard from "@/components/QuoteCard.vue";
 import IconPencil from "@/components/icons/IconPencil.vue";
 import IconTrashCan from "@/components/icons/IconTrashCan.vue";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watchEffect } from "vue";
 import { useRouter } from "vue-router";
 import instance from "@/api/index.js";
+import { useRoute } from "vue-router";
+
 const backendurl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
 
 let movie = ref(null);
 let router = useRouter();
 let id = router.currentRoute.value.params.id;
+const route = useRoute();
+const idForTracking = ref(route.params.id);
 
-onMounted(async () => {
+const fetchMovieDetails = async (movieId) => {
   try {
-    let response = await instance.get(`/api/movie/${id}`);
+    let response = await instance.get(`/api/movie/${movieId}`);
     movie.value = response.data.movie;
-    console.log(response.data);
   } catch (error) {
     console.error("Error:", error);
   }
+};
+
+watchEffect(() => {
+  idForTracking.value = route.params.id;
+  fetchMovieDetails(id);
 });
+
+onMounted(() => {
+  fetchMovieDetails(id);
+});
+
+const OpenEditMovie = (id) => {
+  router.push({ name: "EditMovie", params: { id: id } });
+};
+const OpenAddQuote = (id) => {
+  router.push({ name: "AddMovieQuote", params: { id: id } });
+};
+const DeleteMovie = async (id) => {
+  await instance
+    .delete(`/api/movies/${id}`)
+    .then((response) => {
+      if (response.status === 200) {
+        router.push({ name: "MoviePage" });
+      }
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+};
 </script>
