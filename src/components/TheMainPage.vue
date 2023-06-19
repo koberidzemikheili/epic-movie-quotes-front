@@ -32,14 +32,23 @@
             "
             alt="profile picture"
           />
-          <div class="ml-3 text-orange-200">
+          <div class="ml-3 text-orange-200 text-lg flex flex-col">
             {{ userStore.userData.username }}
+            <button @click="OpenProfilePage" class="text-white text-sm">
+              edit your profile
+            </button>
           </div>
         </div>
-        <button class="text-white flex mt-5 p-5">
+        <button
+          @click="OpenNewsFeedPage"
+          class="text-white flex mt-5 p-5 flex items-center"
+        >
           <IconHouse class="mr-5" /> News Feed
         </button>
-        <button class="text-white flex mt-5 p-5">
+        <button
+          @click="OpenMoviePage"
+          class="text-white flex mt-5 p-5 flex items-center"
+        >
           <IconCamera class="mr-5" /> Movie List
         </button>
         <div class="flex items-center p-5 sm:hidden block">
@@ -56,20 +65,29 @@
         <div class="w-full sm:w-1/4 m-10 sm:block hidden">
           <div class="flex items-center">
             <img
-              class="w-10 h-10 rounded-full bg-gray-400"
+              class="w-12 h-12 rounded-full bg-gray-400"
               :src="
                 backendurl + '/storage/' + userStore.userData.profile_pictures
               "
               alt="profile picture"
             />
-            <div class="ml-3 text-orange-200">
+            <div class="ml-3 text-orange-200 flex flex-col text-lg">
               {{ userStore.userData.username }}
+              <button @click="OpenProfilePage" class="text-white text-sm">
+                edit your profile
+              </button>
             </div>
           </div>
-          <button class="text-white flex mt-5">
+          <button
+            @click="OpenNewsFeedPage"
+            class="text-white flex mt-5 flex items-center"
+          >
             <IconHouse class="mr-5" /> News Feed
           </button>
-          <button class="text-white flex mt-5">
+          <button
+            @click="OpenMoviePage"
+            class="text-white flex mt-5 flex items-center"
+          >
             <IconCamera class="mr-5" /> Movie List
           </button>
         </div>
@@ -114,4 +132,13 @@ onMounted(async () => {
   await userStore.fetchUserData();
   isLoading.value = false;
 });
+const OpenProfilePage = () => {
+  router.push({ name: "ProfilePage" });
+};
+const OpenNewsFeedPage = () => {
+  router.push({ name: "NewsFeed" });
+};
+const OpenMoviePage = () => {
+  router.push({ name: "MoviePage" });
+};
 </script>
