@@ -1,6 +1,6 @@
 <template>
   <TheMainPage>
-    <div class="w-full">
+    <div class="lg:mx-0 mx-8">
       <div class="mt-2 flex flex justify-between w-full items-center">
         <div class="text-white mb-2 sm:mb-0 flex items-center">
           <div class="text-lg font-bold">My list of movies</div>
