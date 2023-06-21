@@ -85,7 +85,7 @@ let genres = ref([]);
 const submitForm = (values) => {
   values.genres = genres.value;
   instance
-    .post("/api/add-movie", values, {
+    .post("/api/movie", values, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

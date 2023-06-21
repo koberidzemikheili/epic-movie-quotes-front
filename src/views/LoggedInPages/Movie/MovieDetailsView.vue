@@ -156,7 +156,7 @@ const OpenAddQuote = (id) => {
 
 const DeleteMovie = async (id) => {
   await instance
-    .delete(`/api/movies/${id}`)
+    .delete(`/api/movie/${id}`)
     .then((response) => {
       if (response.status === 201) {
         router.push({ name: "MoviePage" });

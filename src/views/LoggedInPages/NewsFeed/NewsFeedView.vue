@@ -49,7 +49,7 @@ const idForTracking = ref(route.params.id);
 
 const fetchquoteDetails = async () => {
   try {
-    let response = await instance.get(`/api/quotes`);
+    let response = await instance.get(`/api/quote`);
     quotes.value = response.data.quotes;
   } catch (error) {
     console.error("Error:", error);

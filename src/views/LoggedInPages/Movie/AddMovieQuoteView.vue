@@ -91,7 +91,7 @@ onMounted(async () => {
 const submitForm = (values) => {
   values.movie_id = selectedMovie.value.id;
   instance
-    .post("/api/add-quote", values, {
+    .post("/api/quote", values, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

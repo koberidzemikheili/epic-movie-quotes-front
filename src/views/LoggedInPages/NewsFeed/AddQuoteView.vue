@@ -63,7 +63,9 @@ import ModalForAdd from "@/components/Modals/ModalForAdd.vue";
 import instance from "@/api/index.js";
 import ImageUpload from "@/components/ImageUpload.vue";
 import { useUserStore } from "@/stores/user.js";
+import { useRouter } from "vue-router";
 
+let router = useRouter();
 const backendurl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
 const userStore = useUserStore();
 let quotepic = ref();
@@ -72,7 +74,7 @@ let movies = ref([]);
 
 onMounted(async () => {
   try {
-    const response = await instance.get("/api/movies");
+    const response = await instance.get("/api/movie");
     movies.value = response.data.movies;
     console.log(response.data);
   } catch (error) {
@@ -85,13 +87,15 @@ const submitForm = (values) => {
   values.movie_id = selectedMovie.value;
   console.log(values);
   instance
-    .post("/api/add-quote", values, {
+    .post("/api/quote", values, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     })
     .then((response) => {
-      console.log(response.data);
+      if (response.status === 201) {
+        router.push({ name: "NewsFeed" });
+      }
     })
     .catch((error) => {
       console.error("Error:", error);

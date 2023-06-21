@@ -120,7 +120,7 @@ const submitForm = (values) => {
   values.genres = formValues.value.genres;
   values._method = "PUT";
   instance
-    .post(`/api/movies/${id}`, values, {
+    .post(`/api/movie/${id}`, values, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
