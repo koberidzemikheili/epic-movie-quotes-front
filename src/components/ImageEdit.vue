@@ -12,7 +12,7 @@
     >
       <div class="w-1/2">
         <img
-          :src="currentImage"
+          :src="displayNewImage ? displayNewImage : currentImage"
           alt="current image"
           class="object-cover h-full w-full"
         />
@@ -41,7 +41,7 @@
     >
       <img
         class="w-1/2 object-cover"
-        :src="currentImage"
+        :src="displayNewImage ? displayNewImage : currentImage"
         alt="uploaded file preview"
       />
       <label class="w-1/2 flex flex-col justify-center items-center">
@@ -73,6 +73,7 @@ defineProps({
 const emit = defineEmits(["update:modelValue"]);
 const file = ref(null);
 const dragover = ref(false);
+const displayNewImage = ref();
 
 let isDesktop = ref(window.innerWidth > 768);
 const updateWindowSize = () => {
@@ -96,6 +97,17 @@ const onDrop = (e) => {
 
 const onFileChange = (e) => {
   file.value = e.target.files[0];
+  handleFileSelect(e);
   emit("update:modelValue", file.value);
+};
+const handleFileSelect = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      displayNewImage.value = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
 };
 </script>

@@ -90,7 +90,6 @@ onMounted(async () => {
 
 const submitForm = (values) => {
   values.movie_id = selectedMovie.value.id;
-  console.log(values);
   instance
     .post("/api/add-quote", values, {
       headers: {

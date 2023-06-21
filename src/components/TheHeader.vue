@@ -21,7 +21,6 @@ const LogOut = () => {
   instance
     .post("api/logout")
     .then((response) => {
-      console.log(response);
       if (response.status === 201) {
         userStore.logout();
         router.push({ name: "LandingPage" });

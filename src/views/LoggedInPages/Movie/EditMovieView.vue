@@ -104,7 +104,7 @@ let isLoading = ref(true);
 onMounted(async () => {
   try {
     let response = await instance.get(`/api/movie/${id}`);
-    let movie = response.data.movie;
+    let movie = response.data;
     formValues.value = {
       ...movie,
       genres: movie.genres,
@@ -118,6 +118,7 @@ onMounted(async () => {
 
 const submitForm = (values) => {
   values.genres = formValues.value.genres;
+  values._method = "PUT";
   instance
     .post(`/api/movies/${id}`, values, {
       headers: {

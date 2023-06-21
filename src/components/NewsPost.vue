@@ -135,15 +135,13 @@ const addLike = () => {
 const fetchMovieDetails = async (movieId) => {
   try {
     let response = await instance.get(`/api/movie/${movieId}`);
-    movie.value = response.data.movie;
+    movie.value = response.data;
   } catch (error) {
     console.error("Error:", error);
   }
 };
 
 onMounted(async () => {
-  console.log(quote.value);
-  console.log(userStore.userData);
   fetchMovieDetails(quote.value.movie_id);
   try {
     const response = await instance.get(`/api/user/${quote.value.user_id}`);

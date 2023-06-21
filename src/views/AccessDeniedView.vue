@@ -16,7 +16,6 @@ import gandolf from "@/assets/Gandolf.png";
 const userStore = useUserStore();
 import { useUserStore } from "@/stores/user.js";
 import router from "../router";
-console.log(userStore.isLoggedIn);
 const returnhome = () => {
   if (userStore.isLoggedIn) {
     router.push({ name: "NewsFeed" });

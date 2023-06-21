@@ -75,13 +75,11 @@ const onDrop = (e) => {
   if (!isDesktop.value) return;
   dragover.value = false;
   file.value = e.dataTransfer.files[0];
-  console.log(file.value);
   emit("update:modelValue", file.value);
 };
 
 const onFileChange = (e) => {
   file.value = e.target.files[0];
-  console.log(file.value);
   emit("update:modelValue", file.value);
 };
 </script>

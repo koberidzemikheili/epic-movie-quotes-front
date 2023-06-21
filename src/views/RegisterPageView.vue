@@ -63,7 +63,6 @@ const submitForm = (values) => {
   instance
     .post("api/register", values)
     .then((response) => {
-      console.log(response.data);
       if (response.status === 201) {
         router.push({ name: "VerifyAccount" });
       }

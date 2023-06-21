@@ -63,6 +63,21 @@
             v-for="quote in movie.quotes"
             :key="quote.id"
             :quote="quote"
+            @view-quote="handleViewQuote"
+            @edit-quote="handleEditQuote"
+            @delete-quote="DeleteQuote"
+          />
+          <ViewQuoteModal
+            v-if="showViewQuoteModal"
+            :quoteId="currentQuoteId"
+            @close="closeView"
+            @edit-quote="handleEditQuote"
+            @delete-quote="DeleteQuote"
+          />
+          <EditQuoteModal
+            v-if="showEditQuoteModal"
+            :quoteId="currentQuoteId"
+            @close="closeEdit"
           />
         </div>
       </div>
@@ -77,6 +92,8 @@ import TheMainPage from "@/components/TheMainPage.vue";
 import QuoteCard from "@/components/QuoteCard.vue";
 import IconPencil from "@/components/icons/IconPencil.vue";
 import IconTrashCan from "@/components/icons/IconTrashCan.vue";
+import ViewQuoteModal from "@/components/Modals/ViewQuoteModal.vue";
+import EditQuoteModal from "@/components/Modals/EditQuoteModal.vue";
 import { onMounted, ref, watchEffect } from "vue";
 import { useRouter } from "vue-router";
 import instance from "@/api/index.js";
@@ -90,10 +107,32 @@ let id = router.currentRoute.value.params.id;
 const route = useRoute();
 const idForTracking = ref(route.params.id);
 
+let showViewQuoteModal = ref(false);
+let showEditQuoteModal = ref(false);
+let currentQuoteId = ref(null);
+
+const closeView = () => {
+  showViewQuoteModal.value = false;
+};
+const closeEdit = () => {
+  showEditQuoteModal.value = false;
+  fetchMovieDetails(id);
+};
+
+const handleViewQuote = (quoteId) => {
+  currentQuoteId.value = quoteId;
+  showViewQuoteModal.value = true;
+};
+
+const handleEditQuote = (quoteId) => {
+  currentQuoteId.value = quoteId;
+  showEditQuoteModal.value = true;
+};
+
 const fetchMovieDetails = async (movieId) => {
   try {
     let response = await instance.get(`/api/movie/${movieId}`);
-    movie.value = response.data.movie;
+    movie.value = response.data;
   } catch (error) {
     console.error("Error:", error);
   }
@@ -114,12 +153,25 @@ const OpenEditMovie = (id) => {
 const OpenAddQuote = (id) => {
   router.push({ name: "AddMovieQuote", params: { id: id } });
 };
+
 const DeleteMovie = async (id) => {
   await instance
     .delete(`/api/movies/${id}`)
     .then((response) => {
-      if (response.status === 200) {
+      if (response.status === 201) {
         router.push({ name: "MoviePage" });
+      }
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+};
+const DeleteQuote = async (quoteid) => {
+  await instance
+    .delete(`/api/quote/${quoteid}`)
+    .then((response) => {
+      if (response.status === 201) {
+        fetchMovieDetails(id);
       }
     })
     .catch((error) => {
