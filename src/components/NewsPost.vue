@@ -132,22 +132,8 @@ const addLike = () => {
   }
 };
 
-const fetchMovieDetails = async (movieId) => {
-  try {
-    let response = await instance.get(`/api/movie/${movieId}`);
-    movie.value = response.data;
-  } catch (error) {
-    console.error("Error:", error);
-  }
-};
-
 onMounted(async () => {
-  fetchMovieDetails(quote.value.movie_id);
-  try {
-    const response = await instance.get(`/api/user/${quote.value.user_id}`);
-    postuser.value = response.data.user;
-  } catch (error) {
-    console.error("Error:", error);
-  }
+  postuser.value = props.quote.user;
+  movie.value = props.quote.movie;
 });
 </script>

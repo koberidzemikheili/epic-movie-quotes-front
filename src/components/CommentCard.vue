@@ -19,7 +19,6 @@
 
 <script setup>
 import { onMounted, ref } from "vue";
-import instance from "@/api/index.js";
 
 const backendurl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
 const commentuser = ref();
@@ -30,11 +29,6 @@ const props = defineProps({
   },
 });
 onMounted(async () => {
-  try {
-    const response = await instance.get(`/api/user/${props.comment.user_id}`);
-    commentuser.value = response.data.user;
-  } catch (error) {
-    console.error("Error:", error);
-  }
+  commentuser.value = props.comment.user;
 });
 </script>
