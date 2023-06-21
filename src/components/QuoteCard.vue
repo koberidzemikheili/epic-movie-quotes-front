@@ -1,13 +1,18 @@
 <template>
   <div class="relative">
     <div class="bg-zinc-950 shadow-lg rounded-lg p-4 mt-4">
-      <div class="flex items-center" @click="handleClickOutside">
+      <div
+        class="flex md:flex-row flex-col items-center w-full"
+        @click="handleClickOutside"
+      >
         <img
           class="w-44 h-32 object-cover rounded-lg mr-4"
           :src="backendurl + '/storage/' + quote.quote_image"
           :alt="quote.title"
         />
-        <div class="text-white">{{ quote.title.en }}</div>
+        <div class="text-white break-words md:w-2/3 w-full italic mt-2 md:mt-2">
+          "{{ quote.title.en }}"
+        </div>
       </div>
       <div class="absolute top-4 right-2 mt-2">
         <button @click="showOptions = !showOptions">

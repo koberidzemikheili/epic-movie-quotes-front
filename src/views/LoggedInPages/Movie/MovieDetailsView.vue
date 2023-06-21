@@ -2,15 +2,15 @@
   <TheMainPage>
     <div v-if="movie" class="p-4">
       <div class="text-white text-xl mt-2 font-bold">Movie Description</div>
-      <div class="flex mt-4">
-        <div class="w-1/2">
+      <div class="flex md:flex-row flex-col mt-4">
+        <div class="md:w-1/2 w-full">
           <img
             class="w-full h-auto object-cover rounded-md"
             :src="backendurl + '/storage/' + movie.movie_image"
             :alt="movie.name.en"
           />
         </div>
-        <div class="w-1/2 pl-4">
+        <div class="md:w-1/2 w-full md:pl-4 md:mt-0 mt-4">
           <div class="flex justify-between">
             <div class="text-lg font-bold text-orange-200">
               {{ movie.name.en }} ({{ movie.year }})
@@ -46,7 +46,7 @@
           </div>
         </div>
       </div>
-      <div class="mt-4 w-1/2">
+      <div class="mt-4 md:w-1/2 w-full">
         <div class="flex justify-between items-center">
           <div class="text-white text-xl font-bold">
             Quotes (total {{ movie.quotes.length }})
