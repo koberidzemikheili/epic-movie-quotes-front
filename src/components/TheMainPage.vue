@@ -1,5 +1,5 @@
 <template>
-  <div class="h-screen w-screen">
+  <div class="min-h-screen w-screen">
     <div v-if="isLoading">Loading...</div>
     <div v-else>
       <div class="p-5 bg-gray-800 flex justify-between items-center">
@@ -23,7 +23,7 @@
           </button>
         </div>
       </div>
-      <div class="absolute w-full h-screen bg-gray-800" v-show="showMenu">
+      <div class="absolute w-full bg-gray-800" v-show="showMenu">
         <div class="flex items-center p-5">
           <img
             class="w-10 h-10 rounded-full bg-gray-400"
@@ -32,14 +32,23 @@
             "
             alt="profile picture"
           />
-          <div class="ml-3 text-orange-200">
+          <div class="ml-3 text-orange-200 text-lg flex flex-col">
             {{ userStore.userData.username }}
+            <button @click="OpenProfilePage" class="text-white text-sm">
+              edit your profile
+            </button>
           </div>
         </div>
-        <button class="text-white flex mt-5 p-5">
+        <button
+          @click="OpenNewsFeedPage"
+          class="text-white flex mt-5 p-5 flex items-center"
+        >
           <IconHouse class="mr-5" /> News Feed
         </button>
-        <button class="text-white flex mt-5 p-5">
+        <button
+          @click="OpenMoviePage"
+          class="text-white flex mt-5 p-5 flex items-center"
+        >
           <IconCamera class="mr-5" /> Movie List
         </button>
         <div class="flex items-center p-5 sm:hidden block">
@@ -52,24 +61,33 @@
           <LanguageSelect />
         </div>
       </div>
-      <div class="flex flex-col sm:flex-row">
+      <div class="flex flex-col sm:flex-row lg:mx-0">
         <div class="w-full sm:w-1/4 m-10 sm:block hidden">
           <div class="flex items-center">
             <img
-              class="w-10 h-10 rounded-full bg-gray-400"
+              class="w-12 h-12 rounded-full bg-gray-400"
               :src="
                 backendurl + '/storage/' + userStore.userData.profile_pictures
               "
               alt="profile picture"
             />
-            <div class="ml-3 text-orange-200">
+            <div class="ml-3 text-orange-200 flex flex-col text-lg">
               {{ userStore.userData.username }}
+              <button @click="OpenProfilePage" class="text-white text-sm">
+                edit your profile
+              </button>
             </div>
           </div>
-          <button class="text-white flex mt-5">
+          <button
+            @click="OpenNewsFeedPage"
+            class="text-white flex mt-5 flex items-center"
+          >
             <IconHouse class="mr-5" /> News Feed
           </button>
-          <button class="text-white flex mt-5">
+          <button
+            @click="OpenMoviePage"
+            class="text-white flex mt-5 flex items-center"
+          >
             <IconCamera class="mr-5" /> Movie List
           </button>
         </div>
@@ -89,6 +107,7 @@ import { ref, onMounted } from "vue";
 import instance from "@/api/index.js";
 import LanguageSelect from "@/components/LanguageSelect.vue";
 import TheNotifications from "@/components/TheNotifications.vue";
+import router from "@/router";
 import { useUserStore } from "@/stores/user.js";
 
 const userStore = useUserStore();
@@ -97,10 +116,29 @@ const showMenu = ref(false);
 let isLoading = ref(true);
 
 const LogOut = () => {
-  instance.post("api/logout").then(() => {});
+  instance
+    .post("api/logout")
+    .then((response) => {
+      if (response.status === 201) {
+        userStore.logout();
+        router.push({ name: "LandingPage" });
+      }
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
 };
 onMounted(async () => {
   await userStore.fetchUserData();
   isLoading.value = false;
 });
+const OpenProfilePage = () => {
+  router.push({ name: "ProfilePage" });
+};
+const OpenNewsFeedPage = () => {
+  router.push({ name: "NewsFeed" });
+};
+const OpenMoviePage = () => {
+  router.push({ name: "MoviePage" });
+};
 </script>
