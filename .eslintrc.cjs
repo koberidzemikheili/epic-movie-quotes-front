@@ -16,6 +16,9 @@ module.exports = {
     {
       files: ["cypress/e2e/**/*.{cy,spec}.{js,ts,jsx,tsx}"],
       extends: ["plugin:cypress/recommended"],
+      env: {
+        "cypress/globals": true,
+      },
     },
   ],
   parserOptions: {
