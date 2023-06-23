@@ -122,18 +122,18 @@ let Commentvalue = ref();
 const showOptions = ref(false);
 
 let quote = ref();
-const id = props.quoteId;
+const id = ref(props.quoteId);
 const canEditQuote = ref();
 
 const emit = defineEmits(["edit-quote", "delete-quote", "close"]);
 
 const handleEditQuote = () => {
-  emit("edit-quote", id);
+  emit("edit-quote", id.value);
   showOptions.value = true;
   emit("close");
 };
 const handleDeleteQuote = () => {
-  emit("delete-quote", id);
+  emit("delete-quote", id.value);
   emit("close");
 };
 const closeThisModal = () => {
@@ -154,7 +154,7 @@ const makeApiPostRequest = (endpoint, payload) => {
 
 const savecomment = () => {
   const payload = {
-    quote_id: id,
+    quote_id: id.value,
     comment: Commentvalue.value,
   };
   makeApiPostRequest("/api/comment", payload);
@@ -178,7 +178,7 @@ const addLike = () => {
       });
   } else {
     const payload = {
-      quote_id: id,
+      quote_id: id.value,
     };
     makeApiPostRequest("/api/like", payload).then(() => {
       console.log("Like added successfully");
@@ -197,7 +197,7 @@ const fetchMovieDetails = async (movieId) => {
 
 onMounted(async () => {
   try {
-    const quoteResponse = await instance.get(`/api/quote/${id}`);
+    const quoteResponse = await instance.get(`/api/quote/${id.value}`);
     quote.value = quoteResponse.data.quote;
     await fetchMovieDetails(quoteResponse.data.quote.movie_id);
     if (userStore.userData.id === quote.value.user_id) {
