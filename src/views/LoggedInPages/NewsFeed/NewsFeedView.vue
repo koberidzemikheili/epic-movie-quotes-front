@@ -53,19 +53,58 @@ const pusherActive = ref(false);
 const route = useRoute();
 const idForTracking = ref(route.params.id);
 
+let pageInfo = ref({
+  currentPage: 1,
+  lastPage: null,
+  loading: false,
+});
+
 const fetchquoteDetails = async () => {
+  if (
+    pageInfo.value.loading ||
+    (pageInfo.value.lastPage &&
+      pageInfo.value.currentPage > pageInfo.value.lastPage)
+  ) {
+    return;
+  }
+
+  pageInfo.value.loading = true;
+
   try {
-    let response = await instance.get(`/api/quote`);
-    quotes.value = [...response.data.quotes];
-    console.log(quotes.value);
+    let response = await instance.get(
+      `/api/quote?page=${pageInfo.value.currentPage}`
+    );
+    const newQuotes = response.data.quotes.data;
+    newQuotes.forEach((quote) => {
+      subscribeToQuoteComments(quote);
+    });
+    quotes.value = [...quotes.value, ...newQuotes];
+
+    pageInfo.value.lastPage = response.data.quotes.last_page;
+    pageInfo.value.currentPage++;
   } catch (error) {
     console.error("Error:", error);
+  } finally {
+    pageInfo.value.loading = false;
   }
+};
+
+const subscribeToQuoteComments = (quote) => {
+  const channelName = "comments." + quote.id;
+  window.Echo.channel(channelName).listen("NewComment", (e) => {
+    const updatedQuote = e.quote;
+    const index = quotes.value.findIndex(
+      (quote) => quote.id === updatedQuote.id
+    );
+    if (index !== -1) {
+      quotes.value[index] = updatedQuote;
+    }
+    console.log(e, "gaigzavna komentaris gamo notifikacia");
+  });
 };
 
 watchEffect(() => {
   idForTracking.value = route.params.id;
-  //fetchquoteDetails();
 });
 
 onMounted(async () => {
@@ -73,20 +112,26 @@ onMounted(async () => {
   pusherActive.value = instantiatePusher();
 
   await window.Echo.channel("likes").listen("UserLikedQuote", (e) => {
-    fetchquoteDetails();
+    const updatedQuote = e.quote;
+    const index = quotes.value.findIndex(
+      (quote) => quote.id === updatedQuote.id
+    );
+    if (index !== -1) {
+      quotes.value[index] = updatedQuote;
+    }
     console.log(e, "likeebi");
   });
 
-  quotes.value.forEach((quote) => {
-    const channelName = "comments." + quote.id;
-    window.Echo.channel(channelName).listen("NewComment", (e) => {
-      fetchquoteDetails();
-      console.log(e, "gaigzavna komentaris gamo notifikacia");
-    });
+  window.addEventListener("scroll", async () => {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+      await fetchquoteDetails();
+    }
   });
 });
+
 onUnmounted(() => {
   window.Echo.leave("likes");
+  window.removeEventListener("scroll", fetchquoteDetails);
 });
 
 const openModal = (pagename) => {

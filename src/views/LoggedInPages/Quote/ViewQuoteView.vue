@@ -150,13 +150,17 @@ onMounted(async () => {
   pusherActive.value = instantiatePusher();
 
   await window.Echo.channel("likes").listen("UserLikedQuote", (e) => {
-    fetchQuote(id);
+    quote.value = e.quote;
+    postuser.value = quote.value.user;
+    movie.value = quote.value.movie;
     console.log(e, "likeebi");
   });
 
   const channelName = "comments." + quote.value.id;
   window.Echo.channel(channelName).listen("NewComment", (e) => {
-    fetchQuote(id);
+    quote.value = e.quote;
+    postuser.value = quote.value.user;
+    movie.value = quote.value.movie;
     console.log(e, "gaigzavna komentaris gamo notifikacia");
   });
 });

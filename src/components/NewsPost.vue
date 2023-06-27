@@ -38,11 +38,14 @@
     <hr class="border border-gray-800 w-full mb-4" />
     <div>
       <CommentCard
-        v-for="comment in quote.comments"
+        v-for="comment in displayedComments"
         :key="comment.id"
         :comment="comment"
       />
     </div>
+    <button v-if="showMoreButton" @click="showMoreComments" class="text-white">
+      Load more comments
+    </button>
     <div class="mt-4">
       <div class="flex items-center ml-2">
         <img
@@ -63,7 +66,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed, watch } from "vue";
 import IconChatSquare from "@/components/icons/IconChatSquare.vue";
 import IconLike from "@/components/icons/IconLike.vue";
 import CommentCard from "@/components/CommentCard.vue";
@@ -84,6 +87,13 @@ const props = defineProps({
   },
 });
 let quote = ref(props.quote);
+
+const visibleCommentsCount = ref(3);
+const showMoreButton = ref(true);
+
+const displayedComments = computed(() => {
+  return quote.value.comments.slice(0, visibleCommentsCount.value);
+});
 
 const makeApiPostRequest = (endpoint, payload) => {
   return instance
@@ -128,8 +138,23 @@ const addLike = () => {
   }
 };
 
+const showMoreComments = () => {
+  visibleCommentsCount.value += 3;
+};
+
+watch(visibleCommentsCount, (newVal) => {
+  if (newVal >= quote.value.comments.length) {
+    showMoreButton.value = false;
+  } else {
+    showMoreButton.value = true;
+  }
+});
+
 onMounted(async () => {
   postuser.value = props.quote.user;
   movie.value = props.quote.movie;
+  if (quote.value.comments.length <= visibleCommentsCount.value) {
+    showMoreButton.value = false;
+  }
 });
 </script>
