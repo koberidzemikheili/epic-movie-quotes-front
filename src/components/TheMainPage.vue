@@ -13,7 +13,10 @@
           <div class="text-orange-200 md:block hidden">MOVIE QUOTES</div>
         </div>
         <div class="flex items-center">
-          <TheNotifications></TheNotifications>
+          <TheNotifications
+            :notifications="userStore.userData.notifications_received"
+          >
+          </TheNotifications>
           <LanguageSelect class="sm:block hidden"></LanguageSelect>
           <button
             @click="LogOut"
@@ -109,11 +112,13 @@ import LanguageSelect from "@/components/LanguageSelect.vue";
 import TheNotifications from "@/components/TheNotifications.vue";
 import router from "@/router";
 import { useUserStore } from "@/stores/user.js";
+import instantiatePusher from "@/helpers/instantiatePusher.js";
 
 const userStore = useUserStore();
 const backendurl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
 const showMenu = ref(false);
 let isLoading = ref(true);
+const pusherActive = ref(false);
 
 const LogOut = () => {
   instance
@@ -131,6 +136,14 @@ const LogOut = () => {
 onMounted(async () => {
   await userStore.fetchUserData();
   isLoading.value = false;
+
+  pusherActive.value = instantiatePusher();
+  await window.Echo.private(`notifications.${userStore.userData.id}`).listen(
+    "NewNotification",
+    () => {
+      userStore.fetchUserData();
+    }
+  );
 });
 const OpenProfilePage = () => {
   router.push({ name: "ProfilePage" });

@@ -20,7 +20,7 @@
         >
       </div>
       <img
-        class="w-full h-auto"
+        class="w-full h-2/3"
         :src="backendurl + '/storage/' + quote.quote_image"
         alt="quote image"
       />
@@ -83,7 +83,7 @@ const props = defineProps({
     required: true,
   },
 });
-let quote = ref({ ...props.quote });
+let quote = ref(props.quote);
 
 const makeApiPostRequest = (endpoint, payload) => {
   return instance
@@ -102,6 +102,7 @@ const savecomment = () => {
   const payload = {
     quote_id: props.quote.id,
     comment: Commentvalue.value,
+    quote_userid: props.quote.user_id,
   };
   makeApiPostRequest("/api/comment", payload);
 };
@@ -114,21 +115,16 @@ const addLike = () => {
   if (userLike) {
     instance
       .delete(`/api/like/${userLike.id}`)
-      .then((response) => {
-        if (response.status === 200) {
-          console.log("Like removed successfully");
-        }
-      })
+      .then(() => {})
       .catch((error) => {
         console.error("Error:", error);
       });
   } else {
     const payload = {
       quote_id: props.quote.id,
+      quote_userid: props.quote.user_id,
     };
-    makeApiPostRequest("/api/like", payload).then(() => {
-      console.log("Like added successfully");
-    });
+    makeApiPostRequest("/api/like", payload).then(() => {});
   }
 };
 

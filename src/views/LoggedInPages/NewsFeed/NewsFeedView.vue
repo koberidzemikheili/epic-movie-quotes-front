@@ -23,7 +23,11 @@
           @blur="searchActive = false"
         />
       </div>
-      <div v-for="quote in quotes" :key="quote.id" class="mt-6">
+      <div
+        v-for="quote in quotes"
+        :key="quote.id + '-' + quote.likes.length + '-' + quote.comments.length"
+        class="mt-6"
+      >
         <NewsPost :quote="quote" />
       </div>
       <router-view />
@@ -33,16 +37,18 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watchEffect } from "vue";
+import { ref, onMounted, watchEffect, onUnmounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import instance from "@/api/index.js";
 import IconPencilSquare from "@/components/icons/IconPencilSquare.vue";
 import TheMainPage from "@/components/TheMainPage.vue";
 import NewsPost from "@/components/NewsPost.vue";
+import instantiatePusher from "@/helpers/instantiatePusher.js";
 
-let quotes = ref(null);
-let searchActive = ref(false); // Define a ref that will track the state of the search box
+let quotes = ref([]);
+let searchActive = ref(false);
 let router = useRouter();
+const pusherActive = ref(false);
 
 const route = useRoute();
 const idForTracking = ref(route.params.id);
@@ -50,7 +56,8 @@ const idForTracking = ref(route.params.id);
 const fetchquoteDetails = async () => {
   try {
     let response = await instance.get(`/api/quote`);
-    quotes.value = response.data.quotes;
+    quotes.value = [...response.data.quotes];
+    console.log(quotes.value);
   } catch (error) {
     console.error("Error:", error);
   }
@@ -58,11 +65,28 @@ const fetchquoteDetails = async () => {
 
 watchEffect(() => {
   idForTracking.value = route.params.id;
-  fetchquoteDetails();
+  //fetchquoteDetails();
 });
 
-onMounted(() => {
-  fetchquoteDetails();
+onMounted(async () => {
+  await fetchquoteDetails();
+  pusherActive.value = instantiatePusher();
+
+  await window.Echo.channel("likes").listen("UserLikedQuote", (e) => {
+    fetchquoteDetails();
+    console.log(e, "likeebi");
+  });
+
+  quotes.value.forEach((quote) => {
+    const channelName = "comments." + quote.id;
+    window.Echo.channel(channelName).listen("NewComment", (e) => {
+      fetchquoteDetails();
+      console.log(e, "gaigzavna komentaris gamo notifikacia");
+    });
+  });
+});
+onUnmounted(() => {
+  window.Echo.leave("likes");
 });
 
 const openModal = (pagename) => {
