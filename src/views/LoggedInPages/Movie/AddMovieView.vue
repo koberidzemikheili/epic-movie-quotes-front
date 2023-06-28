@@ -5,11 +5,13 @@
     <div class="flex items-center w-full">
       <img
         class="w-10 h-10 rounded-full bg-gray-400"
-        :src="backendurl + '/storage/' + userStore.userData.profile_pictures"
+        :src="
+          backendurl + '/storage/' + userStore.userData.user.profile_pictures
+        "
         alt="profile picture"
       />
       <div class="ml-3 text-orange-200">
-        {{ userStore.userData.username }}
+        {{ userStore.userData.user.username }}
       </div>
     </div>
     <Form @submit="submitForm" class="flex flex-col w-full mt-2">

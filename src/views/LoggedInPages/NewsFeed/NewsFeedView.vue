@@ -74,7 +74,8 @@ const fetchquoteDetails = async () => {
     let response = await instance.get(
       `/api/quote?page=${pageInfo.value.currentPage}`
     );
-    const newQuotes = response.data.quotes.data;
+    console.log(response.data);
+    const newQuotes = response.data.quotes;
     newQuotes.forEach((quote) => {
       subscribeToQuoteComments(quote);
     });

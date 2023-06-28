@@ -123,11 +123,11 @@ let fields = ref([
 const userStore = useUserStore();
 
 const initializeFields = () => {
-  userData.value = userStore.userData;
-  fields.value[0].value = userStore.userData.username;
-  fields.value[1].value = userStore.userData.email;
+  userData.value = userStore.userData.user;
+  fields.value[0].value = userStore.userData.user.username;
+  fields.value[1].value = userStore.userData.user.email;
 
-  if (!userStore.userData.google_id) {
+  if (!userStore.userData.user.google_id) {
     fields.value.forEach((field) => {
       field.editable = true;
       field.visible = true;
@@ -143,14 +143,14 @@ const initializeFields = () => {
   });
 };
 onMounted(async () => {
-  if (!userStore.userData) {
+  if (!userStore.userData.user) {
     await userStore.fetchUserData();
   }
   initializeFields();
 });
 
 watch(
-  () => userStore.userData,
+  () => userStore.userData.user,
   () => {
     initializeFields();
   }

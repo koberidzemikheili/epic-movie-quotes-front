@@ -95,7 +95,7 @@ const isQuoteSeen = (notificationId, quoteId) => {
 };
 
 const markAllAsRead = () => {
-  const formData = { userId: userStore.userData.id };
+  const formData = { userId: userStore.userData.user.id };
   instance
     .post(`/api/notifications-mark-all-as-seen`, formData)
     .then(() => {

@@ -96,7 +96,7 @@ const idForTracking = ref(route.params.id);
 const fetchMovieDetails = async (movieId) => {
   try {
     let response = await instance.get(`/api/movie/${movieId}`);
-    movie.value = response.data;
+    movie.value = response.data.movie;
   } catch (error) {
     console.error("Error:", error);
   }

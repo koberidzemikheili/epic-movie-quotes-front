@@ -84,7 +84,9 @@
               <img
                 class="w-10 h-10 rounded-full bg-gray-400"
                 :src="
-                  backendurl + '/storage/' + userStore.userData.profile_pictures
+                  backendurl +
+                  '/storage/' +
+                  userStore.userData.user.profile_pictures
                 "
                 alt="profile picture"
               />
@@ -143,7 +145,7 @@ async function fetchQuote(id) {
 
 onMounted(async () => {
   await fetchQuote(id);
-  if (userStore.userData.id === quote.value.user_id) {
+  if (userStore.userData.user.id === quote.value.user_id) {
     canEditQuote.value = true;
   } else canEditQuote.value = false;
 
@@ -188,7 +190,7 @@ const savecomment = () => {
 
 const addLike = () => {
   const userLike = quote.value.likes.find(
-    (like) => like.user_id === userStore.userData.id
+    (like) => like.user_id === userStore.userData.user.id
   );
 
   if (userLike) {

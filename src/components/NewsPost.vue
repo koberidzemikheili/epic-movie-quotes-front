@@ -50,7 +50,9 @@
       <div class="flex items-center ml-2">
         <img
           class="w-10 h-10 rounded-full bg-gray-400"
-          :src="backendurl + '/storage/' + userStore.userData.profile_pictures"
+          :src="
+            backendurl + '/storage/' + userStore.userData.user.profile_pictures
+          "
           alt="profile picture"
         />
         <input
@@ -119,7 +121,7 @@ const savecomment = () => {
 
 const addLike = () => {
   const userLike = quote.value.likes.find(
-    (like) => like.user_id === userStore.userData.id
+    (like) => like.user_id === userStore.userData.user.id
   );
 
   if (userLike) {
