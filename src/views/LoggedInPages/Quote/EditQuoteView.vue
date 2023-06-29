@@ -99,6 +99,7 @@ import { useRouter } from "vue-router";
 
 let router = useRouter();
 let id = router.currentRoute.value.params.id;
+let depth = parseInt(router.currentRoute.value.query.depth || 1);
 
 const backendurl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
 const userStore = useUserStore();
@@ -108,7 +109,7 @@ let isLoading = ref(true);
 let newQuoteImage = ref();
 
 const closeModal = () => {
-  router.go(-2);
+  router.go(-depth);
 };
 const DeleteQuote = async () => {
   await instance

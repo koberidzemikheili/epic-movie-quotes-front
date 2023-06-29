@@ -11,8 +11,9 @@
           <div class="text-white">Write new quote</div>
         </button>
         <input
+          v-model="searchTerm"
           :class="searchActive ? 'w-5/6' : 'w-1/6'"
-          class="bg-transparent rounded-lg md:block hidden"
+          class="bg-transparent rounded-lg md:block hidden text-white"
           type="text"
           :placeholder="
             searchActive
@@ -21,6 +22,7 @@
           "
           @focus="searchActive = true"
           @blur="searchActive = false"
+          @keyup.enter="fetchquoteDetails(true)"
         />
       </div>
       <div
@@ -47,6 +49,7 @@ import instantiatePusher from "@/helpers/instantiatePusher.js";
 
 let quotes = ref([]);
 let searchActive = ref(false);
+let searchTerm = ref("");
 let router = useRouter();
 const pusherActive = ref(false);
 
@@ -59,7 +62,7 @@ let pageInfo = ref({
   loading: false,
 });
 
-const fetchquoteDetails = async () => {
+const fetchquoteDetails = async (newSearch = false) => {
   if (
     pageInfo.value.loading ||
     (pageInfo.value.lastPage &&
@@ -68,21 +71,36 @@ const fetchquoteDetails = async () => {
     return;
   }
 
+  if (newSearch) {
+    pageInfo.value.currentPage = 1;
+
+    quotes.value = [];
+  }
+
   pageInfo.value.loading = true;
 
   try {
     let response = await instance.get(
-      `/api/quote?page=${pageInfo.value.currentPage}`
+      `/api/quote?page=${pageInfo.value.currentPage}`,
+      {
+        params: {
+          searchBy: searchTerm.value,
+        },
+      }
     );
+
     console.log(response.data);
-    const newQuotes = response.data.quotes;
+    const newQuotes = response.data.quotes.data;
     newQuotes.forEach((quote) => {
       subscribeToQuoteComments(quote);
     });
     quotes.value = [...quotes.value, ...newQuotes];
 
     pageInfo.value.lastPage = response.data.quotes.last_page;
-    pageInfo.value.currentPage++;
+
+    if (!newSearch) {
+      pageInfo.value.currentPage++;
+    }
   } catch (error) {
     console.error("Error:", error);
   } finally {

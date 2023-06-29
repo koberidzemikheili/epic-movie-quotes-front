@@ -224,6 +224,6 @@ const DeleteQuote = async () => {
     });
 };
 const EditQuote = () => {
-  router.push({ name: "EditQuote", params: { id: id } });
+  router.push({ name: "EditQuote", params: { id: id }, query: { depth: 2 } });
 };
 </script>
