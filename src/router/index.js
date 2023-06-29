@@ -145,6 +145,32 @@ const router = createRouter({
       ],
     },
     {
+      path: "/view-quote/:id",
+      name: "ViewQuote",
+      component: () => import("@/views/LoggedInPages/Quote/ViewQuoteView.vue"),
+      beforeEnter: (to, from, next) => {
+        const userStore = useUserStore();
+        if (!userStore.isLoggedIn) {
+          next({ name: "AccessDenied" });
+        } else {
+          next();
+        }
+      },
+    },
+    {
+      path: "/edit-quote/:id",
+      name: "EditQuote",
+      component: () => import("@/views/LoggedInPages/Quote/EditQuoteView.vue"),
+      beforeEnter: (to, from, next) => {
+        const userStore = useUserStore();
+        if (!userStore.isLoggedIn) {
+          next({ name: "AccessDenied" });
+        } else {
+          next();
+        }
+      },
+    },
+    {
       path: "/access-denied",
       name: "AccessDenied",
       component: () => import("@/views/AccessDeniedView.vue"),

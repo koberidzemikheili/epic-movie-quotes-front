@@ -13,7 +13,10 @@
           <div class="text-orange-200 md:block hidden">MOVIE QUOTES</div>
         </div>
         <div class="flex items-center">
-          <TheNotifications></TheNotifications>
+          <TheNotifications
+            :notifications="userStore.userData.user.notificationsReceived"
+          >
+          </TheNotifications>
           <LanguageSelect class="sm:block hidden"></LanguageSelect>
           <button
             @click="LogOut"
@@ -28,12 +31,14 @@
           <img
             class="w-10 h-10 rounded-full bg-gray-400"
             :src="
-              backendurl + '/storage/' + userStore.userData.profile_pictures
+              backendurl +
+              '/storage/' +
+              userStore.userData.user.profile_pictures
             "
             alt="profile picture"
           />
           <div class="ml-3 text-orange-200 text-lg flex flex-col">
-            {{ userStore.userData.username }}
+            {{ userStore.userData.user.username }}
             <button @click="OpenProfilePage" class="text-white text-sm">
               edit your profile
             </button>
@@ -67,12 +72,14 @@
             <img
               class="w-12 h-12 rounded-full bg-gray-400"
               :src="
-                backendurl + '/storage/' + userStore.userData.profile_pictures
+                backendurl +
+                '/storage/' +
+                userStore.userData.user.profile_pictures
               "
               alt="profile picture"
             />
             <div class="ml-3 text-orange-200 flex flex-col text-lg">
-              {{ userStore.userData.username }}
+              {{ userStore.userData.user.username }}
               <button @click="OpenProfilePage" class="text-white text-sm">
                 edit your profile
               </button>
@@ -109,11 +116,13 @@ import LanguageSelect from "@/components/LanguageSelect.vue";
 import TheNotifications from "@/components/TheNotifications.vue";
 import router from "@/router";
 import { useUserStore } from "@/stores/user.js";
+import instantiatePusher from "@/helpers/instantiatePusher.js";
 
 const userStore = useUserStore();
 const backendurl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
 const showMenu = ref(false);
 let isLoading = ref(true);
+const pusherActive = ref(false);
 
 const LogOut = () => {
   instance
@@ -131,6 +140,14 @@ const LogOut = () => {
 onMounted(async () => {
   await userStore.fetchUserData();
   isLoading.value = false;
+  console.log(userStore.userData.user.notificationsReceived);
+
+  pusherActive.value = instantiatePusher();
+  await window.Echo.private(
+    `notifications.${userStore.userData.user.id}`
+  ).listen("NewNotification", () => {
+    userStore.fetchUserData();
+  });
 });
 const OpenProfilePage = () => {
   router.push({ name: "ProfilePage" });

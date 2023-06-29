@@ -75,7 +75,7 @@ const props = defineProps({
 const emit = defineEmits(["view-quote", "edit-quote", "delete-quote"]);
 const showOptions = ref(false);
 
-const canEditQuote = userStore.userData.id === props.quote.user_id;
+const canEditQuote = userStore.userData.user.id === props.quote.user_id;
 
 const handleViewQuote = () => {
   emit("view-quote", props.quote.id);

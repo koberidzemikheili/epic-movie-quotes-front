@@ -55,10 +55,14 @@
   </div>
 </template>
 <script setup>
-import { ref, watchEffect } from "vue";
+import { ref, watchEffect, onMounted } from "vue";
 import router from "@/router";
 import { useRoute } from "vue-router";
 import LanguageSelect from "../components/LanguageSelect.vue";
+import instance from "@/api/index.js";
+import { useUserStore } from "@/stores/user.js";
+
+const userStore = useUserStore();
 const route = useRoute();
 const overflow = ref("");
 const openModal = (pagename) => {
@@ -68,5 +72,16 @@ watchEffect(() => {
   route.name === "LandingPage"
     ? (overflow.value = "")
     : (overflow.value = "overflow-hidden");
+});
+onMounted(async () => {
+  try {
+    const response = await instance.get("api/user");
+    if (response.data.google_id) {
+      userStore.login();
+      router.push({ name: "NewsFeed" });
+    }
+  } catch (error) {
+    router.push({ name: "LandingPage" });
+  }
 });
 </script>

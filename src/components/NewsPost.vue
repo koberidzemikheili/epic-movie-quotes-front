@@ -20,7 +20,7 @@
         >
       </div>
       <img
-        class="w-full h-auto"
+        class="w-full h-2/3"
         :src="backendurl + '/storage/' + quote.quote_image"
         alt="quote image"
       />
@@ -38,16 +38,21 @@
     <hr class="border border-gray-800 w-full mb-4" />
     <div>
       <CommentCard
-        v-for="comment in quote.comments"
+        v-for="comment in displayedComments"
         :key="comment.id"
         :comment="comment"
       />
     </div>
+    <button v-if="showMoreButton" @click="showMoreComments" class="text-white">
+      Load more comments
+    </button>
     <div class="mt-4">
       <div class="flex items-center ml-2">
         <img
           class="w-10 h-10 rounded-full bg-gray-400"
-          :src="backendurl + '/storage/' + userStore.userData.profile_pictures"
+          :src="
+            backendurl + '/storage/' + userStore.userData.user.profile_pictures
+          "
           alt="profile picture"
         />
         <input
@@ -63,7 +68,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed, watch } from "vue";
 import IconChatSquare from "@/components/icons/IconChatSquare.vue";
 import IconLike from "@/components/icons/IconLike.vue";
 import CommentCard from "@/components/CommentCard.vue";
@@ -83,7 +88,14 @@ const props = defineProps({
     required: true,
   },
 });
-let quote = ref({ ...props.quote });
+let quote = ref(props.quote);
+
+const visibleCommentsCount = ref(3);
+const showMoreButton = ref(true);
+
+const displayedComments = computed(() => {
+  return quote.value.comments.slice(0, visibleCommentsCount.value);
+});
 
 const makeApiPostRequest = (endpoint, payload) => {
   return instance
@@ -102,38 +114,49 @@ const savecomment = () => {
   const payload = {
     quote_id: props.quote.id,
     comment: Commentvalue.value,
+    quote_userid: props.quote.user_id,
   };
   makeApiPostRequest("/api/comment", payload);
 };
 
 const addLike = () => {
   const userLike = quote.value.likes.find(
-    (like) => like.user_id === userStore.userData.id
+    (like) => like.user_id === userStore.userData.user.id
   );
 
   if (userLike) {
     instance
       .delete(`/api/like/${userLike.id}`)
-      .then((response) => {
-        if (response.status === 200) {
-          console.log("Like removed successfully");
-        }
-      })
+      .then(() => {})
       .catch((error) => {
         console.error("Error:", error);
       });
   } else {
     const payload = {
       quote_id: props.quote.id,
+      quote_userid: props.quote.user_id,
     };
-    makeApiPostRequest("/api/like", payload).then(() => {
-      console.log("Like added successfully");
-    });
+    makeApiPostRequest("/api/like", payload).then(() => {});
   }
 };
+
+const showMoreComments = () => {
+  visibleCommentsCount.value += 3;
+};
+
+watch(visibleCommentsCount, (newVal) => {
+  if (newVal >= quote.value.comments.length) {
+    showMoreButton.value = false;
+  } else {
+    showMoreButton.value = true;
+  }
+});
 
 onMounted(async () => {
   postuser.value = props.quote.user;
   movie.value = props.quote.movie;
+  if (quote.value.comments.length <= visibleCommentsCount.value) {
+    showMoreButton.value = false;
+  }
 });
 </script>
