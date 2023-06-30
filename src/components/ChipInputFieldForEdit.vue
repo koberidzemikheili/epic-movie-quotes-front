@@ -29,6 +29,7 @@
         </option>
       </select>
     </div>
+    <div v-if="error" class="text-red-600 mt-1">{{ error }}</div>
     <ErrorMessage :name="name" class="text-red-600 mt-1" />
   </Field>
 </template>
@@ -40,6 +41,7 @@ import instance from "@/api/index.js";
 
 const props = defineProps({
   name: { type: String, required: true },
+  error: { type: String, required: false },
   rules: { type: String, required: false },
   modelValue: Array,
 });

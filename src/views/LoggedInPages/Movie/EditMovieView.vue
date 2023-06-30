@@ -19,55 +19,67 @@
         <InputFieldForEdit
           name="name[en]"
           type="text"
-          rules="required|min:3"
           placeholder="Movie Name"
+          rules="required|min:3"
+          :error="errorMessage?.errors?.['name.en']?.[0] || ''"
           v-model="formValues.name.en"
         />
         <InputFieldForEdit
           name="name[ka]"
           type="text"
-          rules="required|min:3"
           placeholder="ფილმის სახელი"
+          rules="required|min:3"
+          :error="errorMessage?.errors?.['name.ka']?.[0] || ''"
           v-model="formValues.name.ka"
         />
-        <ChipInputFieldForEdit name="genres" v-model="formValues.genres" />
+        <ChipInputFieldForEdit
+          name="genres"
+          v-model="formValues.genres"
+          rules="required"
+          :error="errorMessage?.errors?.['genres']?.[0] || ''"
+        />
         <InputFieldForEdit
           name="year"
           type="text"
-          rules="required|numeric|min:3"
           placeholder="წელი/Year"
+          rules="required|numeric|min:3"
+          :error="errorMessage?.errors?.['year']?.[0] || ''"
           v-model="formValues.year"
         />
         <InputFieldForEdit
           name="director[en]"
           type="text"
-          rules="required|min:3"
           placeholder="Director"
+          rules="required|min:3"
+          :error="errorMessage?.errors?.['director.en']?.[0] || ''"
           v-model="formValues.director.en"
         />
         <InputFieldForEdit
           name="director[ka]"
           type="text"
-          rules="required|min:3"
           placeholder="რეჟისორი"
+          rules="required|min:3"
+          :error="errorMessage?.errors?.['director.ka']?.[0] || ''"
           v-model="formValues.director.ka"
         />
         <InputFieldForEdit
           name="description[en]"
           type="textarea"
           as="textarea"
-          rules="required|min:3"
           addclass="h-20"
           placeholder="Description"
+          rules="required|min:3"
+          :error="errorMessage?.errors?.['description.en']?.[0] || ''"
           v-model="formValues.description.en"
         />
         <InputFieldForEdit
           name="description[ka]"
           type="textarea"
           as="textarea"
-          rules="required|min:3"
           addclass="h-20"
           placeholder="აღწერა"
+          rules="required|min:3"
+          :error="errorMessage?.errors?.['description.ka']?.[0] || ''"
           v-model="formValues.description.ka"
         />
         <ImageEdit
@@ -85,7 +97,7 @@
   </ModalForAdd>
 </template>
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { Form } from "vee-validate";
 import InputFieldForEdit from "@/components/InputFieldForEdit.vue";
 import ModalForAdd from "@/components/Modals/ModalForAdd.vue";
@@ -94,10 +106,14 @@ import ChipInputFieldForEdit from "@/components/ChipInputFieldForEdit.vue";
 import ImageEdit from "@/components/ImageEdit.vue";
 import { useUserStore } from "@/stores/user.js";
 import { useRouter } from "vue-router";
+import { setLocale } from "@vee-validate/i18n";
+import { useI18n } from "vue-i18n";
 
+const { locale } = useI18n();
 const backendurl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
 const userStore = useUserStore();
 let formValues = ref({});
+let errorMessage = ref("");
 
 let router = useRouter();
 let id = router.currentRoute.value.params.id;
@@ -116,6 +132,14 @@ onMounted(async () => {
   } catch (error) {
     console.error("Error:", error);
   }
+
+  if (localStorage.getItem("last-locale")) {
+    setLocale(localStorage.getItem("last-locale"));
+  } else setLocale("en");
+});
+
+watch(locale, (newLocale) => {
+  setLocale(newLocale);
 });
 
 const submitForm = (values) => {
@@ -133,7 +157,7 @@ const submitForm = (values) => {
       }
     })
     .catch((error) => {
-      console.error("Error:", error);
+      errorMessage.value = error.response.data;
     });
 };
 </script>

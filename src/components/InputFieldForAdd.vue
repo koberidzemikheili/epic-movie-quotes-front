@@ -19,6 +19,8 @@
       addclass,
     ]"
   />
+  <div v-if="error" class="text-red-600 mt-1">{{ error }}</div>
+
   <ErrorMessage :name="name" class="text-red-600 mt-1" />
 </template>
 
@@ -32,5 +34,6 @@ defineProps({
   placeholder: { type: String, required: false },
   as: { type: String, required: false },
   addclass: { type: String, required: false },
+  error: { type: String, required: false },
 });
 </script>

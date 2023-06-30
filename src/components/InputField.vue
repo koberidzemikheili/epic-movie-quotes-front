@@ -10,6 +10,7 @@
     :placeholder="placeholder"
     class="h-9 rounded"
   />
+  <div v-if="error" class="text-red-600 mt-1">{{ error }}</div>
   <ErrorMessage :name="name" class="text-red-600 mt-1" />
 </template>
 
@@ -22,5 +23,6 @@ defineProps({
   type: { type: String, required: true },
   rules: { type: String, required: false },
   placeholder: { type: String, required: false },
+  error: { type: String, required: false },
 });
 </script>

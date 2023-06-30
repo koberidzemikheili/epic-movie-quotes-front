@@ -20,6 +20,7 @@
       props.addclass,
     ]"
   />
+  <div v-if="error" class="text-red-600 mt-1">{{ error }}</div>
   <ErrorMessage :name="props.name" class="text-red-600 mt-1" />
 </template>
 
@@ -35,6 +36,7 @@ const props = defineProps({
   as: { type: String, required: false },
   addclass: { type: String, required: false },
   modelValue: { type: [String, Number], required: false },
+  error: { type: String, required: false },
 });
 
 const internalValue = ref(props.modelValue);
