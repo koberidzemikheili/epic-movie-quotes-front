@@ -22,7 +22,7 @@
             @click="LogOut"
             class="text-white bg-transparent py-1 px-4 border mx-2 rounded sm:block hidden"
           >
-            Log Out
+            {{ $t("mainpage.buttons.logout") }}
           </button>
         </div>
       </div>
@@ -40,7 +40,7 @@
           <div class="ml-3 text-orange-200 text-lg flex flex-col">
             {{ userStore.userData.user.username }}
             <button @click="OpenProfilePage" class="text-white text-sm">
-              edit your profile
+              {{ $t("mainpage.buttons.editbutton") }}
             </button>
           </div>
         </div>
@@ -48,20 +48,20 @@
           @click="OpenNewsFeedPage"
           class="text-white flex mt-5 p-5 flex items-center"
         >
-          <IconHouse class="mr-5" /> News Feed
+          <IconHouse class="mr-5" /> {{ $t("mainpage.buttons.newsfeed") }}
         </button>
         <button
           @click="OpenMoviePage"
           class="text-white flex mt-5 p-5 flex items-center"
         >
-          <IconCamera class="mr-5" /> Movie List
+          <IconCamera class="mr-5" /> {{ $t("mainpage.buttons.movielist") }}
         </button>
         <div class="flex items-center p-5 sm:hidden block">
           <button
             @click="LogOut"
             class="text-white bg-transparent py-1 px-4 border mx-2 rounded"
           >
-            Log Out
+            {{ $t("mainpage.buttons.logout") }}
           </button>
           <LanguageSelect />
         </div>
@@ -81,7 +81,7 @@
             <div class="ml-3 text-orange-200 flex flex-col text-lg">
               {{ userStore.userData.user.username }}
               <button @click="OpenProfilePage" class="text-white text-sm">
-                edit your profile
+                {{ $t("mainpage.buttons.editbutton") }}
               </button>
             </div>
           </div>
@@ -89,13 +89,13 @@
             @click="OpenNewsFeedPage"
             class="text-white flex mt-5 flex items-center"
           >
-            <IconHouse class="mr-5" /> News Feed
+            <IconHouse class="mr-5" /> {{ $t("mainpage.buttons.newsfeed") }}
           </button>
           <button
             @click="OpenMoviePage"
             class="text-white flex mt-5 flex items-center"
           >
-            <IconCamera class="mr-5" /> Movie List
+            <IconCamera class="mr-5" /> {{ $t("mainpage.buttons.movielist") }}
           </button>
         </div>
         <div class="w-full sm:w-3/4 mr-10">

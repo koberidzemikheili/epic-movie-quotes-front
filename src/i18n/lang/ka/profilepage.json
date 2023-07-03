@@ -1,0 +1,20 @@
+{
+
+    "labels": {
+        "myprofile": "ჩემი პროფილი",
+        "username":"მომხმარებელი",
+        "email":"იმეილი",
+        "password":"პაროლი",
+        "enternew":"შეიყვანეთ ახალი",
+        "suretomakechanges" : "დარწმუნებული ხართ ცვლილებებში?",
+        "successmessage" : "ცვლილებები დამახსოვრდა!"
+
+
+    },
+    "buttons": {
+        "cancel": "გაუქმება",
+        "edit": "შესწორება",
+        "savechanges": "ცვლილებების შენახვა",
+        "confirm": "თანხმობა"
+    }
+}

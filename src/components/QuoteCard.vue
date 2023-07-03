@@ -11,7 +11,7 @@
           :alt="quote.title"
         />
         <div class="text-white break-words md:w-2/3 w-full italic mt-2 md:mt-2">
-          "{{ quote.title.en }}"
+          "{{ quote.title[locale] }}"
         </div>
       </div>
       <div class="absolute top-4 right-2 mt-2">
@@ -26,19 +26,19 @@
           <div>
             <button class="flex items-center" @click="handleViewQuote">
               <div class="mr-1"><IconEye /></div>
-              View Quote
+              {{ $t("moviepage.labels.viewquote") }}
             </button>
           </div>
           <div class="mt-4" v-if="canEditQuote">
             <button class="flex items-center" @click="handleEditQuote">
               <div class="mr-1"><IconPencil /></div>
-              Edit Quote
+              {{ $t("moviepage.labels.editquote") }}
             </button>
           </div>
           <div class="mt-4" v-if="canEditQuote">
             <button class="flex items-center" @click="handleDeleteQuote">
               <div class="mr-1"><IconTrashCan /></div>
-              Delete Quote
+              {{ $t("moviepage.labels.deletequote") }}
             </button>
           </div>
         </div>
@@ -62,7 +62,9 @@ import IconTrashCan from "@/components/icons/IconTrashCan.vue";
 import IconChatSquare from "@/components/icons/IconChatSquare.vue";
 import IconLike from "@/components/icons/IconLike.vue";
 import { useUserStore } from "@/stores/user.js";
+import { useI18n } from "vue-i18n";
 
+const { locale } = useI18n();
 const userStore = useUserStore();
 
 const backendurl = import.meta.env.VITE_PUBLIC_BACKEND_URL;

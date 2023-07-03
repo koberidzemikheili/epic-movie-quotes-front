@@ -1,6 +1,6 @@
 <template>
   <ModalForAdd addclass="md:h-auto">
-    <div class="text-xl text-white">Add Movie</div>
+    <div class="text-xl text-white">{{ $t("newsfeed.labels.addmovie") }}</div>
     <hr class="mt-4 mb-4 border border-gray-600 w-full" />
     <div class="flex items-center w-full">
       <img
@@ -44,12 +44,11 @@
           class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-black rounded-md shadow-sm text-white"
         >
           <option disabled value="" selected hidden>
-            <div class="flex">Choose a Movie</div>
+            <div class="flex">{{ $t("newsfeed.labels.chooseamovie") }}</div>
           </option>
           <option v-for="movie in movies" :key="movie.id" :value="movie.id">
             {{ movie.name.en }}
           </option>
-          5lari
         </Field>
         <ErrorMessage name="movie" class="text-red-600 mt-1" />
       </div>
@@ -60,7 +59,7 @@
         :error="errorMessage?.errors?.['quote_image']?.[0] || ''"
       />
       <button class="text-white text-l mt-5 bg-red-600 py-2 px-2 rounded">
-        Submit
+        {{ $t("newsfeed.buttons.submit") }}
       </button>
     </Form>
   </ModalForAdd>

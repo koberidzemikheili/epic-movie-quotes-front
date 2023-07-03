@@ -8,7 +8,9 @@
           class="bg-gray-800 mr-4 py-2 rounded-lg text-left flex"
         >
           <div class="mx-2"><IconPencilSquare /></div>
-          <div class="text-white">Write new quote</div>
+          <div class="text-white">
+            {{ $t("newsfeed.buttons.writenewquote") }}
+          </div>
         </button>
         <input
           v-model="searchTerm"
@@ -17,8 +19,8 @@
           type="text"
           :placeholder="
             searchActive
-              ? 'Enter @ to search movies, Enter # to search quotes.'
-              : 'Search by'
+              ? $t('newsfeed.buttons.search2')
+              : $t('newsfeed.buttons.search1')
           "
           @focus="searchActive = true"
           @blur="searchActive = false"
@@ -55,7 +57,7 @@ let route = useRoute();
 const pusherActive = ref(false);
 
 let pageInfo = ref({
-  currentPage: 1,
+  currentPage: 0,
   lastPage: null,
   loading: false,
 });
@@ -66,9 +68,11 @@ const fetchquoteDetails = async (newSearch = false) => {
     (pageInfo.value.lastPage &&
       pageInfo.value.currentPage > pageInfo.value.lastPage)
   ) {
+    console.log(pageInfo.value.loading);
+    console.log(pageInfo.value.currentPage);
+    console.log(pageInfo.value.lastPage);
     return;
   }
-
   if (newSearch) {
     pageInfo.value.currentPage = 1;
 
@@ -87,13 +91,12 @@ const fetchquoteDetails = async (newSearch = false) => {
       }
     );
 
-    console.log(response.data);
     const newQuotes = response.data.quotes.data;
     newQuotes.forEach((quote) => {
       subscribeToQuoteComments(quote);
     });
     quotes.value = [...quotes.value, ...newQuotes];
-
+    console.log(quotes.value);
     pageInfo.value.lastPage = response.data.quotes.last_page;
 
     if (!newSearch) {
@@ -125,8 +128,11 @@ const subscribeToQuoteComments = (quote) => {
 watch(
   () => route.name,
   async (newName, oldName) => {
-    if ((oldName === "AddQuote") & (newName === "NewsFeed"))
-      fetchquoteDetails();
+    if (oldName === "AddQuote" && newName === "NewsFeed") {
+      pageInfo.value.currentPage = 0;
+      quotes.value = [];
+      await fetchquoteDetails();
+    }
   }
 );
 
@@ -154,7 +160,10 @@ onMounted(async () => {
   });
 
   window.addEventListener("scroll", async () => {
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+    if (
+      window.innerHeight + window.scrollY >= document.body.offsetHeight &&
+      pageInfo.value.currentPage < pageInfo.value.lastPage
+    ) {
       await fetchquoteDetails();
     }
   });

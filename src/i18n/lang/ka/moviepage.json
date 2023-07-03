@@ -1,0 +1,27 @@
+{
+    "texts": {
+        "mylistofmovies": "ჩემი ფილმების სია",
+        "moviedescription": "ფილმის აღწერა",
+        "viewquote": "ციტატა",
+        "editquote": "ციტატის რედაქტირება"
+    },
+    "labels": {
+        "total": "ჯამი",
+        "search": "ძებნა",
+        "quote": "ციტატები",
+        "director": "რეჟისორი",
+        "editmovie": "ფილმის რედაქტირება",
+        "viewquote": "გახსნა",
+        "editquote": "რედაქტირება",
+        "deletequote": "წაშლა",
+        "addmovie":"ფილმის დამატება",
+        "addquote":"ციტატის დამატება"
+    },
+    "buttons": {
+        "addmovie": "ფილმის დამატება",
+        "addquote": "ციტატის დამატება",
+        "submit": "შენახვა",
+        "choosefile":"ატვირთე ფაილი"
+
+    }
+}

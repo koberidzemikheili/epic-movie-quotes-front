@@ -13,7 +13,9 @@
       <div class="mr-2 flex items-center">
         <IconPhotoCamera class="mx-1" /> Drag & drop your image here or
       </div>
-      <span class="bg-purple-800 text-white py-1 px-2">Choose file</span>
+      <span class="bg-purple-800 text-white py-1 px-2">{{
+        $t("moviepage.buttons.choosefile")
+      }}</span>
       <Field
         type="file"
         :name="name"
@@ -32,7 +34,9 @@
       <span class="mr-2 flex items-center"
         ><IconPhotoCamera class="mx-1" />Upload Image</span
       >
-      <span class="bg-purple-800 text-white py-1 px-2">Choose file</span>
+      <span class="bg-purple-800 text-white py-1 px-2">{{
+        $t("moviepage.buttons.choosefile")
+      }}</span>
       <Field
         type="file"
         :name="name"

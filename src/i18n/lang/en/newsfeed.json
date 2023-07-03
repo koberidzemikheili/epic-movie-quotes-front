@@ -1,0 +1,14 @@
+{
+    "labels": {
+        "addmovie": "Add Movie",
+        "chooseamovie":"Choose a movie"
+
+    },
+    "buttons": {
+        "writenewquote": "Write new Quote",
+        "search1": "Search",
+        "search2": "Enter {'@'} to search movies, Enter {'#'} to search quotes.",
+        "loadmorecomments":"Load more comments",
+        "submit":"Submit"
+    }
+}

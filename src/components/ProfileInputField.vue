@@ -14,7 +14,7 @@
         :style="{ visibility: editable ? 'visible' : 'hidden' }"
         @click.prevent="editField"
       >
-        Edit
+        {{ $t("profilepage.buttons.edit") }}
       </button>
       <ProfileInputModal
         v-if="isSmaill"
@@ -36,7 +36,9 @@
       </ProfileInputModal>
     </div>
     <div v-if="editing & !isSmaill" class="mt-2">
-      <label class="text-white flex mb-2 mt-4"> Enter New {{ label }} </label>
+      <label class="text-white flex mb-2 mt-4">
+        {{ $t("profilepage.labels.enternew") }} {{ label }}
+      </label>
       <Field
         :name="name"
         :type="type"

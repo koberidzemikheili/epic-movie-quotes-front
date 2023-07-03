@@ -13,7 +13,7 @@
       >
         <IconSuccessSecond class="mx-4" />
         <div class="text-green-700 whitespace-nowrap">
-          Changes updated successfully!
+          {{ $t("profilepage.labels.successmessage") }}
         </div>
         <div @click="close">
           <IconCloseSuccess />

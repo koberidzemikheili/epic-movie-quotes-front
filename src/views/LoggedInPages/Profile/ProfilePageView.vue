@@ -1,7 +1,9 @@
 <template>
   <TheMainPage>
     <div class="w-full md:w-2/3 p-0 md:p-10">
-      <div class="text-2xl md:text-white hidden md:block">My Profile</div>
+      <div class="text-2xl md:text-white hidden md:block">
+        {{ $t("profilepage.labels.myprofile") }}
+      </div>
       <div class="md:hidden mt-4">
         <button @click.prevent="goBack">
           <IconSmallArrowLeft />
@@ -54,7 +56,7 @@
           @click.prevent="cancelEdit"
           v-if="editing"
         >
-          Cancel
+          {{ $t("profilepage.buttons.cancel") }}
         </button>
         <button
           type="submit"
@@ -62,7 +64,7 @@
           v-if="editing"
           form="EditPageForm"
         >
-          Save Changes
+          {{ $t("profilepage.buttons.savechanges") }}
         </button>
       </div>
     </div>
@@ -79,14 +81,16 @@ import TheMainPage from "@/components/TheMainPage.vue";
 import ProfileInputField from "@/components/ProfileInputField.vue";
 import instance from "@/api/index.js";
 import router from "@/router";
+import { useI18n } from "vue-i18n";
 
+const { t } = useI18n();
 const backendurl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
 let userData = ref();
 let editing = ref(false);
 let newValues = ref({});
 let fields = ref([
   {
-    label: "Username",
+    label: t("profilepage.labels.username"),
     name: "username",
     type: "text",
     value: "",
@@ -97,7 +101,7 @@ let fields = ref([
     rules: "required|min:3|max:15",
   },
   {
-    label: "Email",
+    label: t("profilepage.labels.email"),
     name: "email",
     type: "email",
     value: "",
@@ -108,10 +112,10 @@ let fields = ref([
     rules: "required|email",
   },
   {
-    label: "Password",
+    label: t("profilepage.labels.password"),
     name: "password",
     type: "password",
-    value: "****",
+    value: "••••••••",
     editing: false,
     placeholder: "New password",
     editable: false,

@@ -1,7 +1,7 @@
 <template>
   <div :class="['h-screen', 'w-screen', overflow, 'overflow-auto', 'relative']">
     <router-view class="z-10" />
-    <div class="lg:mx-12 mx-5 mb-5 relative">
+    <div class="lg:mx-12 mx-2 mb-2 relative">
       <div class="text-orange-200 inline-flex">MOVIE QUOTES</div>
       <button
         @click="openModal('LoginPage')"
@@ -15,9 +15,11 @@
       >
         {{ $t("landing.buttons.sign_up") }}
       </button>
-      <LanguageSelect></LanguageSelect>
+      <LanguageSelect class="md:block hidden"></LanguageSelect>
     </div>
-    <div class="flex flex-col items-center justify-center h-4/5 sticky top-0">
+    <div
+      class="flex flex-col items-center justify-center h-4/5 sticky top-0 w-full"
+    >
       <div
         class="flex flex-col text-orange-200 lg:text-5xl text-3xl font-bold items-center"
       >
@@ -38,9 +40,14 @@
     >
       <img class="h-full w-full object-cover object-center" :src="image.src" />
       <div
-        class="text-white text-4xl absolute top-0 left-0 h-full w-full flex items-center justify-center"
+        class="absolute top-0 left-0 h-full w-full flex flex-col justify-center pl-20 font-bold"
       >
-        {{ image.quote }}
+        <div class="text-white text-4xl">
+          {{ image.quote }}
+        </div>
+        <div class="text-white text-3xl mt-4">
+          {{ image.movie }}
+        </div>
       </div>
     </div>
   </div>
@@ -65,16 +72,19 @@ const images = ref([
   {
     src: "src/assets/image-1.png",
     quote: '- "You have to leave something behind to go forward"',
+    movie: "Interstellar, 2014",
   },
   {
     src: "src/assets/image-2.png",
     quote:
       '- "I think we`re just gonna have to be secretly in love with earch other and leave it that"',
+    movie: "The Royal Tenenbaums, 2001",
   },
   {
     src: "src/assets/image-3.png",
     quote:
       '- "I think we’re just gonna have to be secretly in love with earch other and leave it that"',
+    movie: "The Royal Tenenbaums, 2001",
   },
 ]);
 

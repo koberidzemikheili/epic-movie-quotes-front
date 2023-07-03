@@ -8,9 +8,11 @@
       >
         <div class="flex items-center justify-between">
           <button @click="DeleteQuote" class="text-white rounded ml-4 flex">
-            <IconTrashCan /> Delete
+            <IconTrashCan /> {{ $t("moviepage.labels.deletequote") }}
           </button>
-          <div class="text-xl text-white">Edit Quote</div>
+          <div class="text-xl text-white">
+            {{ $t("moviepage.texts.editquote") }}
+          </div>
           <button class="text-white text-2xl ml-12" @click="closeModal">
             &times;
           </button>
@@ -79,7 +81,7 @@
             </div>
 
             <button class="text-white text-l mt-5 bg-red-600 py-2 px-2 rounded">
-              Submit
+              {{ $t("moviepage.buttons.submit") }}
             </button>
           </Form>
         </div>

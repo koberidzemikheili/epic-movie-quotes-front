@@ -13,8 +13,8 @@
     <div v-if="movie" class="mb-4">
       <div class="text-white flex items-center mb-2">
         <span
-          >"{{ quote.title.en }}" movie-<span class="text-orange-200 mr-1">
-            {{ movie.name.en }}</span
+          >"{{ quote.title[locale] }}" movie-<span class="text-orange-200 mr-1">
+            {{ movie.name[locale] }}</span
           >
           <span>({{ movie.year }})</span></span
         >
@@ -44,7 +44,7 @@
       />
     </div>
     <button v-if="showMoreButton" @click="showMoreComments" class="text-white">
-      Load more comments
+      {{ $t("newsfeed.buttons.loadmorecomments") }}
     </button>
     <div class="mt-4">
       <div class="flex items-center ml-2">
@@ -74,7 +74,9 @@ import IconLike from "@/components/icons/IconLike.vue";
 import CommentCard from "@/components/CommentCard.vue";
 import instance from "@/api/index.js";
 import { useUserStore } from "@/stores/user.js";
+import { useI18n } from "vue-i18n";
 
+const { locale } = useI18n();
 const userStore = useUserStore();
 
 const postuser = ref();

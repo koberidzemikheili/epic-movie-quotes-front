@@ -17,7 +17,9 @@
               <IconTrashCan />
             </button>
           </div>
-          <div class="text-xl text-white">View Quote</div>
+          <div class="text-xl text-white">
+            {{ $t("moviepage.texts.viewquote") }}
+          </div>
           <button class="text-white text-2xl ml-12" @click="closeModal">
             &times;
           </button>

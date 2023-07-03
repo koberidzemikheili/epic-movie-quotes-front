@@ -1,6 +1,6 @@
 <template>
   <ModalForAdd addclass="md:h-auto">
-    <div class="text-xl text-white">Add Quote</div>
+    <div class="text-xl text-white">{{ $t("moviepage.labels.addquote") }}</div>
     <hr class="mt-4 mb-4 border border-gray-600 w-full" />
     <div class="flex items-center w-full">
       <img
@@ -60,7 +60,7 @@
         :error="errorMessage?.errors?.['quote_image']?.[0] || ''"
       />
       <button class="text-white text-l mt-5 bg-red-600 py-2 px-2 rounded">
-        Submit
+        {{ $t("moviepage.buttons.submit") }}
       </button>
     </Form>
     <div v-else>Loading...</div>
