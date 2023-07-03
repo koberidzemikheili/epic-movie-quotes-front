@@ -152,17 +152,13 @@ onMounted(async () => {
   pusherActive.value = instantiatePusher();
 
   await window.Echo.channel("likes").listen("UserLikedQuote", (e) => {
-    quote.value = e.quote;
-    postuser.value = quote.value.user;
-    movie.value = quote.value.movie;
+    fetchQuote(id);
     console.log(e, "likeebi");
   });
 
   const channelName = "comments." + quote.value.id;
   window.Echo.channel(channelName).listen("NewComment", (e) => {
-    quote.value = e.quote;
-    postuser.value = quote.value.user;
-    movie.value = quote.value.movie;
+    fetchQuote(id);
     console.log(e, "gaigzavna komentaris gamo notifikacia");
   });
 });
@@ -194,8 +190,12 @@ const addLike = () => {
   );
 
   if (userLike) {
+    const payload = {
+      quote_id: quote.value.id,
+      user_id: userStore.userData.user.id,
+    };
     instance
-      .delete(`/api/like/${userLike.id}`)
+      .delete(`/api/like`, { data: payload })
       .then(() => {})
       .catch((error) => {
         console.error("Error:", error);

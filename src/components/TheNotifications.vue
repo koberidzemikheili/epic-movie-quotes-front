@@ -30,7 +30,7 @@
           :key="index"
         >
           <div
-            @click="isQuoteSeen(notification.id, notification.quote_id)"
+            @click="isQuoteSeen(notification.id, notification.notifiable.id)"
             class="flex items-center justify-between"
           >
             <div class="flex items-center">

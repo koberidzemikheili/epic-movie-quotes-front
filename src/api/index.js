@@ -4,6 +4,17 @@ import { useUserStore } from "@/stores/user.js";
 
 const backendurl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
 
+const landingPageRouteNames = [
+  "LoginPage",
+  "RegisterPage",
+  "VerifiedSuccessfully",
+  "VerifyAccount",
+  "PasswordResetEmail",
+  "NewPassword",
+  "CheckEmail",
+  "PasswordSuccess",
+];
+
 const instance = axios.create({
   baseURL: backendurl,
   withCredentials: true,
@@ -29,8 +40,10 @@ instance.interceptors.response.use(
   (error) => {
     if (error.response && error.response.status === 401) {
       const userStore = useUserStore();
-      userStore.logout();
-      router.push({ name: "LoginPage" });
+      if (!landingPageRouteNames.includes(router.currentRoute.value.name)) {
+        userStore.logout();
+        router.push({ name: "LandingPage" });
+      }
     }
     return Promise.reject(error);
   }

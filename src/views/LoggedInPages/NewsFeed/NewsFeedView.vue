@@ -39,7 +39,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watchEffect, onUnmounted } from "vue";
+import { ref, onMounted, watch, onUnmounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import instance from "@/api/index.js";
 import IconPencilSquare from "@/components/icons/IconPencilSquare.vue";
@@ -51,10 +51,8 @@ let quotes = ref([]);
 let searchActive = ref(false);
 let searchTerm = ref("");
 let router = useRouter();
+let route = useRoute();
 const pusherActive = ref(false);
-
-const route = useRoute();
-const idForTracking = ref(route.params.id);
 
 let pageInfo = ref({
   currentPage: 1,
@@ -110,35 +108,49 @@ const fetchquoteDetails = async (newSearch = false) => {
 
 const subscribeToQuoteComments = (quote) => {
   const channelName = "comments." + quote.id;
-  window.Echo.channel(channelName).listen("NewComment", (e) => {
-    const updatedQuote = e.quote;
+  window.Echo.channel(channelName).listen("NewComment", async (e) => {
+    console.log(e, "gaigzavna komentaris gamo notifikacia");
+
+    const updatedQuote = await fetchQuoteDetailsById(e.quote.id);
+
     const index = quotes.value.findIndex(
       (quote) => quote.id === updatedQuote.id
     );
     if (index !== -1) {
       quotes.value[index] = updatedQuote;
     }
-    console.log(e, "gaigzavna komentaris gamo notifikacia");
   });
 };
 
-watchEffect(() => {
-  idForTracking.value = route.params.id;
-});
+watch(
+  () => route.name,
+  async (newName, oldName) => {
+    if ((oldName === "AddQuote") & (newName === "NewsFeed"))
+      fetchquoteDetails();
+  }
+);
+
+async function fetchQuoteDetailsById(id) {
+  const quoteResponse = await instance.get(`/api/quote/${id}`);
+  console.log(quoteResponse.data);
+  return quoteResponse.data.quote;
+}
 
 onMounted(async () => {
   await fetchquoteDetails();
   pusherActive.value = instantiatePusher();
 
-  await window.Echo.channel("likes").listen("UserLikedQuote", (e) => {
-    const updatedQuote = e.quote;
+  await window.Echo.channel("likes").listen("UserLikedQuote", async (e) => {
+    console.log(e, "like axali");
+
+    const updatedQuote = await fetchQuoteDetailsById(e.quote.id);
+
     const index = quotes.value.findIndex(
       (quote) => quote.id === updatedQuote.id
     );
     if (index !== -1) {
       quotes.value[index] = updatedQuote;
     }
-    console.log(e, "likeebi");
   });
 
   window.addEventListener("scroll", async () => {

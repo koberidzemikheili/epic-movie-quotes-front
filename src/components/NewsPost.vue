@@ -120,13 +120,17 @@ const savecomment = () => {
 };
 
 const addLike = () => {
-  const userLike = quote.value.likes.find(
+  const userLikes = quote.value.likes.filter(
     (like) => like.user_id === userStore.userData.user.id
   );
 
-  if (userLike) {
+  if (userLikes.length > 0) {
+    const payload = {
+      quote_id: props.quote.id,
+      user_id: userStore.userData.user.id,
+    };
     instance
-      .delete(`/api/like/${userLike.id}`)
+      .delete(`/api/like`, { data: payload })
       .then(() => {})
       .catch((error) => {
         console.error("Error:", error);

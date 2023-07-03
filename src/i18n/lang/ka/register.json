@@ -11,6 +11,7 @@
         "password_confirmation": "გაიმეორე პაროლი"
     },
     "buttons": {
-        "get_started": "დაწყება"
+        "get_started": "დაწყება",
+        "login": "შესვლა"
     }
 }

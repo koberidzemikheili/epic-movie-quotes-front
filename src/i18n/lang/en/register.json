@@ -11,6 +11,7 @@
         "password_confirmation": "Password Confirmation"
     },
     "buttons": {
-        "get_started": "Get Started"
+        "get_started": "Get Started",
+        "login": "Login"
     }
 }

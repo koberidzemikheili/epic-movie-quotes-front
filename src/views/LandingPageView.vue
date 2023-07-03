@@ -91,8 +91,6 @@ onMounted(async () => {
       userStore.login();
       router.push({ name: "NewsFeed" });
     }
-  } catch (error) {
-    router.push({ name: "LandingPage" });
-  }
+  } catch (error) {}
 });
 </script>

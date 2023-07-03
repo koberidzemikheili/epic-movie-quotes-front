@@ -90,7 +90,6 @@ onMounted(async () => {
   try {
     const response = await instance.get("/api/movie");
     movies.value = response.data.movies;
-    console.log(response.data);
   } catch (error) {
     console.error("Error:", error);
   }
@@ -107,7 +106,6 @@ watch(locale, (newLocale) => {
 const submitForm = (values) => {
   values.quote_image = quotepic.value;
   values.movie_id = selectedMovie.value;
-  console.log(values);
   instance
     .post("/api/quote", values, {
       headers: {

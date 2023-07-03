@@ -143,14 +143,14 @@ const initializeFields = () => {
   });
 };
 onMounted(async () => {
-  if (!userStore.userData.user) {
+  if (!userStore.userData) {
     await userStore.fetchUserData();
   }
   initializeFields();
 });
 
 watch(
-  () => userStore.userData.user,
+  () => userStore.userData,
   () => {
     initializeFields();
   }
