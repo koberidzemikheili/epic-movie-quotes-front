@@ -139,7 +139,6 @@ async function fetchQuote(id) {
     quote.value = data;
     postuser.value = quote.value.user;
     movie.value = quote.value.movie;
-    console.log(quote.value);
   } catch (error) {
     console.error("Error:", error);
   }
@@ -153,15 +152,13 @@ onMounted(async () => {
 
   pusherActive.value = instantiatePusher();
 
-  await window.Echo.channel("likes").listen("UserLikedQuote", (e) => {
+  await window.Echo.channel("likes").listen("UserLikedQuote", () => {
     fetchQuote(id);
-    console.log(e, "likeebi");
   });
 
   const channelName = "comments." + quote.value.id;
-  window.Echo.channel(channelName).listen("NewComment", (e) => {
+  window.Echo.channel(channelName).listen("NewComment", () => {
     fetchQuote(id);
-    console.log(e, "gaigzavna komentaris gamo notifikacia");
   });
 });
 const makeApiPostRequest = (endpoint, payload) => {

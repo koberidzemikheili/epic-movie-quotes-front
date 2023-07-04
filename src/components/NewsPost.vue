@@ -122,6 +122,7 @@ const savecomment = () => {
 };
 
 const addLike = () => {
+  console.log(quote.value.likes);
   const userLikes = quote.value.likes.filter(
     (like) => like.user_id === userStore.userData.user.id
   );

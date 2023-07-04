@@ -97,10 +97,12 @@ watchEffect(() => {
 onMounted(async () => {
   try {
     const response = await instance.get("api/user");
-    if (response.data.google_id) {
+    if (response.data.user.google_id) {
       userStore.login();
       router.push({ name: "NewsFeed" });
     }
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 });
 </script>

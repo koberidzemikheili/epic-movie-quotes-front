@@ -140,7 +140,6 @@ const LogOut = () => {
 onMounted(async () => {
   await userStore.fetchUserData();
   isLoading.value = false;
-  console.log(userStore.userData.user.notificationsReceived);
 
   pusherActive.value = instantiatePusher();
   await window.Echo.private(

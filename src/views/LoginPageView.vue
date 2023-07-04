@@ -71,7 +71,6 @@ const submitForm = (values) => {
         router.push({ name: "NewsFeed" });
       })
       .catch((error) => {
-        console.log(error.response.data);
         errorMessage.value = error.response.data;
       });
   });

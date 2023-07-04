@@ -68,9 +68,6 @@ const fetchquoteDetails = async (newSearch = false) => {
     (pageInfo.value.lastPage &&
       pageInfo.value.currentPage > pageInfo.value.lastPage)
   ) {
-    console.log(pageInfo.value.loading);
-    console.log(pageInfo.value.currentPage);
-    console.log(pageInfo.value.lastPage);
     return;
   }
   if (newSearch) {
@@ -90,14 +87,12 @@ const fetchquoteDetails = async (newSearch = false) => {
         },
       }
     );
-
-    const newQuotes = response.data.quotes.data;
+    const newQuotes = response.data.data;
     newQuotes.forEach((quote) => {
       subscribeToQuoteComments(quote);
     });
     quotes.value = [...quotes.value, ...newQuotes];
-    console.log(quotes.value);
-    pageInfo.value.lastPage = response.data.quotes.last_page;
+    pageInfo.value.lastPage = response.data.meta.last_page;
 
     if (!newSearch) {
       pageInfo.value.currentPage++;
@@ -112,8 +107,6 @@ const fetchquoteDetails = async (newSearch = false) => {
 const subscribeToQuoteComments = (quote) => {
   const channelName = "comments." + quote.id;
   window.Echo.channel(channelName).listen("NewComment", async (e) => {
-    console.log(e, "gaigzavna komentaris gamo notifikacia");
-
     const updatedQuote = await fetchQuoteDetailsById(e.quote.id);
 
     const index = quotes.value.findIndex(
@@ -138,7 +131,6 @@ watch(
 
 async function fetchQuoteDetailsById(id) {
   const quoteResponse = await instance.get(`/api/quote/${id}`);
-  console.log(quoteResponse.data);
   return quoteResponse.data.quote;
 }
 
@@ -147,10 +139,7 @@ onMounted(async () => {
   pusherActive.value = instantiatePusher();
 
   await window.Echo.channel("likes").listen("UserLikedQuote", async (e) => {
-    console.log(e, "like axali");
-
     const updatedQuote = await fetchQuoteDetailsById(e.quote.id);
-
     const index = quotes.value.findIndex(
       (quote) => quote.id === updatedQuote.id
     );
