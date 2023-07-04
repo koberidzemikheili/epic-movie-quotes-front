@@ -13,6 +13,9 @@
         rules="required|min:3"
         :error="errorMessage?.errors?.['login']?.[0] || errorMessage?.message"
       />
+      <div v-if="verificationError" class="text-red-600 mt-1">
+        {{ verificationError }}
+      </div>
       <InputField
         :label="$t('login.labels.password')"
         name="password"
@@ -60,15 +63,22 @@ import { useUserStore } from "@/stores/user.js";
 const userStore = useUserStore();
 const { locale } = useI18n();
 let errorMessage = ref("");
+let verificationError = ref("");
 
 const submitForm = (values) => {
   instance.get("sanctum/csrf-cookie").then(() => {
     instance
       .post("/api/login", values)
-      .then((response) => {
-        if (response.status === 201);
-        userStore.login();
-        router.push({ name: "NewsFeed" });
+      .then(async () => {
+        try {
+          const response = await instance.get("api/user");
+          if (response.status === 200) {
+            userStore.login();
+            router.push({ name: "NewsFeed" });
+          }
+        } catch (error) {
+          verificationError.value = error.response.data.message;
+        }
       })
       .catch((error) => {
         errorMessage.value = error.response.data;
