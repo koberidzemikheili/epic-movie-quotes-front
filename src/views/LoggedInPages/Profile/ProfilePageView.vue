@@ -46,6 +46,7 @@
               :editing="field.editing"
               @edit-started="editField"
               @save-field="saveEdit"
+              :error="errorMessage?.errors?.[field.name]?.[0] || ''"
             />
           </Form>
         </div>
@@ -67,6 +68,9 @@
           {{ $t("profilepage.buttons.savechanges") }}
         </button>
       </div>
+      <SuccessModal v-model:isOpen="emailchangedsuccess">{{
+        $t("profilepage.labels.checkemail")
+      }}</SuccessModal>
     </div>
     <div class="hidden md:block md:w-1/3"></div>
   </TheMainPage>
@@ -79,6 +83,7 @@ import { useUserStore } from "@/stores/user.js";
 import IconSmallArrowLeft from "@/components/icons/IconSmallArrowLeft.vue";
 import TheMainPage from "@/components/TheMainPage.vue";
 import ProfileInputField from "@/components/ProfileInputField.vue";
+import SuccessModal from "@/components/Modals/SuccessModal.vue";
 import instance from "@/api/index.js";
 import router from "@/router";
 import { useI18n } from "vue-i18n";
@@ -87,7 +92,9 @@ const { t } = useI18n();
 const backendurl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
 let userData = ref();
 let editing = ref(false);
+let errorMessage = ref("");
 let newValues = ref({});
+let emailchangedsuccess = ref(false);
 let fields = ref([
   {
     label: t("profilepage.labels.username"),
@@ -175,6 +182,7 @@ const saveEdit = (values) => {
     field.editing = false;
   });
   editing.value = false;
+  values._method = "PUT";
   instance
     .post("/api/edit", values, {
       headers: {
@@ -182,10 +190,13 @@ const saveEdit = (values) => {
       },
     })
     .then(() => {
+      if (values.email) {
+        emailchangedsuccess.value = true;
+      }
       userStore.fetchUserData();
     })
     .catch((error) => {
-      console.error("Error:", error);
+      errorMessage.value = error.response.data;
     });
 };
 

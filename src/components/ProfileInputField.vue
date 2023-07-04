@@ -32,6 +32,7 @@
           class="h-9 rounded w-full"
           v-model="newValue"
         />
+        <div v-if="error" class="text-red-600 mt-1">{{ error }}</div>
         <ErrorMessage :name="name" class="text-red-600 mt-1" />
       </ProfileInputModal>
     </div>
@@ -47,9 +48,12 @@
         class="h-10 p-2 rounded outline-none flex-grow"
         v-model="newValue"
       />
+      <div v-if="error" class="text-red-600 mt-1">{{ error }}</div>
       <ErrorMessage :name="name" class="text-red-600 mt-1" />
     </div>
-    <SuccessModal v-model:isOpen="isSuccessModalOpen" />
+    <SuccessModal v-model:isOpen="isSuccessModalOpen">{{
+      $t("profilepage.labels.successmessage")
+    }}</SuccessModal>
   </div>
 </template>
 
@@ -71,6 +75,7 @@ const props = defineProps({
   placeholder: { type: String, required: false },
   editable: { type: Boolean, default: false },
   editing: { type: Boolean, default: false },
+  error: { type: String, required: false },
 });
 
 let isModalOpen = ref(false);

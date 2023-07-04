@@ -5,8 +5,10 @@
         "username":"Username",
         "email":"Email",
         "password":"Password",
+        "enternew":"Enter new",
         "suretomakechanges" : "Are you sure to make changes ?",
-        "successmessage" : "Changes updated successfully!"
+        "successmessage" : "Changes updated successfully!",
+        "checkemail" : "Please confirm new email!"
     },
     "buttons": {
         "cancel": "Cancel",

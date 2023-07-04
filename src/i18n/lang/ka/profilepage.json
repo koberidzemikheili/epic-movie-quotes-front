@@ -7,9 +7,8 @@
         "password":"პაროლი",
         "enternew":"შეიყვანეთ ახალი",
         "suretomakechanges" : "დარწმუნებული ხართ ცვლილებებში?",
-        "successmessage" : "ცვლილებები დამახსოვრდა!"
-
-
+        "successmessage" : "ცვლილებები დამახსოვრდა!",
+        "checkemail" : "დაადასტურეთ ახალი იმეილი!"
     },
     "buttons": {
         "cancel": "გაუქმება",

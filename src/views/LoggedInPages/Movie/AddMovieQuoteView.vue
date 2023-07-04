@@ -27,6 +27,7 @@
         addclass="h-20"
         placeholder="Start create new quote"
         :error="errorMessage?.errors?.['title.en']?.[0] || ''"
+        langplaceholder="Eng"
       />
       <InputFieldForAdd
         name="title[ka]"
@@ -36,6 +37,7 @@
         addclass="h-20"
         placeholder="ახალი ციტატა"
         :error="errorMessage?.errors?.['title.ka']?.[0] || ''"
+        langplaceholder="ქარ"
       />
       <div class="mb-3 mt-1">
         <Field

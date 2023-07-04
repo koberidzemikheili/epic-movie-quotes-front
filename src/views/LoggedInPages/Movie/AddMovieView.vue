@@ -21,6 +21,7 @@
         placeholder="Movie Name"
         rules="required|min:3"
         :error="errorMessage?.errors?.['name.en']?.[0] || ''"
+        langplaceholder="Eng"
       />
       <InputFieldForAdd
         name="name[ka]"
@@ -28,6 +29,7 @@
         placeholder="ფილმის სახელი"
         rules="required|min:3"
         :error="errorMessage?.errors?.['name.ka']?.[0] || ''"
+        langplaceholder="ქარ"
       />
       <ChipInputField
         v-model="genres"
@@ -48,6 +50,7 @@
         placeholder="Director"
         rules="required|min:3"
         :error="errorMessage?.errors?.['director.en']?.[0] || ''"
+        langplaceholder="Eng"
       />
       <InputFieldForAdd
         name="director[ka]"
@@ -55,6 +58,7 @@
         placeholder="რეჟისორი"
         rules="required|min:3"
         :error="errorMessage?.errors?.['director.ka']?.[0] || ''"
+        langplaceholder="ქარ"
       />
       <InputFieldForAdd
         name="description[en]"
@@ -64,6 +68,7 @@
         placeholder="Description"
         rules="required|min:3"
         :error="errorMessage?.errors?.['description.en']?.[0] || ''"
+        langplaceholder="Eng"
       />
       <InputFieldForAdd
         name="description[ka]"
@@ -73,6 +78,7 @@
         placeholder="აღწერა"
         rules="required|min:3"
         :error="errorMessage?.errors?.['description.ka']?.[0] || ''"
+        langplaceholder="ქარ"
       />
       <ImageUpload
         name="movie_image"

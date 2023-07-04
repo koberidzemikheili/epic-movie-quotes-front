@@ -1,7 +1,7 @@
 <template>
   <transition name="modal">
     <div
-      class="fixed z-10 inset-0 overflow-y-auto flex h-16 w-5/6 justify-center mx-auto mt-32"
+      class="fixed z-10 inset-0 overflow-y-auto flex h-16 md:w-1/3 w-5/6 justify-center mx-auto mt-32"
       aria-labelledby="modal-title"
       role="dialog"
       aria-modal="true"
@@ -13,7 +13,7 @@
       >
         <IconSuccessSecond class="mx-4" />
         <div class="text-green-700 whitespace-nowrap">
-          {{ $t("profilepage.labels.successmessage") }}
+          <slot></slot>
         </div>
         <div @click="close">
           <IconCloseSuccess />

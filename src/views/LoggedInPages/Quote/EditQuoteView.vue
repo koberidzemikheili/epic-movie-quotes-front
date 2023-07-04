@@ -43,6 +43,7 @@
               rules="required|min:3"
               :error="errorMessage?.errors?.['title.en']?.[0] || ''"
               v-model="formValues.title.en"
+              langplaceholder="Eng"
             />
             <InputFieldForEdit
               name="title[ka]"
@@ -53,6 +54,7 @@
               rules="required|min:3"
               :error="errorMessage?.errors?.['title.ka']?.[0] || ''"
               v-model="formValues.title.ka"
+              langplaceholder="ქარ"
             />
             <div
               class="w-full h-64 md:h-96 lg:h-96 relative flex items-center justify-center mt-2"

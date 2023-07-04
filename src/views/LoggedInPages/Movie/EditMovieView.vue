@@ -23,6 +23,7 @@
           rules="required|min:3"
           :error="errorMessage?.errors?.['name.en']?.[0] || ''"
           v-model="formValues.name.en"
+          langplaceholder="Eng"
         />
         <InputFieldForEdit
           name="name[ka]"
@@ -31,6 +32,7 @@
           rules="required|min:3"
           :error="errorMessage?.errors?.['name.ka']?.[0] || ''"
           v-model="formValues.name.ka"
+          langplaceholder="ქარ"
         />
         <ChipInputFieldForEdit
           name="genres"
@@ -53,6 +55,7 @@
           rules="required|min:3"
           :error="errorMessage?.errors?.['director.en']?.[0] || ''"
           v-model="formValues.director.en"
+          langplaceholder="Eng"
         />
         <InputFieldForEdit
           name="director[ka]"
@@ -61,6 +64,7 @@
           rules="required|min:3"
           :error="errorMessage?.errors?.['director.ka']?.[0] || ''"
           v-model="formValues.director.ka"
+          langplaceholder="ქარ"
         />
         <InputFieldForEdit
           name="description[en]"
@@ -71,6 +75,7 @@
           rules="required|min:3"
           :error="errorMessage?.errors?.['description.en']?.[0] || ''"
           v-model="formValues.description.en"
+          langplaceholder="Eng"
         />
         <InputFieldForEdit
           name="description[ka]"
@@ -81,6 +86,7 @@
           rules="required|min:3"
           :error="errorMessage?.errors?.['description.ka']?.[0] || ''"
           v-model="formValues.description.ka"
+          langplaceholder="ქარ"
         />
         <ImageEdit
           v-model="formValues.movie_image"

@@ -1,6 +1,6 @@
 <template>
   <ModalForAdd addclass="md:h-auto">
-    <div class="text-xl text-white">{{ $t("newsfeed.labels.addmovie") }}</div>
+    <div class="text-xl text-white">{{ $t("newsfeed.labels.addquote") }}</div>
     <hr class="mt-4 mb-4 border border-gray-600 w-full" />
     <div class="flex items-center w-full">
       <img
@@ -21,9 +21,9 @@
         as="textarea"
         rules="required|min:3"
         addclass="h-20"
-        placeholder="Start create new
-      quote"
+        placeholder="Start create new quote"
         :error="errorMessage?.errors?.['title.en']?.[0] || ''"
+        langplaceholder="Eng"
       />
       <InputFieldForAdd
         name="title[ka]"
@@ -33,6 +33,7 @@
         addclass="h-20"
         placeholder="ახალი ციტატა"
         :error="errorMessage?.errors?.['title.ka']?.[0] || ''"
+        langplaceholder="ქარ"
       />
       <div class="mb-3 mt-1">
         <Field
