@@ -1,0 +1,19 @@
+{
+
+    "labels": {
+        "myprofile": "My Profile",
+        "username":"Username",
+        "email":"Email",
+        "password":"Password",
+        "enternew":"Enter new",
+        "suretomakechanges" : "Are you sure to make changes ?",
+        "successmessage" : "Changes updated successfully!",
+        "checkemail" : "Please confirm new email!"
+    },
+    "buttons": {
+        "cancel": "Cancel",
+        "edit": "edit",
+        "savechanges": "Save Changes",
+        "confirm": "Confirm"
+    }
+}

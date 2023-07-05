@@ -11,29 +11,32 @@
         :label="$t('register.labels.name')"
         name="username"
         type="text"
-        rules="required|min:3|max:15|alpha_num"
         placeholder="At least 3 & max.15 lower case characters"
+        rules="required|min:3|max:15|alpha_num"
+        :error="errorMessage?.errors?.['username']?.[0] || ''"
       />
       <InputField
         :label="$t('register.labels.email')"
         name="email"
         type="text"
-        rules="required|email"
         placeholder="Enter your email"
+        rules="required|email"
+        :error="errorMessage?.errors?.['email']?.[0] || ''"
       />
       <InputField
         :label="$t('register.labels.password')"
         name="password"
         type="password"
-        rules="required|min:8|max:15|alpha_num"
         placeholder="At least 8 & max.15 lower case characters"
+        rules="required|min:8|max:15|alpha_num"
+        :error="errorMessage?.errors?.['password']?.[0] || ''"
       />
       <InputField
         :label="$t('register.labels.password_confirmation')"
         name="password_confirmation"
         type="password"
-        rules="confirmed:@password"
         placeholder="Confirm password"
+        rules="confirmed:@password"
       />
       <button class="text-white text-l mt-5 bg-red-600 py-2 px-2 rounded">
         {{ $t("register.buttons.get_started") }}
@@ -42,8 +45,8 @@
     <GoogleButton />
     <div class="text-white mt-5">
       {{ $t("register.texts.already_have") }}
-      <router-link :to="{ name: 'RegisterPage' }" class="text-blue-700"
-        >{{ $t("login.buttons.register") }}
+      <router-link :to="{ name: 'LoginPage' }" class="text-blue-700"
+        >{{ $t("register.buttons.login") }}
       </router-link>
     </div>
   </TheModal>
@@ -56,9 +59,12 @@ import TheModal from "@/components/Modals/TheModal.vue";
 import router from "@/router";
 import instance from "@/api/index.js";
 import { setLocale } from "@vee-validate/i18n";
-import { onMounted, watch } from "vue";
+import { onMounted, watch, ref } from "vue";
 import { useI18n } from "vue-i18n";
+
 const { locale } = useI18n();
+let errorMessage = ref("");
+
 const submitForm = (values) => {
   instance
     .post("api/register", values)
@@ -68,7 +74,7 @@ const submitForm = (values) => {
       }
     })
     .catch((error) => {
-      console.error("Error:", error);
+      errorMessage.value = error.response.data;
     });
 };
 onMounted(() => {

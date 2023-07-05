@@ -8,9 +8,11 @@
       >
         <div class="flex items-center justify-between">
           <button @click="DeleteQuote" class="text-white rounded ml-4 flex">
-            <IconTrashCan /> Delete
+            <IconTrashCan /> {{ $t("moviepage.labels.deletequote") }}
           </button>
-          <div class="text-xl text-white">Edit Quote</div>
+          <div class="text-xl text-white">
+            {{ $t("moviepage.texts.editquote") }}
+          </div>
           <button class="text-white text-2xl ml-12" @click="closeModal">
             &times;
           </button>
@@ -36,19 +38,23 @@
               name="title[en]"
               type="textarea"
               as="textarea"
-              rules="required|min:3"
               addclass="h-20"
               placeholder="Movie Name"
+              rules="required|min:3"
+              :error="errorMessage?.errors?.['title.en']?.[0] || ''"
               v-model="formValues.title.en"
+              langplaceholder="Eng"
             />
             <InputFieldForEdit
               name="title[ka]"
               type="textarea"
               as="textarea"
-              rules="required|min:3"
               addclass="h-20"
               placeholder="ფილმის სახელი"
+              rules="required|min:3"
+              :error="errorMessage?.errors?.['title.ka']?.[0] || ''"
               v-model="formValues.title.ka"
+              langplaceholder="ქარ"
             />
             <div
               class="w-full h-64 md:h-96 lg:h-96 relative flex items-center justify-center mt-2"
@@ -77,7 +83,7 @@
             </div>
 
             <button class="text-white text-l mt-5 bg-red-600 py-2 px-2 rounded">
-              Submit
+              {{ $t("moviepage.buttons.submit") }}
             </button>
           </Form>
         </div>
@@ -90,15 +96,19 @@
 import TheMainPage from "@/components/TheMainPage.vue";
 import IconTrashCan from "@/components/icons/IconTrashCan.vue";
 import IconPhotoCamera from "@/components/icons/IconPhotoCamera.vue";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { Form, Field } from "vee-validate";
 import InputFieldForEdit from "@/components/InputFieldForEdit.vue";
 import instance from "@/api/index.js";
 import { useUserStore } from "@/stores/user.js";
 import { useRouter } from "vue-router";
+import { setLocale } from "@vee-validate/i18n";
+import { useI18n } from "vue-i18n";
 
+const { locale } = useI18n();
 let router = useRouter();
 let id = router.currentRoute.value.params.id;
+let depth = parseInt(router.currentRoute.value.query.depth || 1);
 
 const backendurl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
 const userStore = useUserStore();
@@ -106,9 +116,10 @@ let formValues = ref({});
 
 let isLoading = ref(true);
 let newQuoteImage = ref();
+let errorMessage = ref("");
 
 const closeModal = () => {
-  router.go(-2);
+  router.go(-depth);
 };
 const DeleteQuote = async () => {
   await instance
@@ -135,7 +146,16 @@ onMounted(async () => {
   } catch (error) {
     console.error("Error:", error);
   }
+
+  if (localStorage.getItem("last-locale")) {
+    setLocale(localStorage.getItem("last-locale"));
+  } else setLocale("en");
 });
+
+watch(locale, (newLocale) => {
+  setLocale(newLocale);
+});
+
 const handleFileSelect = (event) => {
   const file = event.target.files[0];
   if (file) {
@@ -164,7 +184,7 @@ const submitForm = (values) => {
       }
     })
     .catch((error) => {
-      console.error("Error:", error);
+      errorMessage.value = error.response.data;
     });
 };
 </script>

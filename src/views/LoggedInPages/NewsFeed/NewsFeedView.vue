@@ -8,19 +8,23 @@
           class="bg-gray-800 mr-4 py-2 rounded-lg text-left flex"
         >
           <div class="mx-2"><IconPencilSquare /></div>
-          <div class="text-white">Write new quote</div>
+          <div class="text-white">
+            {{ $t("newsfeed.buttons.writenewquote") }}
+          </div>
         </button>
         <input
+          v-model="searchTerm"
           :class="searchActive ? 'w-5/6' : 'w-1/6'"
-          class="bg-transparent rounded-lg md:block hidden"
+          class="bg-transparent rounded-lg md:block hidden text-white"
           type="text"
           :placeholder="
             searchActive
-              ? 'Enter @ to search movies, Enter # to search quotes.'
-              : 'Search by'
+              ? $t('newsfeed.buttons.search2')
+              : $t('newsfeed.buttons.search1')
           "
           @focus="searchActive = true"
           @blur="searchActive = false"
+          @keyup.enter="fetchquoteDetails(true)"
         />
       </div>
       <div
@@ -37,7 +41,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watchEffect, onUnmounted } from "vue";
+import { ref, onMounted, watch, onUnmounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import instance from "@/api/index.js";
 import IconPencilSquare from "@/components/icons/IconPencilSquare.vue";
@@ -47,19 +51,18 @@ import instantiatePusher from "@/helpers/instantiatePusher.js";
 
 let quotes = ref([]);
 let searchActive = ref(false);
+let searchTerm = ref("");
 let router = useRouter();
+let route = useRoute();
 const pusherActive = ref(false);
 
-const route = useRoute();
-const idForTracking = ref(route.params.id);
-
 let pageInfo = ref({
-  currentPage: 1,
+  currentPage: 0,
   lastPage: null,
   loading: false,
 });
 
-const fetchquoteDetails = async () => {
+const fetchquoteDetails = async (newSearch = false) => {
   if (
     pageInfo.value.loading ||
     (pageInfo.value.lastPage &&
@@ -67,22 +70,33 @@ const fetchquoteDetails = async () => {
   ) {
     return;
   }
+  if (newSearch) {
+    pageInfo.value.currentPage = 1;
+
+    quotes.value = [];
+  }
 
   pageInfo.value.loading = true;
 
   try {
     let response = await instance.get(
-      `/api/quote?page=${pageInfo.value.currentPage}`
+      `/api/quote?page=${pageInfo.value.currentPage}`,
+      {
+        params: {
+          searchBy: searchTerm.value,
+        },
+      }
     );
-    console.log(response.data);
-    const newQuotes = response.data.quotes;
+    const newQuotes = response.data.data;
     newQuotes.forEach((quote) => {
       subscribeToQuoteComments(quote);
     });
     quotes.value = [...quotes.value, ...newQuotes];
+    pageInfo.value.lastPage = response.data.meta.last_page;
 
-    pageInfo.value.lastPage = response.data.quotes.last_page;
-    pageInfo.value.currentPage++;
+    if (!newSearch) {
+      pageInfo.value.currentPage++;
+    }
   } catch (error) {
     console.error("Error:", error);
   } finally {
@@ -92,39 +106,53 @@ const fetchquoteDetails = async () => {
 
 const subscribeToQuoteComments = (quote) => {
   const channelName = "comments." + quote.id;
-  window.Echo.channel(channelName).listen("NewComment", (e) => {
-    const updatedQuote = e.quote;
+  window.Echo.channel(channelName).listen("NewComment", async (e) => {
+    const updatedQuote = await fetchQuoteDetailsById(e.quote.id);
+
     const index = quotes.value.findIndex(
       (quote) => quote.id === updatedQuote.id
     );
     if (index !== -1) {
       quotes.value[index] = updatedQuote;
     }
-    console.log(e, "gaigzavna komentaris gamo notifikacia");
   });
 };
 
-watchEffect(() => {
-  idForTracking.value = route.params.id;
-});
+watch(
+  () => route.name,
+  async (newName, oldName) => {
+    if (oldName === "AddQuote" && newName === "NewsFeed") {
+      pageInfo.value.currentPage = 0;
+      quotes.value = [];
+      await fetchquoteDetails();
+    }
+  }
+);
+
+async function fetchQuoteDetailsById(id) {
+  const quoteResponse = await instance.get(`/api/quote/${id}`);
+  return quoteResponse.data.quote;
+}
 
 onMounted(async () => {
   await fetchquoteDetails();
   pusherActive.value = instantiatePusher();
 
-  await window.Echo.channel("likes").listen("UserLikedQuote", (e) => {
-    const updatedQuote = e.quote;
+  await window.Echo.channel("likes").listen("UserLikedQuote", async (e) => {
+    const updatedQuote = await fetchQuoteDetailsById(e.quote.id);
     const index = quotes.value.findIndex(
       (quote) => quote.id === updatedQuote.id
     );
     if (index !== -1) {
       quotes.value[index] = updatedQuote;
     }
-    console.log(e, "likeebi");
   });
 
   window.addEventListener("scroll", async () => {
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+    if (
+      window.innerHeight + window.scrollY >= document.body.offsetHeight &&
+      pageInfo.value.currentPage < pageInfo.value.lastPage
+    ) {
       await fetchquoteDetails();
     }
   });

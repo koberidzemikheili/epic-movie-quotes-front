@@ -1,6 +1,6 @@
 <template>
   <ModalForAdd addclass="md:h-auto">
-    <div class="text-xl text-white">Add Quote</div>
+    <div class="text-xl text-white">{{ $t("moviepage.labels.addquote") }}</div>
     <hr class="mt-4 mb-4 border border-gray-600 w-full" />
     <div class="flex items-center w-full">
       <img
@@ -26,6 +26,8 @@
         rules="required|min:3"
         addclass="h-20"
         placeholder="Start create new quote"
+        :error="errorMessage?.errors?.['title.en']?.[0] || ''"
+        langplaceholder="Eng"
       />
       <InputFieldForAdd
         name="title[ka]"
@@ -34,6 +36,8 @@
         rules="required|min:3"
         addclass="h-20"
         placeholder="ახალი ციტატა"
+        :error="errorMessage?.errors?.['title.ka']?.[0] || ''"
+        langplaceholder="ქარ"
       />
       <div class="mb-3 mt-1">
         <Field
@@ -52,9 +56,13 @@
         </Field>
         <ErrorMessage name="movie" class="text-red-600 mt-1" />
       </div>
-      <ImageUpload name="quote_image" rules="required" />
+      <ImageUpload
+        name="quote_image"
+        rules="required"
+        :error="errorMessage?.errors?.['quote_image']?.[0] || ''"
+      />
       <button class="text-white text-l mt-5 bg-red-600 py-2 px-2 rounded">
-        Submit
+        {{ $t("moviepage.buttons.submit") }}
       </button>
     </Form>
     <div v-else>Loading...</div>
@@ -62,7 +70,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import InputFieldForAdd from "@/components/InputFieldForAdd.vue";
 import ModalForAdd from "@/components/Modals/ModalForAdd.vue";
@@ -70,13 +78,17 @@ import instance from "@/api/index.js";
 import ImageUpload from "@/components/ImageUpload.vue";
 import { useUserStore } from "@/stores/user.js";
 import { useRouter } from "vue-router";
+import { setLocale } from "@vee-validate/i18n";
+import { useI18n } from "vue-i18n";
 
+const { locale } = useI18n();
 let router = useRouter();
 let id = router.currentRoute.value.params.id;
 const backendurl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
 const userStore = useUserStore();
 let selectedMovie = ref(null);
 let movies = ref([]);
+let errorMessage = ref("");
 
 onMounted(async () => {
   try {
@@ -88,6 +100,14 @@ onMounted(async () => {
   } catch (error) {
     console.error("Error:", error);
   }
+
+  if (localStorage.getItem("last-locale")) {
+    setLocale(localStorage.getItem("last-locale"));
+  } else setLocale("en");
+});
+
+watch(locale, (newLocale) => {
+  setLocale(newLocale);
 });
 
 const submitForm = (values) => {
@@ -104,7 +124,7 @@ const submitForm = (values) => {
       }
     })
     .catch((error) => {
-      console.error("Error:", error);
+      errorMessage.value = error.response.data;
     });
 };
 </script>

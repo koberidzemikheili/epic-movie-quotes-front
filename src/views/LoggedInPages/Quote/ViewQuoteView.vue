@@ -17,7 +17,9 @@
               <IconTrashCan />
             </button>
           </div>
-          <div class="text-xl text-white">View Quote</div>
+          <div class="text-xl text-white">
+            {{ $t("moviepage.texts.viewquote") }}
+          </div>
           <button class="text-white text-2xl ml-12" @click="closeModal">
             &times;
           </button>
@@ -137,7 +139,6 @@ async function fetchQuote(id) {
     quote.value = data;
     postuser.value = quote.value.user;
     movie.value = quote.value.movie;
-    console.log(quote.value);
   } catch (error) {
     console.error("Error:", error);
   }
@@ -151,19 +152,13 @@ onMounted(async () => {
 
   pusherActive.value = instantiatePusher();
 
-  await window.Echo.channel("likes").listen("UserLikedQuote", (e) => {
-    quote.value = e.quote;
-    postuser.value = quote.value.user;
-    movie.value = quote.value.movie;
-    console.log(e, "likeebi");
+  await window.Echo.channel("likes").listen("UserLikedQuote", () => {
+    fetchQuote(id);
   });
 
   const channelName = "comments." + quote.value.id;
-  window.Echo.channel(channelName).listen("NewComment", (e) => {
-    quote.value = e.quote;
-    postuser.value = quote.value.user;
-    movie.value = quote.value.movie;
-    console.log(e, "gaigzavna komentaris gamo notifikacia");
+  window.Echo.channel(channelName).listen("NewComment", () => {
+    fetchQuote(id);
   });
 });
 const makeApiPostRequest = (endpoint, payload) => {
@@ -194,8 +189,12 @@ const addLike = () => {
   );
 
   if (userLike) {
+    const payload = {
+      quote_id: quote.value.id,
+      user_id: userStore.userData.user.id,
+    };
     instance
-      .delete(`/api/like/${userLike.id}`)
+      .delete(`/api/like`, { data: payload })
       .then(() => {})
       .catch((error) => {
         console.error("Error:", error);
@@ -224,6 +223,6 @@ const DeleteQuote = async () => {
     });
 };
 const EditQuote = () => {
-  router.push({ name: "EditQuote", params: { id: id } });
+  router.push({ name: "EditQuote", params: { id: id }, query: { depth: 2 } });
 };
 </script>

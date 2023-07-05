@@ -1,19 +1,21 @@
 <template>
   <TheMainPage>
     <div v-if="movie" class="p-4">
-      <div class="text-white text-xl mt-2 font-bold">Movie Description</div>
+      <div class="text-white text-xl mt-2 font-bold">
+        {{ $t("moviepage.texts.moviedescription") }}
+      </div>
       <div class="flex md:flex-row flex-col mt-4">
         <div class="md:w-1/2 w-full">
           <img
             class="w-full h-auto object-cover rounded-md"
             :src="backendurl + '/storage/' + movie.movie_image"
-            :alt="movie.name.en"
+            :alt="movie.name[locale]"
           />
         </div>
         <div class="md:w-1/2 w-full md:pl-4 md:mt-0 mt-4">
           <div class="flex justify-between">
             <div class="text-lg font-bold text-orange-200">
-              {{ movie.name.en }} ({{ movie.year }})
+              {{ movie.name[locale] }} ({{ movie.year }})
             </div>
             <div class="flex bg-gray-800 p-2 rounded-md px-4">
               <button
@@ -40,22 +42,27 @@
               {{ genre.genre }}
             </div>
           </div>
-          <div class="text-white mt-2">Director: {{ movie.director.en }}</div>
+          <div class="text-white mt-2">
+            {{ $t("moviepage.labels.director") }}: {{ movie.director[locale] }}
+          </div>
           <div class="text-white mt-2 break-words">
-            {{ movie.description.en }}
+            {{ movie.description[locale] }}
           </div>
         </div>
       </div>
       <div class="mt-4 md:w-1/2 w-full">
         <div class="flex justify-between items-center">
           <div class="text-white text-xl font-bold">
-            Quotes (total {{ movie.quotes.length }})
+            {{ $t("moviepage.labels.quote") }} ({{
+              $t("moviepage.labels.total")
+            }}
+            {{ movie.quotes.length }})
           </div>
           <button
             @click="OpenAddQuote(movie.id)"
             class="bg-red-500 text-white py-1 px-2 rounded"
           >
-            Add Quote
+            {{ $t("moviepage.buttons.addquote") }}
           </button>
         </div>
         <div class="flex flex-col mt-4">
@@ -84,7 +91,9 @@ import { onMounted, ref, watchEffect } from "vue";
 import { useRouter } from "vue-router";
 import instance from "@/api/index.js";
 import { useRoute } from "vue-router";
+import { useI18n } from "vue-i18n";
 
+const { locale } = useI18n();
 const backendurl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
 
 let movie = ref(null);

@@ -1,7 +1,9 @@
 <template>
   <TheMainPage>
     <div class="w-full md:w-2/3 p-0 md:p-10">
-      <div class="text-2xl md:text-white hidden md:block">My Profile</div>
+      <div class="text-2xl md:text-white hidden md:block">
+        {{ $t("profilepage.labels.myprofile") }}
+      </div>
       <div class="md:hidden mt-4">
         <button @click.prevent="goBack">
           <IconSmallArrowLeft />
@@ -44,6 +46,7 @@
               :editing="field.editing"
               @edit-started="editField"
               @save-field="saveEdit"
+              :error="errorMessage?.errors?.[field.name]?.[0] || ''"
             />
           </Form>
         </div>
@@ -54,7 +57,7 @@
           @click.prevent="cancelEdit"
           v-if="editing"
         >
-          Cancel
+          {{ $t("profilepage.buttons.cancel") }}
         </button>
         <button
           type="submit"
@@ -62,9 +65,12 @@
           v-if="editing"
           form="EditPageForm"
         >
-          Save Changes
+          {{ $t("profilepage.buttons.savechanges") }}
         </button>
       </div>
+      <SuccessModal v-model:isOpen="emailchangedsuccess">{{
+        $t("profilepage.labels.checkemail")
+      }}</SuccessModal>
     </div>
     <div class="hidden md:block md:w-1/3"></div>
   </TheMainPage>
@@ -77,16 +83,21 @@ import { useUserStore } from "@/stores/user.js";
 import IconSmallArrowLeft from "@/components/icons/IconSmallArrowLeft.vue";
 import TheMainPage from "@/components/TheMainPage.vue";
 import ProfileInputField from "@/components/ProfileInputField.vue";
+import SuccessModal from "@/components/Modals/SuccessModal.vue";
 import instance from "@/api/index.js";
 import router from "@/router";
+import { useI18n } from "vue-i18n";
 
+const { t } = useI18n();
 const backendurl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
 let userData = ref();
 let editing = ref(false);
+let errorMessage = ref("");
 let newValues = ref({});
+let emailchangedsuccess = ref(false);
 let fields = ref([
   {
-    label: "Username",
+    label: t("profilepage.labels.username"),
     name: "username",
     type: "text",
     value: "",
@@ -97,7 +108,7 @@ let fields = ref([
     rules: "required|min:3|max:15",
   },
   {
-    label: "Email",
+    label: t("profilepage.labels.email"),
     name: "email",
     type: "email",
     value: "",
@@ -108,10 +119,10 @@ let fields = ref([
     rules: "required|email",
   },
   {
-    label: "Password",
+    label: t("profilepage.labels.password"),
     name: "password",
     type: "password",
-    value: "****",
+    value: "••••••••",
     editing: false,
     placeholder: "New password",
     editable: false,
@@ -143,14 +154,14 @@ const initializeFields = () => {
   });
 };
 onMounted(async () => {
-  if (!userStore.userData.user) {
+  if (!userStore.userData) {
     await userStore.fetchUserData();
   }
   initializeFields();
 });
 
 watch(
-  () => userStore.userData.user,
+  () => userStore.userData,
   () => {
     initializeFields();
   }
@@ -171,6 +182,7 @@ const saveEdit = (values) => {
     field.editing = false;
   });
   editing.value = false;
+  values._method = "PUT";
   instance
     .post("/api/edit", values, {
       headers: {
@@ -178,10 +190,13 @@ const saveEdit = (values) => {
       },
     })
     .then(() => {
+      if (values.email) {
+        emailchangedsuccess.value = true;
+      }
       userStore.fetchUserData();
     })
     .catch((error) => {
-      console.error("Error:", error);
+      errorMessage.value = error.response.data;
     });
 };
 

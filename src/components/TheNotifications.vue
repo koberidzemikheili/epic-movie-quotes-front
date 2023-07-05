@@ -14,11 +14,13 @@
     </button>
 
     <div
-      class="absolute right-0 w-96 mt-2 py-2 px-6 bg-black rounded-lg shadow-xl text-white"
+      class="absolute right-0 md:w-120 w-96 mt-2 py-2 px-6 bg-black rounded-lg shadow-xl text-white"
       v-show="showNotifications"
     >
       <div class="py-2 flex justify-between items-center">
-        <span class="text-lg font-bold">Notifications</span>
+        <span class="text-lg font-bold">{{
+          $t("notifications.labels.notifications")
+        }}</span>
         <button class="underline" @click="markAllAsRead">
           Mark all as read
         </button>
@@ -30,7 +32,7 @@
           :key="index"
         >
           <div
-            @click="isQuoteSeen(notification.id, notification.quote_id)"
+            @click="isQuoteSeen(notification.id, notification.notifiable.id)"
             class="flex items-center justify-between"
           >
             <div class="flex items-center">
@@ -43,15 +45,28 @@
               <div>
                 <div>{{ notification.actor.username }}</div>
                 <div class="text-sm text-gray-400">
-                  <div v-if="notification.action === 'like'">
+                  <div
+                    v-if="notification.action === 'like'"
+                    class="flex items-center"
+                  >
                     <IconHeartFill />
+                    <div class="ml-2">
+                      {{ $t("notifications.labels.like") }}
+                    </div>
                   </div>
-                  <div v-if="notification.action === 'comment'">
-                    <IconChatQuote />
+                  <div
+                    v-if="notification.action === 'comment'"
+                    class="flex items-center"
+                  >
+                    <IconChatQuote class="w-6" />
+                    <div class="ml-2">
+                      {{ $t("notifications.labels.comment") }}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+
             <div class="text-center">
               <div>{{ getTimeDifference(notification.created_at) }}</div>
               <div class="text-green-600" v-if="notification.is_seen === 0">

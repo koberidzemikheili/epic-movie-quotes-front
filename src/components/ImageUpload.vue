@@ -13,12 +13,14 @@
       <div class="mr-2 flex items-center">
         <IconPhotoCamera class="mx-1" /> Drag & drop your image here or
       </div>
-      <span class="bg-purple-800 text-white py-1 px-2">Choose file</span>
+      <span class="bg-purple-800 text-white py-1 px-2">{{
+        $t("moviepage.buttons.choosefile")
+      }}</span>
       <Field
         type="file"
         :name="name"
         class="hidden"
-        rules="required"
+        :rules="rules"
         @change="onFileChange"
         v-model="file"
       />
@@ -32,7 +34,9 @@
       <span class="mr-2 flex items-center"
         ><IconPhotoCamera class="mx-1" />Upload Image</span
       >
-      <span class="bg-purple-800 text-white py-1 px-2">Choose file</span>
+      <span class="bg-purple-800 text-white py-1 px-2">{{
+        $t("moviepage.buttons.choosefile")
+      }}</span>
       <Field
         type="file"
         :name="name"
@@ -42,7 +46,7 @@
         v-model="file"
       />
     </label>
-
+    <div v-if="error" class="text-red-600 mt-1">{{ error }}</div>
     <ErrorMessage :name="name" class="text-red-600 mt-1" />
   </div>
 </template>
@@ -54,6 +58,7 @@ import IconPhotoCamera from "@/components/icons/IconPhotoCamera.vue";
 defineProps({
   name: { type: String, required: true },
   rules: { type: String, required: false },
+  error: { type: String, required: false },
 });
 
 let isDesktop = ref(window.innerWidth > 768);

@@ -1,0 +1,26 @@
+{
+    "texts": {
+        "mylistofmovies": "My list of movies",
+        "moviedescription": "Movie Description",
+        "viewquote": "View Quote",
+        "editquote": "Edit Quote"
+    },
+    "labels": {
+        "total": "total",
+        "search": "Search",
+        "quote": "Quotes",
+        "director": "Director",
+        "editmovie": "Edit Movie",
+        "viewquote": "View",
+        "editquote": "Edit",
+        "deletequote": "Delete",
+        "addmovie":"Add Movie",
+        "addquote":"Add Quote"
+    },
+    "buttons": {
+        "addmovie": "add movies",
+        "addquote": "Add quote",
+        "submit": "Submit",
+        "choosefile":"Choose file"
+    }
+}

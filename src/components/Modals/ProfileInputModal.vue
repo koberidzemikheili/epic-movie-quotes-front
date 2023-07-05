@@ -20,13 +20,13 @@
             class="text-white py-1 px-2 rounded mx-1 float-left ml-4"
             @click.prevent="close"
           >
-            Cancel
+            {{ $t("profilepage.buttons.cancel") }}
           </button>
           <button
             class="bg-red-600 text-white py-1 px-4 rounded mx-1 float-right mr-4"
             @click.prevent="edit"
           >
-            Edit
+            {{ $t("profilepage.buttons.edit") }}
           </button>
         </div>
       </div>

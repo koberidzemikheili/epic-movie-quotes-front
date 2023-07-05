@@ -3,7 +3,17 @@ import router from "@/router";
 import { useUserStore } from "@/stores/user.js";
 
 const backendurl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
-const locale = localStorage.getItem("last-locale") || "en";
+
+const landingPageRouteNames = [
+  "LoginPage",
+  "RegisterPage",
+  "VerifiedSuccessfully",
+  "VerifyAccount",
+  "PasswordResetEmail",
+  "NewPassword",
+  "CheckEmail",
+  "PasswordSuccess",
+];
 
 const instance = axios.create({
   baseURL: backendurl,
@@ -13,8 +23,14 @@ const instance = axios.create({
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
     "X-Requested-With": "XMLHttpRequest",
-    "Accept-Language": locale,
   },
+});
+
+instance.interceptors.request.use((config) => {
+  const locale = localStorage.getItem("last-locale") || "en";
+  config.headers["Accept-Language"] = locale;
+
+  return config;
 });
 
 instance.interceptors.response.use(
@@ -23,9 +39,11 @@ instance.interceptors.response.use(
   },
   (error) => {
     if (error.response && error.response.status === 401) {
-      const userStore = useUserStore(); // Define userStore here
-      userStore.logout();
-      router.push({ name: "LoginPage" });
+      const userStore = useUserStore();
+      if (!landingPageRouteNames.includes(router.currentRoute.value.name)) {
+        userStore.logout();
+        router.push({ name: "LandingPage" });
+      }
     }
     return Promise.reject(error);
   }

@@ -26,6 +26,7 @@
         </option>
       </select>
     </div>
+    <div v-if="error" class="text-red-600 mt-1">{{ error }}</div>
     <ErrorMessage :name="name" class="text-red-600 mt-1" />
   </Field>
 </template>
@@ -38,6 +39,7 @@ import instance from "@/api/index.js";
 defineProps({
   name: { type: String, required: true },
   rules: { type: String, required: false },
+  error: { type: String, required: false },
 });
 
 const emit = defineEmits(["update:modelValue"]);

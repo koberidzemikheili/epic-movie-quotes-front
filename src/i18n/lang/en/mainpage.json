@@ -1,0 +1,8 @@
+{
+    "buttons": {
+        "editbutton": "edit your profile",
+        "newsfeed": "News Feed",
+        "movielist": "Movie List",
+        "logout": "Log Out"
+    }
+}

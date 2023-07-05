@@ -3,21 +3,25 @@
     <div class="lg:mx-0 mx-8">
       <div class="mt-2 flex flex justify-between w-full items-center">
         <div class="text-white mb-2 sm:mb-0 flex items-center">
-          <div class="text-lg font-bold">My list of movies</div>
-          <div class="ml-1">(total {{ movies.length }})</div>
+          <div class="text-lg font-bold">
+            {{ $t("moviepage.texts.mylistofmovies") }}
+          </div>
+          <div class="ml-1">
+            ({{ $t("moviepage.labels.total") }} {{ movies.length }})
+          </div>
         </div>
         <div>
           <input
             type="text"
             v-model="searchTerm"
-            placeholder="Search"
+            :placeholder="$t('moviepage.labels.search')"
             class="py-1 px-2 rounded mr-2 bg-transparent text-white mb-2 sm:mb-0 hidden lg:inline-block"
           />
           <button
             @click="openModal('AddMovie')"
             class="bg-red-600 text-white py-1 px-2 rounded"
           >
-            add movies
+            {{ $t("moviepage.buttons.addmovie") }}
           </button>
         </div>
       </div>
@@ -31,11 +35,11 @@
           <img
             class="w-full h-64 rounded-md object-cover mb-4"
             :src="backendurl + '/storage/' + movie.movie_image"
-            :alt="movie.name.en"
+            :alt="movie.name[locale]"
           />
           <div class="flex justify-between items-center">
             <h2 class="text-lg font-bold text-white mb-2">
-              {{ movie.name.en }}({{ movie.year }})
+              {{ movie.name[locale] }}({{ movie.year }})
             </h2>
           </div>
           <div class="flex justify-between items-center">
@@ -58,7 +62,9 @@ import router from "@/router";
 import instance from "@/api/index.js";
 import IconChatQuote from "@/components/icons/IconChatQuote.vue";
 import { useRoute } from "vue-router";
+import { useI18n } from "vue-i18n";
 
+const { locale } = useI18n();
 const backendurl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
 
 const route = useRoute();
@@ -86,7 +92,9 @@ watchEffect(() => {
 
 let filteredMovies = computed(() => {
   return movies.value.filter((movie) =>
-    movie.name.en.toLowerCase().includes(searchTerm.value.toLowerCase())
+    movie.name[locale.value]
+      .toLowerCase()
+      .includes(searchTerm.value.toLowerCase())
   );
 });
 

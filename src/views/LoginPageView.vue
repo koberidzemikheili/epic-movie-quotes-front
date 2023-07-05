@@ -9,15 +9,20 @@
         :label="$t('login.labels.email')"
         name="login"
         type="text"
-        rules="required|min:3"
         placeholder="Enter your email or username"
+        rules="required|min:3"
+        :error="errorMessage?.errors?.['login']?.[0] || errorMessage?.message"
       />
+      <div v-if="verificationError" class="text-red-600 mt-1">
+        {{ verificationError }}
+      </div>
       <InputField
         :label="$t('login.labels.password')"
         name="password"
         type="password"
-        rules="required"
         placeholder="At least 8 & max.15 lower case characters"
+        rules="required"
+        :error="errorMessage?.errors?.['password']?.[0] || ''"
       />
       <div class="mt-4">
         <Field name="remember" type="checkbox" :value="true" />
@@ -50,24 +55,33 @@ import GoogleButton from "@/components/GoogleButton.vue";
 import TheModal from "@/components/Modals/TheModal.vue";
 import instance from "@/api/index.js";
 import { setLocale } from "@vee-validate/i18n";
-import { onMounted, watch } from "vue";
+import { onMounted, watch, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import router from "@/router";
 import { useUserStore } from "@/stores/user.js";
 
 const userStore = useUserStore();
 const { locale } = useI18n();
+let errorMessage = ref("");
+let verificationError = ref("");
+
 const submitForm = (values) => {
   instance.get("sanctum/csrf-cookie").then(() => {
     instance
       .post("/api/login", values)
-      .then((response) => {
-        if (response.status === 201);
-        userStore.login();
-        router.push({ name: "NewsFeed" });
+      .then(async () => {
+        try {
+          const response = await instance.get("api/user");
+          if (response.status === 200) {
+            userStore.login();
+            router.push({ name: "NewsFeed" });
+          }
+        } catch (error) {
+          verificationError.value = error.response.data.message;
+        }
       })
       .catch((error) => {
-        console.error("Error:", error);
+        errorMessage.value = error.response.data;
       });
   });
 };

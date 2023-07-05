@@ -1,25 +1,34 @@
 <template>
-  <Field
-    :name="props.name"
-    :type="props.type"
-    :rules="props.rules"
-    :as="props.as"
-    :placeholder="props.placeholder"
-    v-model="internalValue"
-    :class="[
-      'mt-2',
-      'py-1',
-      'px-3',
-      'border',
-      'border-gray-300',
-      'rounded',
-      'outline-none',
-      'bg-transparent',
-      'h-9',
-      'text-white',
-      props.addclass,
-    ]"
-  />
+  <div class="relative">
+    <div
+      class="absolute top-2 right-0 px-3 py-1 text-md text-gray-500 pointer-events-none"
+    >
+      <div>{{ langplaceholder }}</div>
+    </div>
+    <Field
+      :name="props.name"
+      :type="props.type"
+      :rules="props.rules"
+      :as="props.as"
+      :placeholder="props.placeholder"
+      v-model="internalValue"
+      :class="[
+        'mt-2',
+        'w-full',
+        'py-1',
+        'px-3',
+        'border',
+        'border-gray-300',
+        'rounded',
+        'outline-none',
+        'bg-transparent',
+        'text-white',
+        'pr-10',
+        addclass,
+      ]"
+    />
+  </div>
+  <div v-if="error" class="text-red-600 mt-1">{{ error }}</div>
   <ErrorMessage :name="props.name" class="text-red-600 mt-1" />
 </template>
 
@@ -35,6 +44,8 @@ const props = defineProps({
   as: { type: String, required: false },
   addclass: { type: String, required: false },
   modelValue: { type: [String, Number], required: false },
+  error: { type: String, required: false },
+  langplaceholder: { type: String, required: false },
 });
 
 const internalValue = ref(props.modelValue);
