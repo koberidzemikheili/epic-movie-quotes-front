@@ -41,7 +41,7 @@ const token = ref(route.query.token);
 
 const submitForm = (values) => {
   instance
-    .post("http://127.0.0.1:8000/api/reset-password", values)
+    .post("/api/reset-password", values)
     .then((response) => {
       if (response.status === 201) {
         router.push({ name: "PasswordSuccess" });

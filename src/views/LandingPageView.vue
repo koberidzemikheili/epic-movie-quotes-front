@@ -60,6 +60,9 @@ import { useRoute } from "vue-router";
 import LanguageSelect from "../components/LanguageSelect.vue";
 import instance from "@/api/index.js";
 import { useUserStore } from "@/stores/user.js";
+import image1 from "@/assets/image-1.png";
+import image2 from "@/assets/image-2.png";
+import image3 from "@/assets/image-3.png";
 
 const userStore = useUserStore();
 const route = useRoute();
@@ -70,18 +73,18 @@ const openModal = (pagename) => {
 
 const images = ref([
   {
-    src: "src/assets/image-1.png",
+    src: image1,
     quote: '- "You have to leave something behind to go forward"',
     movie: "Interstellar, 2014",
   },
   {
-    src: "src/assets/image-2.png",
+    src: image2,
     quote:
       '- "I think we`re just gonna have to be secretly in love with earch other and leave it that"',
     movie: "The Royal Tenenbaums, 2001",
   },
   {
-    src: "src/assets/image-3.png",
+    src: image3,
     quote:
       '- "I think we’re just gonna have to be secretly in love with earch other and leave it that"',
     movie: "The Royal Tenenbaums, 2001",

@@ -37,7 +37,7 @@ import instance from "@/api/index.js";
 
 const submitForm = (values) => {
   instance
-    .post("http://127.0.0.1:8000/api/forgot-password", values)
+    .post("/api/forgot-password", values)
     .then((response) => {
       if (response.status === 201) {
         router.push({ name: "CheckEmail" });
