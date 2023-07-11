@@ -92,7 +92,7 @@ let errorMessage = ref("");
 
 onMounted(async () => {
   try {
-    const response = await instance.get("/api/usermovies");
+    const response = await instance.get("/api/user/movies");
     movies.value = response.data.movies;
     selectedMovie.value = movies.value.find(
       (movie) => movie.id === parseInt(id)

@@ -19,6 +19,6 @@ jobs:
             cd apps
             cd mikheil-koberidze-epic-movie-quotes-front
             git pull
-            npm ci
+            npm install
             npm run build
           EOF

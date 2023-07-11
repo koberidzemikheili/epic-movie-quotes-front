@@ -27,7 +27,7 @@
         </div>
       </div>
       <div class="absolute w-full bg-gray-800" v-show="showMenu">
-        <div class="flex items-center p-5">
+        <div class="flex items-center p-3">
           <img
             class="w-10 h-10 rounded-full bg-gray-400"
             :src="
@@ -46,25 +46,25 @@
         </div>
         <button
           @click="OpenNewsFeedPage"
-          class="text-white flex mt-5 p-5 flex items-center"
+          class="text-white flex p-3 flex items-center"
         >
           <IconHouse class="mr-5" /> {{ $t("mainpage.buttons.newsfeed") }}
         </button>
         <button
           @click="OpenMoviePage"
-          class="text-white flex mt-5 p-5 flex items-center"
+          class="text-white flex p-3 flex items-center"
         >
           <IconCamera class="mr-5" /> {{ $t("mainpage.buttons.movielist") }}
         </button>
-        <div class="flex items-center p-5 sm:hidden block">
+        <div class="flex items-center p-3 sm:hidden block">
           <button
             @click="LogOut"
-            class="text-white bg-transparent py-1 px-4 border mx-2 rounded"
+            class="text-white bg-transparent py-1 px-4 border rounded"
           >
             {{ $t("mainpage.buttons.logout") }}
           </button>
-          <LanguageSelect />
         </div>
+        <LanguageSelect class="float-left mb-2 mx-0 p-3" />
       </div>
       <div class="flex flex-col sm:flex-row lg:mx-0">
         <div class="w-full sm:w-1/4 m-10 sm:block hidden">

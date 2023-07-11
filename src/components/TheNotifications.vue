@@ -100,7 +100,7 @@ const props = defineProps({
 
 const isQuoteSeen = (notificationId, quoteId) => {
   instance
-    .post(`/api/notifications/${notificationId}`)
+    .post(`/api/notifications/${notificationId}/mark-as-seen`)
     .then(() => {
       router.push({ name: "ViewQuote", params: { id: quoteId } });
     })
@@ -112,7 +112,7 @@ const isQuoteSeen = (notificationId, quoteId) => {
 const markAllAsRead = () => {
   const formData = { userId: userStore.userData.user.id };
   instance
-    .post(`/api/notifications-mark-all-as-seen`, formData)
+    .post(`/api/notifications/mark-all-as-seen`, formData)
     .then(() => {
       userStore.fetchUserData();
     })

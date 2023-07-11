@@ -76,7 +76,7 @@ const movies = ref([]);
 
 const fetchMovies = async () => {
   try {
-    const response = await instance.get("/api/usermovies");
+    const response = await instance.get("/api/user/movies");
     movies.value = response.data.movies;
   } catch (error) {
     console.error("Error:", error);
