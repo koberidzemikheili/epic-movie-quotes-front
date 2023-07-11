@@ -17,7 +17,7 @@
             <div class="text-lg font-bold text-orange-200">
               {{ movie.name[locale] }} ({{ movie.year }})
             </div>
-            <div class="flex bg-gray-800 p-2 rounded-md px-4">
+            <div class="flex bg-navbargray p-2 rounded-md px-4">
               <button
                 @click="OpenEditMovie(movie.id)"
                 class="text-white rounded mr-4"
@@ -60,7 +60,7 @@
           </div>
           <button
             @click="OpenAddQuote(movie.id)"
-            class="bg-red-500 text-white py-1 px-2 rounded"
+            class="bg-red-600 text-white py-1 px-2 rounded"
           >
             {{ $t("moviepage.buttons.addquote") }}
           </button>

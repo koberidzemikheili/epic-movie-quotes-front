@@ -1,6 +1,6 @@
 <template>
   <div class="relative">
-    <div class="bg-zinc-950 shadow-lg rounded-lg p-4 mt-4">
+    <div class="bg-cardgray shadow-lg rounded-lg p-4 mt-4">
       <div
         class="flex md:flex-row flex-col items-center w-full"
         @click="handleClickOutside"
@@ -20,7 +20,7 @@
         </button>
         <div
           v-if="showOptions"
-          class="bg-gray-800 shadow-md rounded-lg p-6 mt-6 text-white absolute top-0 right-0 z-10"
+          class="bg-navbargray shadow-md rounded-lg p-6 mt-6 text-white absolute top-0 right-0 z-10"
           style="width: 200px"
         >
           <div>

@@ -7,9 +7,9 @@
       aria-modal="true"
       v-show="isOpen"
     >
-      <div class="flex items-center h-5/6 mt-32 bg-slate-900 flex-col">
+      <div class="flex items-center h-5/6 mt-32 bg-smbgprofile flex-col">
         <div
-          class="bg-gray-950 rounded-lg text-left overflow-hidden transform transition-all my-8 align-middle p-16 mx-4"
+          class="bg-navbargray rounded-lg text-left overflow-hidden transform transition-all my-8 align-middle p-16 mx-4"
         >
           <div class="text-white w-full">
             {{ $t("profilepage.labels.suretomakechanges") }}

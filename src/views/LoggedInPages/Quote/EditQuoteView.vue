@@ -4,7 +4,7 @@
       class="fixed inset-0 flex items-center justify-center z-9 bg-black bg-opacity-5 backdrop-blur-sm"
     >
       <div
-        class="bg-stone-950 p-6 md:w-1/3 w-screen h-screen md:h-5/6 flex flex-col overflow-hidden"
+        class="bg-cardgray p-6 md:w-1/3 w-screen h-screen md:h-5/6 flex flex-col overflow-hidden"
       >
         <div class="flex items-center justify-between">
           <button @click="DeleteQuote" class="text-white rounded ml-4 flex">

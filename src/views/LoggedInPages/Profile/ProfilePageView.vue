@@ -10,7 +10,7 @@
         </button>
       </div>
       <div
-        class="md:relative bg-gray-950 rounded-lg shadow-lg w-full h-full md:h-auto md:rounded-lg mt-1 md:mt-16 pb-64 md:pb-12"
+        class="md:relative bg-navbargray md:bg-cardgray rounded-lg shadow-lg w-full h-full md:h-auto md:rounded-lg mt-1 md:mt-16 pb-64 md:pb-12"
       >
         <div>
           <Form
@@ -19,12 +19,15 @@
             v-if="userData"
             id="EditPageForm"
           >
-            <label class="md:mb-16">
+            <div class="md:mb-16">
               <img
-                class="w-24 h-24 md:w-32 md:h-32 rounded-full bg-gray-300 cursor-pointer md:absolute md:-top-16 md:left-1/2 md:transform md:-translate-x-1/2"
+                class="w-24 h-24 md:w-32 md:h-32 rounded-full bg-gray-300 md:absolute md:-top-16 md:left-1/2 md:transform md:-translate-x-1/2"
                 :src="backendurl + '/storage/' + userData.profile_pictures"
                 alt="profile picture"
               />
+            </div>
+            <label class="text-white cursor-pointer mt-2">
+              {{ $t("profilepage.buttons.uploadimage") }}
               <Field
                 type="file"
                 name="profile_picture"
