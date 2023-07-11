@@ -25,7 +25,7 @@
           </button>
         </div>
         <div
-          class="bg-zinc-950 rounded-xl p-4 flex flex-col h-full overflow-hidden"
+          class="bg-cardgray rounded-xl p-4 flex flex-col h-full overflow-hidden"
           v-if="postuser"
         >
           <div class="flex-none">
