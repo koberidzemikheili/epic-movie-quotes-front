@@ -27,6 +27,7 @@ configure({
         max: `use less than 0:{max} symbols.`,
         numeric: "must be number",
         email: "must be email",
+        confirmed: "password confirmation does not match",
       },
     },
     ka: {
@@ -36,6 +37,7 @@ configure({
         max: `0:{max} სიმბოლოზე ნაკლები.`,
         numeric: "მონაცემი უნდა იყოს რიცხვი",
         email: "გთხოვთ შეიყვანოთ იმეილი",
+        confirmed: "განმეორებითი პაროლი არ ემთხვევა",
       },
     },
   }),
