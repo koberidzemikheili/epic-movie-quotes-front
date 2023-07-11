@@ -6,7 +6,7 @@
         <div class="flex items-center">
           <button
             @click="showMenu = !showMenu"
-            class="text-white bg-transparent py-1 px-4 border mx-2 rounded sm:hidden"
+            class="text-white bg-transparent py-1 px-4 mx-2 rounded sm:hidden"
           >
             <IconMenu />
           </button>
