@@ -10,7 +10,7 @@
         disabled
       />
       <button
-        class="text-blue-500 py-1 px-2 rounded bg-transparent"
+        class="text-white py-1 px-2 rounded bg-transparent"
         :style="{ visibility: editable ? 'visible' : 'hidden' }"
         @click.prevent="editField"
       >

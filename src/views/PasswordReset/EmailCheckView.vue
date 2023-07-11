@@ -9,7 +9,7 @@
       href="https://www.gmail.com"
       class="text-white mt-6 bg-red-600 py-2 px-2 rounded w-full text-center"
     >
-      Send instructions
+      Go to my email
     </a>
     <button @click="close" class="flex items-center mt-6 mx-auto text-gray-500">
       Skip i'll confirm later

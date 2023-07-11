@@ -8,7 +8,7 @@
     :type="type"
     :rules="rules"
     :placeholder="placeholder"
-    class="h-9 rounded"
+    class="h-9 rounded px-3 py-2"
   />
   <div v-if="error" class="text-red-600 mt-1">{{ error }}</div>
   <ErrorMessage :name="name" class="text-red-600 mt-1" />

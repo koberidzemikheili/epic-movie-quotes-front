@@ -14,6 +14,7 @@
         "cancel": "Cancel",
         "edit": "edit",
         "savechanges": "Save Changes",
-        "confirm": "Confirm"
+        "confirm": "Confirm",
+        "uploadimage": "Upload new photo"
     }
 }

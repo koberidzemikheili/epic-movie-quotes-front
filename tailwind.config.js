@@ -7,6 +7,17 @@ module.exports = {
       width: {
         120: "500px",
       },
+      colors: {
+        navbargray: {
+          DEFAULT: "#24222f",
+        },
+        cardgray: {
+          DEFAULT: "#11101a",
+        },
+        landingmodalbg: {
+          DEFAULT: "#222030",
+        },
+      },
     },
   },
   variants: {

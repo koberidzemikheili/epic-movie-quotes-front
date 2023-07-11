@@ -7,9 +7,9 @@
       aria-modal="true"
       v-show="isOpen"
     >
-      <div class="flex items-center h-5/6 mt-32 bg-slate-900 flex-col pb-64">
+      <div class="flex items-center h-5/6 mt-32 bg-smbgprofile flex-col pb-64">
         <div
-          class="bg-gray-950 rounded-lg text-left overflow-hidden transform transition-all my-8 align-middle w-full py-16"
+          class="bg-navbargray rounded-lg text-left overflow-hidden transform transition-all my-8 align-middle w-full py-16"
         >
           <div class="mx-6">
             <slot></slot>

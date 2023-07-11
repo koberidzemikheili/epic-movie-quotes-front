@@ -2,7 +2,7 @@
   <div class="min-h-screen w-screen">
     <div v-if="isLoading">Loading...</div>
     <div v-else>
-      <div class="p-5 bg-gray-800 flex justify-between items-center">
+      <div class="p-5 bg-navbargray flex justify-between items-center">
         <div class="flex items-center">
           <button
             @click="showMenu = !showMenu"
@@ -26,8 +26,8 @@
           </button>
         </div>
       </div>
-      <div class="absolute w-full bg-gray-800" v-show="showMenu">
-        <div class="flex items-center p-5">
+      <div class="absolute w-full bg-navbargray" v-show="showMenu">
+        <div class="flex items-center p-3">
           <img
             class="w-10 h-10 rounded-full bg-gray-400"
             :src="
@@ -46,25 +46,33 @@
         </div>
         <button
           @click="OpenNewsFeedPage"
-          class="text-white flex mt-5 p-5 flex items-center"
+          class="text-white flex p-3 flex items-center"
         >
-          <IconHouse class="mr-5" /> {{ $t("mainpage.buttons.newsfeed") }}
+          <div class="mr-5">
+            <IconHouse v-if="route.name === 'MoviePage'" />
+            <IconHouseWhite v-else />
+          </div>
+          {{ $t("mainpage.buttons.newsfeed") }}
         </button>
         <button
           @click="OpenMoviePage"
-          class="text-white flex mt-5 p-5 flex items-center"
+          class="text-white flex p-3 flex items-center"
         >
-          <IconCamera class="mr-5" /> {{ $t("mainpage.buttons.movielist") }}
+          <div class="mr-5">
+            <IconCamera v-if="route.name === 'NewsFeed'" />
+            <IconCameraWhite v-else />
+          </div>
+          {{ $t("mainpage.buttons.movielist") }}
         </button>
-        <div class="flex items-center p-5 sm:hidden block">
+        <div class="flex items-center p-3 sm:hidden block">
           <button
             @click="LogOut"
-            class="text-white bg-transparent py-1 px-4 border mx-2 rounded"
+            class="text-white bg-transparent py-1 px-4 border rounded"
           >
             {{ $t("mainpage.buttons.logout") }}
           </button>
-          <LanguageSelect />
         </div>
+        <LanguageSelect class="float-left mb-2 mx-0 p-3" />
       </div>
       <div class="flex flex-col sm:flex-row lg:mx-0">
         <div class="w-full sm:w-1/4 m-10 sm:block hidden">
@@ -89,13 +97,21 @@
             @click="OpenNewsFeedPage"
             class="text-white flex mt-5 flex items-center"
           >
-            <IconHouse class="mr-5" /> {{ $t("mainpage.buttons.newsfeed") }}
+            <div class="mr-5">
+              <IconHouse v-if="route.name === 'MoviePage'" />
+              <IconHouseWhite v-else />
+            </div>
+            {{ $t("mainpage.buttons.newsfeed") }}
           </button>
           <button
             @click="OpenMoviePage"
             class="text-white flex mt-5 flex items-center"
           >
-            <IconCamera class="mr-5" /> {{ $t("mainpage.buttons.movielist") }}
+            <div class="mr-5">
+              <IconCamera v-if="route.name === 'NewsFeed'" />
+              <IconCameraWhite v-else />
+            </div>
+            {{ $t("mainpage.buttons.movielist") }}
           </button>
         </div>
         <div class="w-full sm:w-3/4 mr-10">
@@ -108,16 +124,20 @@
 
 <script setup>
 import IconHouse from "@/components/icons/IconHouse.vue";
+import IconHouseWhite from "@/components/icons/IconHouseWhite.vue";
 import IconCamera from "@/components/icons/IconCamera.vue";
+import IconCameraWhite from "@/components/icons/IconCameraWhite.vue";
 import IconMenu from "@/components/icons/IconMenu.vue";
 import { ref, onMounted } from "vue";
 import instance from "@/api/index.js";
 import LanguageSelect from "@/components/LanguageSelect.vue";
 import TheNotifications from "@/components/TheNotifications.vue";
 import router from "@/router";
+import { useRoute } from "vue-router";
 import { useUserStore } from "@/stores/user.js";
 import instantiatePusher from "@/helpers/instantiatePusher.js";
 
+let route = useRoute();
 const userStore = useUserStore();
 const backendurl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
 const showMenu = ref(false);

@@ -1,11 +1,11 @@
 <template>
   <div
-    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm"
     @click="closeModal"
   >
     <div
       :class="[
-        'bg-gray-900',
+        'bg-landingmodalbg',
         'p-6',
         'md:w-1/3',
         'w-screen',

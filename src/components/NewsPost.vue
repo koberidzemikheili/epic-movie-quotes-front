@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-zinc-950 rounded-xl p-4" v-if="postuser">
+  <div class="bg-cardgray rounded-xl p-4" v-if="postuser">
     <div class="flex items-center mb-4">
       <img
         class="w-10 h-10 rounded-full bg-gray-400"
@@ -60,7 +60,7 @@
           v-model="Commentvalue"
           placeholder="Write a Comment"
           @keyup.enter="savecomment"
-          class="w-full py-2 px-4 rounded bg-gray-800 ml-2 text-white"
+          class="w-full py-2 px-4 rounded bg-navbargray ml-2 text-white"
         />
       </div>
     </div>

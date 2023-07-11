@@ -1,7 +1,7 @@
 <template>
   <div :class="['h-screen', 'w-screen', overflow, 'overflow-auto', 'relative']">
     <router-view class="z-10" />
-    <div class="lg:mx-12 mx-2 mb-2 relative">
+    <div class="lg:mx-12 mx-2 mb-2 relative pt-4">
       <div class="text-orange-200 inline-flex">MOVIE QUOTES</div>
       <button
         @click="openModal('LoginPage')"

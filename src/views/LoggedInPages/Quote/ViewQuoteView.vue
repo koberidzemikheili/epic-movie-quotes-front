@@ -5,7 +5,7 @@
       v-if="quote"
     >
       <div
-        class="bg-stone-950 p-6 md:w-1/3 w-screen h-screen md:h-full md:mt-10 flex flex-col overflow-hidden"
+        class="bg-cardgray p-6 md:w-1/3 w-screen h-screen md:h-full md:mt-10 flex flex-col overflow-hidden"
       >
         <div class="flex items-center justify-between">
           <div class="flex rounded-md" v-if="canEditQuote">
@@ -25,7 +25,7 @@
           </button>
         </div>
         <div
-          class="bg-zinc-950 rounded-xl p-4 flex flex-col h-full overflow-hidden"
+          class="bg-cardgray rounded-xl p-4 flex flex-col h-full overflow-hidden"
           v-if="postuser"
         >
           <div class="flex-none">

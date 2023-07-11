@@ -5,7 +5,7 @@
         <button
           :class="searchActive ? 'w-2/6' : 'w-5/6'"
           @click="openModal('AddQuote')"
-          class="bg-gray-800 mr-4 py-2 rounded-lg text-left flex"
+          class="md:bg-navbargray mr-4 py-2 rounded-lg text-left flex"
         >
           <div class="mx-2"><IconPencilSquare /></div>
           <div class="text-white">

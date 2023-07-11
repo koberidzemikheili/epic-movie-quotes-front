@@ -1,11 +1,11 @@
 <template>
   <div
-    class="fixed inset-0 flex items-center justify-center"
+    class="fixed inset-0 flex items-center justify-center backdrop-blur-sm"
     @click="closeModal"
   >
     <div
       :class="[
-        'bg-stone-950',
+        'bg-cardgray',
         'p-6',
         'md:w-1/3',
         'w-screen',
