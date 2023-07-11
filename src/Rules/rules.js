@@ -23,8 +23,8 @@ configure({
     en: {
       messages: {
         required: "This field is required",
-        min: `at least  3 symbols.`,
-        max: `use less than 15 symbols.`,
+        min: `at least  0:{min} symbols.`,
+        max: `use less than 0:{max} symbols.`,
         numeric: "must be number",
         email: "must be email",
       },
@@ -32,8 +32,8 @@ configure({
     ka: {
       messages: {
         required: "შევსება აუცილებელია",
-        min: `მინიმუმ 3 სიმბოლო.`,
-        max: `15 სიმბოლოზე ნაკლები.`,
+        min: `მინიმუმ 0:{min} სიმბოლო.`,
+        max: `0:{max} სიმბოლოზე ნაკლები.`,
         numeric: "მონაცემი უნდა იყოს რიცხვი",
         email: "გთხოვთ შეიყვანოთ იმეილი",
       },
