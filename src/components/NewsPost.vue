@@ -19,11 +19,13 @@
           <span>({{ movie.year }})</span></span
         >
       </div>
-      <img
-        class="w-full h-2/3"
-        :src="backendurl + '/storage/' + quote.quote_image"
-        alt="quote image"
-      />
+      <div class="w-full md:h-120 h-52">
+        <img
+          class="w-full h-full object-fit"
+          :src="backendurl + '/storage/' + quote.quote_image"
+          alt="quote image"
+        />
+      </div>
       <div class="flex items-center mt-2">
         <div class="flex items-center">
           <span class="text-white mr-2">{{ quote.comments.length }}</span>

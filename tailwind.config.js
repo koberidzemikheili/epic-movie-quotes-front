@@ -6,6 +6,10 @@ module.exports = {
     extend: {
       width: {
         120: "500px",
+        890: "840px",
+      },
+      height: {
+        120: "400px",
       },
       colors: {
         navbargray: {
