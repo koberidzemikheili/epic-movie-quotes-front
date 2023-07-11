@@ -48,13 +48,21 @@
           @click="OpenNewsFeedPage"
           class="text-white flex p-3 flex items-center"
         >
-          <IconHouse class="mr-5" /> {{ $t("mainpage.buttons.newsfeed") }}
+          <div class="mr-5">
+            <IconHouse v-if="route.name === 'MoviePage'" />
+            <IconHouseWhite v-else />
+          </div>
+          {{ $t("mainpage.buttons.newsfeed") }}
         </button>
         <button
           @click="OpenMoviePage"
           class="text-white flex p-3 flex items-center"
         >
-          <IconCamera class="mr-5" /> {{ $t("mainpage.buttons.movielist") }}
+          <div class="mr-5">
+            <IconCamera v-if="route.name === 'NewsFeed'" />
+            <IconCameraWhite v-else />
+          </div>
+          {{ $t("mainpage.buttons.movielist") }}
         </button>
         <div class="flex items-center p-3 sm:hidden block">
           <button
@@ -89,13 +97,21 @@
             @click="OpenNewsFeedPage"
             class="text-white flex mt-5 flex items-center"
           >
-            <IconHouse class="mr-5" /> {{ $t("mainpage.buttons.newsfeed") }}
+            <div class="mr-5">
+              <IconHouse v-if="route.name === 'MoviePage'" />
+              <IconHouseWhite v-else />
+            </div>
+            {{ $t("mainpage.buttons.newsfeed") }}
           </button>
           <button
             @click="OpenMoviePage"
             class="text-white flex mt-5 flex items-center"
           >
-            <IconCamera class="mr-5" /> {{ $t("mainpage.buttons.movielist") }}
+            <div class="mr-5">
+              <IconCamera v-if="route.name === 'NewsFeed'" />
+              <IconCameraWhite v-else />
+            </div>
+            {{ $t("mainpage.buttons.movielist") }}
           </button>
         </div>
         <div class="w-full sm:w-3/4 mr-10">
@@ -108,16 +124,20 @@
 
 <script setup>
 import IconHouse from "@/components/icons/IconHouse.vue";
+import IconHouseWhite from "@/components/icons/IconHouseWhite.vue";
 import IconCamera from "@/components/icons/IconCamera.vue";
+import IconCameraWhite from "@/components/icons/IconCameraWhite.vue";
 import IconMenu from "@/components/icons/IconMenu.vue";
 import { ref, onMounted } from "vue";
 import instance from "@/api/index.js";
 import LanguageSelect from "@/components/LanguageSelect.vue";
 import TheNotifications from "@/components/TheNotifications.vue";
 import router from "@/router";
+import { useRoute } from "vue-router";
 import { useUserStore } from "@/stores/user.js";
 import instantiatePusher from "@/helpers/instantiatePusher.js";
 
+let route = useRoute();
 const userStore = useUserStore();
 const backendurl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
 const showMenu = ref(false);
