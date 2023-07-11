@@ -13,5 +13,11 @@
     "buttons": {
         "get_started": "Get Started",
         "login": "Login"
+    },
+    "placeholders": {
+        "username": "At least 3 & max.15 lower case characters",
+        "email": "Enter your email",
+        "password": "At least 8 & max.15 lower case characters",
+        "password_confirmation": "Confirm password"
     }
 }

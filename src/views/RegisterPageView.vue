@@ -11,7 +11,7 @@
         :label="$t('register.labels.name')"
         name="username"
         type="text"
-        placeholder="At least 3 & max.15 lower case characters"
+        :placeholder="$t('register.placeholders.username')"
         rules="required|min:3|max:15|alpha_num"
         :error="errorMessage?.errors?.['username']?.[0] || ''"
       />
@@ -19,7 +19,7 @@
         :label="$t('register.labels.email')"
         name="email"
         type="text"
-        placeholder="Enter your email"
+        :placeholder="$t('register.placeholders.email')"
         rules="required|email"
         :error="errorMessage?.errors?.['email']?.[0] || ''"
       />
@@ -27,7 +27,7 @@
         :label="$t('register.labels.password')"
         name="password"
         type="password"
-        placeholder="At least 8 & max.15 lower case characters"
+        :placeholder="$t('register.placeholders.password')"
         rules="required|min:8|max:15|alpha_num"
         :error="errorMessage?.errors?.['password']?.[0] || ''"
       />
@@ -35,7 +35,7 @@
         :label="$t('register.labels.password_confirmation')"
         name="password_confirmation"
         type="password"
-        placeholder="Confirm password"
+        :placeholder="$t('register.placeholders.password_confirmation')"
         rules="confirmed:@password"
       />
       <button class="text-white text-l mt-5 bg-red-600 py-2 px-2 rounded">

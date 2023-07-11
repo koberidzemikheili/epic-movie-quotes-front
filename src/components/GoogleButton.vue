@@ -4,7 +4,7 @@
     class="text-white bg-transparent border py-2 px-2 rounded inline-flex mt-5 w-full justify-center"
   >
     <IconGoogle class="relative top-1 mr-1" />
-    Sign in with Google
+    {{ $t("login.buttons.sign_in_google") }}
   </button>
 </template>
 <script setup>

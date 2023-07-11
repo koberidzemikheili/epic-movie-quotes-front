@@ -17,6 +17,9 @@ module.exports = {
         landingmodalbg: {
           DEFAULT: "#222030",
         },
+        smbgprofile: {
+          DEFAULT: "#171623",
+        },
       },
     },
   },
