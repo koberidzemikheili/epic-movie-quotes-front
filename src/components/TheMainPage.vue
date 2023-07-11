@@ -49,7 +49,7 @@
           class="text-white flex p-3 flex items-center"
         >
           <div class="mr-5">
-            <IconHouse v-if="route.name === 'MoviePage'" />
+            <IconHouse v-if="route.name === 'NewsFeed'" />
             <IconHouseWhite v-else />
           </div>
           {{ $t("mainpage.buttons.newsfeed") }}
@@ -59,7 +59,7 @@
           class="text-white flex p-3 flex items-center"
         >
           <div class="mr-5">
-            <IconCamera v-if="route.name === 'NewsFeed'" />
+            <IconCamera v-if="route.name === 'MoviePage'" />
             <IconCameraWhite v-else />
           </div>
           {{ $t("mainpage.buttons.movielist") }}
@@ -98,7 +98,7 @@
             class="text-white flex mt-5 flex items-center"
           >
             <div class="mr-5">
-              <IconHouse v-if="route.name === 'MoviePage'" />
+              <IconHouse v-if="route.name === 'NewsFeed'" />
               <IconHouseWhite v-else />
             </div>
             {{ $t("mainpage.buttons.newsfeed") }}
@@ -108,7 +108,7 @@
             class="text-white flex mt-5 flex items-center"
           >
             <div class="mr-5">
-              <IconCamera v-if="route.name === 'NewsFeed'" />
+              <IconCamera v-if="route.name === 'MoviePage'" />
               <IconCameraWhite v-else />
             </div>
             {{ $t("mainpage.buttons.movielist") }}
