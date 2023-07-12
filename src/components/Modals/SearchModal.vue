@@ -17,7 +17,7 @@
             @keyup.enter="save"
           />
         </div>
-        <hr class="border border-gray-700 mt-4" />
+        <hr class="border border-x border-gray-600 mt-4" />
         <div class="text-gray-400 mt-4 ml-12">
           {{ $t("newsfeed.labels.searchtext1") }}
         </div>

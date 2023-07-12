@@ -17,13 +17,14 @@
               <IconTrashCan />
             </button>
           </div>
-          <div class="text-xl text-white">
+          <div class="text-xl text-white hidden md:block">
             {{ $t("moviepage.texts.viewquote") }}
           </div>
           <button class="text-white text-2xl ml-12" @click="closeModal">
             &times;
           </button>
         </div>
+        <hr class="border-x border-gray-600 w-full mt-4" />
         <div
           class="bg-cardgray rounded-xl p-4 flex flex-col h-full overflow-hidden"
           v-if="postuser"
@@ -40,23 +41,23 @@
               </div>
             </div>
             <div v-if="movie" class="mb-4">
-              <div class="text-white flex items-center mb-2 flex-col">
+              <div class="text-white flex items-center mb-2 flex-col text-md">
                 <div
-                  class="w-full border border-gray-600 rounded h-9 text-lg flex items-center justify-between mb-2"
+                  class="w-full border border-gray-600 rounded md:h-9 h-14 text-md flex justify-between mb-2"
                 >
-                  <div class="ml-2 italic">"{{ quote.title.en }}"</div>
+                  <div class="ml-2 mt-1 italic">"{{ quote.title.en }}"</div>
                   <div class="text-gray-600 mr-2">Eng</div>
                 </div>
                 <div
-                  class="w-full border border-gray-600 rounded h-9 text-lg flex items-center justify-between mb-2"
+                  class="w-full border border-gray-600 rounded md:h-9 h-14 text-md flex justify-between mb-2"
                 >
-                  <div class="ml-2 italic">"{{ quote.title.ka }}"</div>
+                  <div class="ml-2 mt-1 italic">"{{ quote.title.ka }}"</div>
                   <div class="text-gray-600 mr-2">ქარ</div>
                 </div>
               </div>
               <div class="w-full md:h-120 h-52">
                 <img
-                  class="w-full h-full object-fit"
+                  class="w-full h-full object-fit rounded-lg"
                   :src="backendurl + '/storage/' + quote.quote_image"
                   alt="quote image"
                 />
@@ -79,7 +80,7 @@
                 </div>
               </div>
             </div>
-            <hr class="border border-gray-800 w-full mb-4" />
+            <hr class="border-x border-gray-600 w-full mb-4" />
           </div>
           <div class="flex-grow overflow-auto no-scrollbar">
             <CommentCard
@@ -104,7 +105,7 @@
                 v-model="Commentvalue"
                 placeholder="Write a Comment"
                 @keyup.enter="savecomment"
-                class="w-full py-2 px-4 rounded bg-gray-800 ml-2 text-white"
+                class="w-full py-2 px-4 rounded bg-navbargray ml-2 text-white"
               />
             </div>
           </div>

@@ -43,7 +43,7 @@
           </div>
         </div>
       </div>
-      <hr class="border border-gray-800 mt-4 mb-4" />
+      <hr class="border-x border-gray-600 mt-4 mb-4" />
       <div class="text-white flex items-center">
         {{ quote.comments.length }}<IconChatSquare class="w-6 mr-4 ml-1" />{{
           quote.likes.length

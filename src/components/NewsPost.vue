@@ -42,7 +42,7 @@
         </div>
       </div>
     </div>
-    <hr class="border border-gray-800 w-full mb-4" />
+    <hr class="border-x border-gray-600 w-full mb-4" />
     <div>
       <CommentCard
         v-for="comment in displayedComments"
