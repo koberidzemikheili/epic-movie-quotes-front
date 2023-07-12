@@ -10,7 +10,12 @@
           >
             <IconMenu />
           </button>
-          <div class="text-orange-200 md:block hidden">MOVIE QUOTES</div>
+          <router-link
+            :to="{ name: 'NewsFeed' }"
+            class="text-orange-200 md:block hidden cursor-pointer"
+          >
+            MOVIE QUOTES
+          </router-link>
         </div>
         <div class="flex items-center">
           <TheNotifications
