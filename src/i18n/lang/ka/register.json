@@ -13,5 +13,12 @@
     "buttons": {
         "get_started": "დაწყება",
         "login": "შესვლა"
+    },
+    "placeholders": {
+        "username": "მინიმუმ 3 და მაქსიმუმ 8 სიმბოლო",
+        "email": "შეიყვანეთ იმეილი",
+        "password": "მინიმუმ 3 და მაქსიმუმ 8 სიმბოლო",
+        "password_confirmation": "დაადასტურეთ პაროლი"
     }
+    
 }

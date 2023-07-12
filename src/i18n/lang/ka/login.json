@@ -12,6 +12,12 @@
     "buttons": {
         "register": "რეგისტრაცია",
         "remember": "დამიმახსოვრე",
-        "forgot_password": "დაგავიწყდა პაროლი"
+        "forgot_password": "დაგავიწყდა პაროლი",
+        "sign_in": "შესვლა",
+        "sign_in_google": "გუგლით ავტორიზაცია"
+    },
+    "placeholders": {
+        "username": "შეიყვანეთ იმეილი ან სახელი",
+        "password": "მინიმუმ 3 და მაქსიმუმ 8 სიმბოლო"
     }
 }

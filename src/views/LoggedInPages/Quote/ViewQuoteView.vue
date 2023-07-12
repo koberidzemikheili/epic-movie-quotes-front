@@ -17,13 +17,14 @@
               <IconTrashCan />
             </button>
           </div>
-          <div class="text-xl text-white">
+          <div class="text-xl text-white hidden md:block">
             {{ $t("moviepage.texts.viewquote") }}
           </div>
           <button class="text-white text-2xl ml-12" @click="closeModal">
             &times;
           </button>
         </div>
+        <hr class="border-x border-gray-600 w-full mt-4" />
         <div
           class="bg-cardgray rounded-xl p-4 flex flex-col h-full overflow-hidden"
           v-if="postuser"
@@ -40,25 +41,27 @@
               </div>
             </div>
             <div v-if="movie" class="mb-4">
-              <div class="text-white flex items-center mb-2 flex-col">
+              <div class="text-white flex items-center mb-2 flex-col text-md">
                 <div
-                  class="w-full border border-gray-600 rounded h-9 text-lg flex items-center justify-between mb-2"
+                  class="w-full border border-gray-600 rounded md:h-9 h-14 text-md flex justify-between mb-2"
                 >
-                  <div class="ml-2 italic">"{{ quote.title.en }}"</div>
+                  <div class="ml-2 mt-1 italic">"{{ quote.title.en }}"</div>
                   <div class="text-gray-600 mr-2">Eng</div>
                 </div>
                 <div
-                  class="w-full border border-gray-600 rounded h-9 text-lg flex items-center justify-between mb-2"
+                  class="w-full border border-gray-600 rounded md:h-9 h-14 text-md flex justify-between mb-2"
                 >
-                  <div class="ml-2 italic">"{{ quote.title.ka }}"</div>
+                  <div class="ml-2 mt-1 italic">"{{ quote.title.ka }}"</div>
                   <div class="text-gray-600 mr-2">ქარ</div>
                 </div>
               </div>
-              <img
-                class="w-full h-2/3"
-                :src="backendurl + '/storage/' + quote.quote_image"
-                alt="quote image"
-              />
+              <div class="w-full md:h-120 h-52">
+                <img
+                  class="w-full h-full object-fit rounded-lg"
+                  :src="backendurl + '/storage/' + quote.quote_image"
+                  alt="quote image"
+                />
+              </div>
               <div class="flex items-center mt-2">
                 <div class="flex items-center">
                   <span class="text-white mr-2">{{
@@ -68,11 +71,16 @@
                 </div>
                 <div class="flex items-center ml-5">
                   <span class="text-white mr-2">{{ quote.likes.length }}</span>
-                  <button @click="addLike"><IconLike class="w-6" /></button>
+                  <button @click="addLike">
+                    <IconHeartFill v-if="isLiked" /><IconLike
+                      class="w-6"
+                      v-if="!isLiked"
+                    />
+                  </button>
                 </div>
               </div>
             </div>
-            <hr class="border border-gray-800 w-full mb-4" />
+            <hr class="border-x border-gray-600 w-full mb-4" />
           </div>
           <div class="flex-grow overflow-auto no-scrollbar">
             <CommentCard
@@ -97,7 +105,7 @@
                 v-model="Commentvalue"
                 placeholder="Write a Comment"
                 @keyup.enter="savecomment"
-                class="w-full py-2 px-4 rounded bg-gray-800 ml-2 text-white"
+                class="w-full py-2 px-4 rounded bg-navbargray ml-2 text-white"
               />
             </div>
           </div>
@@ -111,9 +119,11 @@
 import TheMainPage from "@/components/TheMainPage.vue";
 import { onMounted, ref } from "vue";
 import IconChatSquare from "@/components/icons/IconChatSquare.vue";
+import IconHeartFill from "@/components/icons/IconHeartFill.vue";
 import IconLike from "@/components/icons/IconLike.vue";
 import CommentCard from "@/components/CommentCard.vue";
 import instance from "@/api/index.js";
+import makeApiPostRequest from "@/api/apiService.js";
 import { useUserStore } from "@/stores/user.js";
 import instantiatePusher from "@/helpers/instantiatePusher.js";
 import IconPencil from "@/components/icons/IconPencil.vue";
@@ -124,6 +134,7 @@ let router = useRouter();
 let id = router.currentRoute.value.params.id;
 const userStore = useUserStore();
 
+const isLiked = ref();
 const backendurl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
 const quote = ref();
 const postuser = ref();
@@ -160,10 +171,19 @@ onMounted(async () => {
   window.Echo.channel(channelName).listen("NewComment", () => {
     fetchQuote(id);
   });
+
+  isLiked.value = quote.value.likes.some(
+    (like) => like.user_id === userStore.userData.user.id
+  );
 });
-const makeApiPostRequest = (endpoint, payload) => {
-  return instance
-    .post(endpoint, payload)
+
+const savecomment = () => {
+  const payload = {
+    quote_id: quote.value.id,
+    comment: Commentvalue.value,
+    quote_userid: quote.value.user_id,
+  };
+  makeApiPostRequest("/api/comment", payload)
     .then((response) => {
       if (response.status === 201) {
         Commentvalue.value = "";
@@ -172,15 +192,6 @@ const makeApiPostRequest = (endpoint, payload) => {
     .catch((error) => {
       console.error("Error:", error);
     });
-};
-
-const savecomment = () => {
-  const payload = {
-    quote_id: quote.value.id,
-    comment: Commentvalue.value,
-    quote_userid: quote.value.user_id,
-  };
-  makeApiPostRequest("/api/comment", payload);
 };
 
 const addLike = () => {
@@ -195,7 +206,9 @@ const addLike = () => {
     };
     instance
       .delete(`/api/like`, { data: payload })
-      .then(() => {})
+      .then(() => {
+        isLiked.value = false;
+      })
       .catch((error) => {
         console.error("Error:", error);
       });
@@ -204,7 +217,13 @@ const addLike = () => {
       quote_id: quote.value.id,
       quote_userid: quote.value.user_id,
     };
-    makeApiPostRequest("/api/like", payload).then(() => {});
+    makeApiPostRequest("/api/like", payload)
+      .then(() => {
+        isLiked.value = true;
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   }
 };
 const closeModal = () => {

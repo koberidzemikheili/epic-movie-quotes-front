@@ -7,6 +7,7 @@ import { RouterView } from "vue-router";
 </template>
 <style>
 body {
+  overflow-x: hidden;
   font-family: "Helvetica Neue", Arial, sans-serif;
   background: linear-gradient(
     to bottom,

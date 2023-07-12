@@ -7,7 +7,7 @@
       <div class="flex md:flex-row flex-col mt-4">
         <div class="md:w-1/2 w-full">
           <img
-            class="w-full h-auto object-cover rounded-md"
+            class="w-full md:h-120 h-52 object-cover rounded-md"
             :src="backendurl + '/storage/' + movie.movie_image"
             :alt="movie.name[locale]"
           />
@@ -60,9 +60,9 @@
           </div>
           <button
             @click="OpenAddQuote(movie.id)"
-            class="bg-red-600 text-white py-1 px-2 rounded"
+            class="bg-red-600 text-white py-1 px-2 rounded flex items-center"
           >
-            {{ $t("moviepage.buttons.addquote") }}
+            <IconPlusAdd class="mr-2" /> {{ $t("moviepage.buttons.addquote") }}
           </button>
         </div>
         <div class="flex flex-col mt-4">
@@ -87,6 +87,7 @@ import TheMainPage from "@/components/TheMainPage.vue";
 import QuoteCard from "@/components/QuoteCard.vue";
 import IconPencil from "@/components/icons/IconPencil.vue";
 import IconTrashCan from "@/components/icons/IconTrashCan.vue";
+import IconPlusAdd from "@/components/icons/IconPlusAdd.vue";
 import { onMounted, ref, watchEffect } from "vue";
 import { useRouter } from "vue-router";
 import instance from "@/api/index.js";

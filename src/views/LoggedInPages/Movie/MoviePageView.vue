@@ -2,7 +2,7 @@
   <TheMainPage>
     <div class="lg:mx-0 mx-8">
       <div class="mt-2 flex flex justify-between w-full items-center">
-        <div class="text-white mb-2 sm:mb-0 flex items-center">
+        <div class="text-white mb-2 sm:mb-0 md:flex items-center">
           <div class="text-lg font-bold">
             {{ $t("moviepage.texts.mylistofmovies") }}
           </div>
@@ -10,17 +10,18 @@
             ({{ $t("moviepage.labels.total") }} {{ movies.length }})
           </div>
         </div>
-        <div>
+        <div class="flex">
           <input
             type="text"
             v-model="searchTerm"
             :placeholder="$t('moviepage.labels.search')"
-            class="py-1 px-2 rounded mr-2 bg-transparent text-white mb-2 sm:mb-0 hidden lg:inline-block"
+            class="py-1 px-2 rounded mr-4 bg-transparent text-white mb-2 sm:mb-0 hidden lg:inline-block"
           />
           <button
             @click="openModal('AddMovie')"
-            class="bg-red-600 text-white py-1 px-2 rounded"
+            class="bg-red-600 text-white py-1 px-2 rounded flex items-center"
           >
+            <IconPlusAdd class="md:mr-2 mr-1" />
             {{ $t("moviepage.buttons.addmovie") }}
           </button>
         </div>
@@ -61,6 +62,7 @@ import { ref, onMounted, watchEffect, computed } from "vue";
 import router from "@/router";
 import instance from "@/api/index.js";
 import IconChatQuote from "@/components/icons/IconChatQuote.vue";
+import IconPlusAdd from "@/components/icons/IconPlusAdd.vue";
 import { useRoute } from "vue-router";
 import { useI18n } from "vue-i18n";
 

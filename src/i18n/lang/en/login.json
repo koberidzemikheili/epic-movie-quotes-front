@@ -12,6 +12,12 @@
     "buttons": {
         "register": "Register",
         "remember": "Remember me",
-        "forgot_password": "Forgot password"
+        "forgot_password": "Forgot password",
+        "sign_in": "Sign In",
+        "sign_in_google": "Sign in with Google"
+    },
+    "placeholders": {
+        "username": "Enter your email or username",
+        "password": "At least 8 & max.15 lower case characters"
     }
 }

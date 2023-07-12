@@ -14,7 +14,7 @@
   <div class="ml-14 text-white">
     {{ comment.comment }}
   </div>
-  <hr class="border border-gray-800 ml-14 mt-4" />
+  <hr class="border-x border-gray-600 ml-14 mt-4" />
 </template>
 
 <script setup>

@@ -6,6 +6,10 @@ module.exports = {
     extend: {
       width: {
         120: "500px",
+        890: "840px",
+      },
+      height: {
+        120: "400px",
       },
       colors: {
         navbargray: {
@@ -16,6 +20,12 @@ module.exports = {
         },
         landingmodalbg: {
           DEFAULT: "#222030",
+        },
+        smbgprofile: {
+          DEFAULT: "#171623",
+        },
+        searchmodalbg: {
+          DEFAULT: "#12101a",
         },
       },
     },

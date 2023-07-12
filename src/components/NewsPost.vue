@@ -19,11 +19,13 @@
           <span>({{ movie.year }})</span></span
         >
       </div>
-      <img
-        class="w-full h-2/3"
-        :src="backendurl + '/storage/' + quote.quote_image"
-        alt="quote image"
-      />
+      <div class="w-full md:h-120 h-52">
+        <img
+          class="w-full h-full object-fit"
+          :src="backendurl + '/storage/' + quote.quote_image"
+          alt="quote image"
+        />
+      </div>
       <div class="flex items-center mt-2">
         <div class="flex items-center">
           <span class="text-white mr-2">{{ quote.comments.length }}</span>
@@ -31,11 +33,16 @@
         </div>
         <div class="flex items-center ml-5">
           <span class="text-white mr-2">{{ quote.likes.length }}</span>
-          <button @click="addLike"><IconLike class="w-6" /></button>
+          <button @click="addLike">
+            <IconHeartFill v-if="isLiked" /><IconLike
+              class="w-6"
+              v-if="!isLiked"
+            />
+          </button>
         </div>
       </div>
     </div>
-    <hr class="border border-gray-800 w-full mb-4" />
+    <hr class="border-x border-gray-600 w-full mb-4" />
     <div>
       <CommentCard
         v-for="comment in displayedComments"
@@ -71,14 +78,17 @@
 import { onMounted, ref, computed, watch } from "vue";
 import IconChatSquare from "@/components/icons/IconChatSquare.vue";
 import IconLike from "@/components/icons/IconLike.vue";
+import IconHeartFill from "@/components/icons/IconHeartFill.vue";
 import CommentCard from "@/components/CommentCard.vue";
 import instance from "@/api/index.js";
+import makeApiPostRequest from "@/api/apiService.js";
 import { useUserStore } from "@/stores/user.js";
 import { useI18n } from "vue-i18n";
 
 const { locale } = useI18n();
 const userStore = useUserStore();
 
+const isLiked = ref();
 const postuser = ref();
 const backendurl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
 let movie = ref();
@@ -99,9 +109,13 @@ const displayedComments = computed(() => {
   return quote.value.comments.slice(0, visibleCommentsCount.value);
 });
 
-const makeApiPostRequest = (endpoint, payload) => {
-  return instance
-    .post(endpoint, payload)
+const savecomment = () => {
+  const payload = {
+    quote_id: props.quote.id,
+    comment: Commentvalue.value,
+    quote_userid: props.quote.user_id,
+  };
+  makeApiPostRequest("/api/comment", payload)
     .then((response) => {
       if (response.status === 201) {
         Commentvalue.value = "";
@@ -112,17 +126,7 @@ const makeApiPostRequest = (endpoint, payload) => {
     });
 };
 
-const savecomment = () => {
-  const payload = {
-    quote_id: props.quote.id,
-    comment: Commentvalue.value,
-    quote_userid: props.quote.user_id,
-  };
-  makeApiPostRequest("/api/comment", payload);
-};
-
 const addLike = () => {
-  console.log(quote.value.likes);
   const userLikes = quote.value.likes.filter(
     (like) => like.user_id === userStore.userData.user.id
   );
@@ -143,7 +147,11 @@ const addLike = () => {
       quote_id: props.quote.id,
       quote_userid: props.quote.user_id,
     };
-    makeApiPostRequest("/api/like", payload).then(() => {});
+    makeApiPostRequest("/api/like", payload)
+      .then(() => {})
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   }
 };
 
@@ -165,5 +173,8 @@ onMounted(async () => {
   if (quote.value.comments.length <= visibleCommentsCount.value) {
     showMoreButton.value = false;
   }
+  isLiked.value = quote.value.likes.some(
+    (like) => like.user_id === userStore.userData.user.id
+  );
 });
 </script>

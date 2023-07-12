@@ -9,7 +9,7 @@
         :label="$t('login.labels.email')"
         name="login"
         type="text"
-        placeholder="Enter your email or username"
+        :placeholder="$t('register.placeholders.username')"
         rules="required|min:3"
         :error="errorMessage?.errors?.['login']?.[0] || errorMessage?.message"
       />
@@ -20,7 +20,7 @@
         :label="$t('login.labels.password')"
         name="password"
         type="password"
-        placeholder="At least 8 & max.15 lower case characters"
+        :placeholder="$t('register.placeholders.password')"
         rules="required"
         :error="errorMessage?.errors?.['password']?.[0] || ''"
       />
@@ -36,7 +36,7 @@
         >
       </div>
       <button class="text-white text-l mt-5 bg-red-600 py-2 px-2 rounded">
-        Sign in
+        {{ $t("login.buttons.sign_in") }}
       </button>
     </Form>
     <GoogleButton />

@@ -6,11 +6,16 @@
         <div class="flex items-center">
           <button
             @click="showMenu = !showMenu"
-            class="text-white bg-transparent py-1 px-4 border mx-2 rounded sm:hidden"
+            class="text-white bg-transparent py-1 px-4 mx-2 rounded sm:hidden"
           >
             <IconMenu />
           </button>
-          <div class="text-orange-200 md:block hidden">MOVIE QUOTES</div>
+          <router-link
+            :to="{ name: 'NewsFeed' }"
+            class="text-orange-200 md:block hidden cursor-pointer"
+          >
+            MOVIE QUOTES
+          </router-link>
         </div>
         <div class="flex items-center">
           <TheNotifications
@@ -37,7 +42,7 @@
             "
             alt="profile picture"
           />
-          <div class="ml-3 text-orange-200 text-lg flex flex-col">
+          <div class="ml-3 text-orange-200 text-lg items-start flex flex-col">
             {{ userStore.userData.user.username }}
             <button @click="OpenProfilePage" class="text-white text-sm">
               {{ $t("mainpage.buttons.editbutton") }}
@@ -49,7 +54,7 @@
           class="text-white flex p-3 flex items-center"
         >
           <div class="mr-5">
-            <IconHouse v-if="route.name === 'MoviePage'" />
+            <IconHouse v-if="route.name === 'NewsFeed'" />
             <IconHouseWhite v-else />
           </div>
           {{ $t("mainpage.buttons.newsfeed") }}
@@ -59,7 +64,7 @@
           class="text-white flex p-3 flex items-center"
         >
           <div class="mr-5">
-            <IconCamera v-if="route.name === 'NewsFeed'" />
+            <IconCamera v-if="route.name === 'MoviePage'" />
             <IconCameraWhite v-else />
           </div>
           {{ $t("mainpage.buttons.movielist") }}
@@ -86,7 +91,7 @@
               "
               alt="profile picture"
             />
-            <div class="ml-3 text-orange-200 flex flex-col text-lg">
+            <div class="ml-3 text-orange-200 flex flex-col text-lg items-start">
               {{ userStore.userData.user.username }}
               <button @click="OpenProfilePage" class="text-white text-sm">
                 {{ $t("mainpage.buttons.editbutton") }}
@@ -98,7 +103,7 @@
             class="text-white flex mt-5 flex items-center"
           >
             <div class="mr-5">
-              <IconHouse v-if="route.name === 'MoviePage'" />
+              <IconHouse v-if="route.name === 'NewsFeed'" />
               <IconHouseWhite v-else />
             </div>
             {{ $t("mainpage.buttons.newsfeed") }}
@@ -108,7 +113,7 @@
             class="text-white flex mt-5 flex items-center"
           >
             <div class="mr-5">
-              <IconCamera v-if="route.name === 'NewsFeed'" />
+              <IconCamera v-if="route.name === 'MoviePage'" />
               <IconCameraWhite v-else />
             </div>
             {{ $t("mainpage.buttons.movielist") }}

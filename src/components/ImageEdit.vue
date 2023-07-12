@@ -92,6 +92,7 @@ const onDrop = (e) => {
   if (!isDesktop.value) return;
   dragover.value = false;
   file.value = e.dataTransfer.files[0];
+  handleFileSelect(e);
   emit("update:modelValue", file.value);
 };
 
@@ -101,7 +102,9 @@ const onFileChange = (e) => {
   emit("update:modelValue", file.value);
 };
 const handleFileSelect = (event) => {
-  const file = event.target.files[0];
+  const file = event.target.files
+    ? event.target.files[0]
+    : event.dataTransfer.files[0];
   if (file) {
     const reader = new FileReader();
     reader.onload = (e) => {
