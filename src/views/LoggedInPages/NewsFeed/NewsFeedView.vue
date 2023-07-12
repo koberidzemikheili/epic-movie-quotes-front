@@ -1,6 +1,6 @@
 <template>
   <TheMainPage>
-    <div class="w-full lg:w-2/3" :class="{ fixed: isModalOpen }">
+    <div class="w-full md:w-3/4 lg:w-2/4" :class="{ fixed: isModalOpen }">
       <IconScope
         @click="isModalOpen = true"
         class="absolute right-24 top-7 text-white block md:hidden cursor-pointer"

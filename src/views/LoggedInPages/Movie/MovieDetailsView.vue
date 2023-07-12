@@ -7,7 +7,7 @@
       <div class="flex md:flex-row flex-col mt-4">
         <div class="md:w-1/2 w-full">
           <img
-            class="w-full h-auto object-cover rounded-md"
+            class="w-full md:h-120 h-52 object-cover rounded-md"
             :src="backendurl + '/storage/' + movie.movie_image"
             :alt="movie.name[locale]"
           />
