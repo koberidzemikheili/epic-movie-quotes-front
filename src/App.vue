@@ -3,10 +3,11 @@ import { RouterView } from "vue-router";
 </script>
 
 <template>
-  <RouterView class="overflow-x-hidden" />
+  <RouterView />
 </template>
 <style>
 body {
+  overflow-x: hidden;
   font-family: "Helvetica Neue", Arial, sans-serif;
   background: linear-gradient(
     to bottom,

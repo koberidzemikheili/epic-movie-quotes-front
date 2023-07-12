@@ -81,6 +81,7 @@ import IconLike from "@/components/icons/IconLike.vue";
 import IconHeartFill from "@/components/icons/IconHeartFill.vue";
 import CommentCard from "@/components/CommentCard.vue";
 import instance from "@/api/index.js";
+import makeApiPostRequest from "@/api/apiService.js";
 import { useUserStore } from "@/stores/user.js";
 import { useI18n } from "vue-i18n";
 
@@ -108,9 +109,13 @@ const displayedComments = computed(() => {
   return quote.value.comments.slice(0, visibleCommentsCount.value);
 });
 
-const makeApiPostRequest = (endpoint, payload) => {
-  return instance
-    .post(endpoint, payload)
+const savecomment = () => {
+  const payload = {
+    quote_id: props.quote.id,
+    comment: Commentvalue.value,
+    quote_userid: props.quote.user_id,
+  };
+  makeApiPostRequest("/api/comment", payload)
     .then((response) => {
       if (response.status === 201) {
         Commentvalue.value = "";
@@ -119,15 +124,6 @@ const makeApiPostRequest = (endpoint, payload) => {
     .catch((error) => {
       console.error("Error:", error);
     });
-};
-
-const savecomment = () => {
-  const payload = {
-    quote_id: props.quote.id,
-    comment: Commentvalue.value,
-    quote_userid: props.quote.user_id,
-  };
-  makeApiPostRequest("/api/comment", payload);
 };
 
 const addLike = () => {
@@ -151,7 +147,11 @@ const addLike = () => {
       quote_id: props.quote.id,
       quote_userid: props.quote.user_id,
     };
-    makeApiPostRequest("/api/like", payload).then(() => {});
+    makeApiPostRequest("/api/like", payload)
+      .then(() => {})
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   }
 };
 

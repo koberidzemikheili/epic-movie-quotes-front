@@ -123,6 +123,7 @@ import IconHeartFill from "@/components/icons/IconHeartFill.vue";
 import IconLike from "@/components/icons/IconLike.vue";
 import CommentCard from "@/components/CommentCard.vue";
 import instance from "@/api/index.js";
+import makeApiPostRequest from "@/api/apiService.js";
 import { useUserStore } from "@/stores/user.js";
 import instantiatePusher from "@/helpers/instantiatePusher.js";
 import IconPencil from "@/components/icons/IconPencil.vue";
@@ -175,9 +176,14 @@ onMounted(async () => {
     (like) => like.user_id === userStore.userData.user.id
   );
 });
-const makeApiPostRequest = (endpoint, payload) => {
-  return instance
-    .post(endpoint, payload)
+
+const savecomment = () => {
+  const payload = {
+    quote_id: quote.value.id,
+    comment: Commentvalue.value,
+    quote_userid: quote.value.user_id,
+  };
+  makeApiPostRequest("/api/comment", payload)
     .then((response) => {
       if (response.status === 201) {
         Commentvalue.value = "";
@@ -186,15 +192,6 @@ const makeApiPostRequest = (endpoint, payload) => {
     .catch((error) => {
       console.error("Error:", error);
     });
-};
-
-const savecomment = () => {
-  const payload = {
-    quote_id: quote.value.id,
-    comment: Commentvalue.value,
-    quote_userid: quote.value.user_id,
-  };
-  makeApiPostRequest("/api/comment", payload);
 };
 
 const addLike = () => {
@@ -220,9 +217,13 @@ const addLike = () => {
       quote_id: quote.value.id,
       quote_userid: quote.value.user_id,
     };
-    makeApiPostRequest("/api/like", payload).then(() => {
-      isLiked.value = true;
-    });
+    makeApiPostRequest("/api/like", payload)
+      .then(() => {
+        isLiked.value = true;
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   }
 };
 const closeModal = () => {
