@@ -1,6 +1,12 @@
 <template>
   <TheMainPage>
-    <div class="w-full lg:w-2/3">
+    <div class="w-full lg:w-2/3" :class="{ fixed: isModalOpen }">
+      <IconScope
+        @click="isModalOpen = true"
+        class="absolute right-24 top-7 text-white block md:hidden cursor-pointer"
+      />
+      <SearchModal v-model:isOpen="isModalOpen" @mobile-search="search">
+      </SearchModal>
       <div class="flex mt-6">
         <button
           :class="searchActive ? 'w-2/6' : 'w-5/6'"
@@ -45,10 +51,13 @@ import { ref, onMounted, watch, onUnmounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import instance from "@/api/index.js";
 import IconPencilSquare from "@/components/icons/IconPencilSquare.vue";
+import IconScope from "@/components/icons/IconScope.vue";
 import TheMainPage from "@/components/TheMainPage.vue";
+import SearchModal from "@/components/Modals/SearchModal.vue";
 import NewsPost from "@/components/NewsPost.vue";
 import instantiatePusher from "@/helpers/instantiatePusher.js";
 
+let isModalOpen = ref(false);
 let quotes = ref([]);
 let searchActive = ref(false);
 let searchTerm = ref("");
@@ -61,6 +70,11 @@ let pageInfo = ref({
   lastPage: null,
   loading: false,
 });
+
+const search = (term) => {
+  searchTerm.value = term;
+  fetchquoteDetails(true);
+};
 
 const fetchquoteDetails = async (newSearch = false) => {
   if (

@@ -2,7 +2,9 @@
 
     "labels": {
         "addquote": "ციტატის დამატება",
-        "chooseamovie":"ფილმის არჩევა"
+        "chooseamovie":"ფილმის არჩევა",
+        "searchtext1": "ჩაწერე {'@'} ფილმის მოსაძებნად",
+        "searchtext2": "ჩაწერე {'#'} ციტატის მოძაძებნად"
     },
     "buttons": {
         "writenewquote": "შექმენი ახალი პოსტი",

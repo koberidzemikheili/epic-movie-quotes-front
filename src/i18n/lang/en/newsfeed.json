@@ -1,7 +1,9 @@
 {
     "labels": {
         "addquote": "Add Quote",
-        "chooseamovie":"Choose a movie"
+        "chooseamovie":"Choose a movie",
+        "searchtext1": "Enter {'@'} to search movies",
+        "searchtext2": "Enter {'#'} to search quotes"
 
     },
     "buttons": {

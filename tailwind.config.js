@@ -24,6 +24,9 @@ module.exports = {
         smbgprofile: {
           DEFAULT: "#171623",
         },
+        searchmodalbg: {
+          DEFAULT: "#12101a",
+        },
       },
     },
   },
