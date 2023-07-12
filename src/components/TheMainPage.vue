@@ -42,7 +42,7 @@
             "
             alt="profile picture"
           />
-          <div class="ml-3 text-orange-200 text-lg flex flex-col">
+          <div class="ml-3 text-orange-200 text-lg items-start flex flex-col">
             {{ userStore.userData.user.username }}
             <button @click="OpenProfilePage" class="text-white text-sm">
               {{ $t("mainpage.buttons.editbutton") }}
@@ -91,7 +91,7 @@
               "
               alt="profile picture"
             />
-            <div class="ml-3 text-orange-200 flex flex-col text-lg">
+            <div class="ml-3 text-orange-200 flex flex-col text-lg items-start">
               {{ userStore.userData.user.username }}
               <button @click="OpenProfilePage" class="text-white text-sm">
                 {{ $t("mainpage.buttons.editbutton") }}
