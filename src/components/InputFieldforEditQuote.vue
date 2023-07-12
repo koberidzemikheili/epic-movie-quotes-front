@@ -1,29 +1,32 @@
 <template>
-  <div class="flex border border-gray-300 rounded mt-2">
+  <div class="relative">
     <div
-      class="pl-2 py-1 text-md text-gray-500 pointer-events-none whitespace-nowrap"
+      class="absolute top-2 right-0 px-3 py-1 text-md text-gray-500 pointer-events-none"
     >
-      <div class="">{{ props.placeholder }}:</div>
+      <div>{{ langplaceholder }}</div>
     </div>
     <Field
       :name="props.name"
       :type="props.type"
       :rules="props.rules"
       :as="props.as"
+      :placeholder="props.placeholder"
       v-model="internalValue"
       :class="[
-        'ml-2',
+        'mt-2',
         'w-full',
         'py-1',
+        'px-3',
+        'border',
+        'border-gray-300',
+        'rounded',
         'outline-none',
         'bg-transparent',
         'text-white',
+        'pr-10',
         addclass,
       ]"
     />
-    <div class="px-2 py-1 text-md text-gray-500 pointer-events-none">
-      <div>{{ langplaceholder }}</div>
-    </div>
   </div>
   <div v-if="error" class="text-red-600 mt-1">{{ error }}</div>
   <ErrorMessage :name="props.name" class="text-red-600 mt-1" />

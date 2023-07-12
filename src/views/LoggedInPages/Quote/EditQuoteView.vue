@@ -34,7 +34,7 @@
         </div>
         <div v-if="!isLoading">
           <Form @submit="submitForm" class="flex flex-col w-full mt-2">
-            <InputFieldForEdit
+            <InputFieldforEditQuote
               name="title[en]"
               type="textarea"
               as="textarea"
@@ -45,7 +45,7 @@
               v-model="formValues.title.en"
               langplaceholder="Eng"
             />
-            <InputFieldForEdit
+            <InputFieldforEditQuote
               name="title[ka]"
               type="textarea"
               as="textarea"
@@ -98,7 +98,7 @@ import IconTrashCan from "@/components/icons/IconTrashCan.vue";
 import IconPhotoCamera from "@/components/icons/IconPhotoCamera.vue";
 import { ref, onMounted, watch } from "vue";
 import { Form, Field } from "vee-validate";
-import InputFieldForEdit from "@/components/InputFieldForEdit.vue";
+import InputFieldforEditQuote from "@/components/InputFieldforEditQuote.vue";
 import instance from "@/api/index.js";
 import { useUserStore } from "@/stores/user.js";
 import { useRouter } from "vue-router";
