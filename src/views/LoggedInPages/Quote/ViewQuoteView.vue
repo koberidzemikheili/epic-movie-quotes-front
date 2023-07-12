@@ -70,7 +70,12 @@
                 </div>
                 <div class="flex items-center ml-5">
                   <span class="text-white mr-2">{{ quote.likes.length }}</span>
-                  <button @click="addLike"><IconLike class="w-6" /></button>
+                  <button @click="addLike">
+                    <IconHeartFill v-if="isLiked" /><IconLike
+                      class="w-6"
+                      v-if="!isLiked"
+                    />
+                  </button>
                 </div>
               </div>
             </div>
@@ -113,6 +118,7 @@
 import TheMainPage from "@/components/TheMainPage.vue";
 import { onMounted, ref } from "vue";
 import IconChatSquare from "@/components/icons/IconChatSquare.vue";
+import IconHeartFill from "@/components/icons/IconHeartFill.vue";
 import IconLike from "@/components/icons/IconLike.vue";
 import CommentCard from "@/components/CommentCard.vue";
 import instance from "@/api/index.js";
@@ -126,6 +132,7 @@ let router = useRouter();
 let id = router.currentRoute.value.params.id;
 const userStore = useUserStore();
 
+const isLiked = ref();
 const backendurl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
 const quote = ref();
 const postuser = ref();
@@ -162,6 +169,10 @@ onMounted(async () => {
   window.Echo.channel(channelName).listen("NewComment", () => {
     fetchQuote(id);
   });
+
+  isLiked.value = quote.value.likes.some(
+    (like) => like.user_id === userStore.userData.user.id
+  );
 });
 const makeApiPostRequest = (endpoint, payload) => {
   return instance
@@ -197,7 +208,9 @@ const addLike = () => {
     };
     instance
       .delete(`/api/like`, { data: payload })
-      .then(() => {})
+      .then(() => {
+        isLiked.value = false;
+      })
       .catch((error) => {
         console.error("Error:", error);
       });
@@ -206,7 +219,9 @@ const addLike = () => {
       quote_id: quote.value.id,
       quote_userid: quote.value.user_id,
     };
-    makeApiPostRequest("/api/like", payload).then(() => {});
+    makeApiPostRequest("/api/like", payload).then(() => {
+      isLiked.value = true;
+    });
   }
 };
 const closeModal = () => {

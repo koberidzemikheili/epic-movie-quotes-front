@@ -33,7 +33,12 @@
         </div>
         <div class="flex items-center ml-5">
           <span class="text-white mr-2">{{ quote.likes.length }}</span>
-          <button @click="addLike"><IconLike class="w-6" /></button>
+          <button @click="addLike">
+            <IconHeartFill v-if="isLiked" /><IconLike
+              class="w-6"
+              v-if="!isLiked"
+            />
+          </button>
         </div>
       </div>
     </div>
@@ -73,6 +78,7 @@
 import { onMounted, ref, computed, watch } from "vue";
 import IconChatSquare from "@/components/icons/IconChatSquare.vue";
 import IconLike from "@/components/icons/IconLike.vue";
+import IconHeartFill from "@/components/icons/IconHeartFill.vue";
 import CommentCard from "@/components/CommentCard.vue";
 import instance from "@/api/index.js";
 import { useUserStore } from "@/stores/user.js";
@@ -81,6 +87,7 @@ import { useI18n } from "vue-i18n";
 const { locale } = useI18n();
 const userStore = useUserStore();
 
+const isLiked = ref();
 const postuser = ref();
 const backendurl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
 let movie = ref();
@@ -124,7 +131,6 @@ const savecomment = () => {
 };
 
 const addLike = () => {
-  console.log(quote.value.likes);
   const userLikes = quote.value.likes.filter(
     (like) => like.user_id === userStore.userData.user.id
   );
@@ -167,5 +173,8 @@ onMounted(async () => {
   if (quote.value.comments.length <= visibleCommentsCount.value) {
     showMoreButton.value = false;
   }
+  isLiked.value = quote.value.likes.some(
+    (like) => like.user_id === userStore.userData.user.id
+  );
 });
 </script>
