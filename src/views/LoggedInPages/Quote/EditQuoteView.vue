@@ -56,32 +56,12 @@
               v-model="formValues.title.ka"
               langplaceholder="ქარ"
             />
-            <div
-              class="w-full h-64 md:h-96 lg:h-96 relative flex items-center justify-center mt-2"
-            >
-              <img
-                :src="
-                  newQuoteImage
-                    ? newQuoteImage
-                    : backendurl + '/storage/' + formValues.quote_image
-                "
-                class="rounded-lg w-full h-full object-cover"
-              />
-              <label
-                class="text-white absolute bg-black bg-opacity-50 px-12 py-6 rounded-lg"
-              >
-                <IconPhotoCamera class="w-full" />
-                <div>Change Photo</div>
-                <Field
-                  type="file"
-                  name="quote_image"
-                  class="hidden"
-                  @change="handleFileSelect"
-                  v-model="formValues.quote_image"
-                />
-              </label>
-            </div>
-
+            <ImageEditQuote
+              v-model="formValues.quote_image"
+              name="quote_image"
+              addclass="h-32"
+              :currentImage="backendurl + '/storage/' + formValues.quote_image"
+            />
             <button class="text-white text-l mt-5 bg-red-600 py-2 px-2 rounded">
               {{ $t("moviepage.buttons.submit") }}
             </button>
@@ -95,10 +75,10 @@
 <script setup>
 import TheMainPage from "@/components/TheMainPage.vue";
 import IconTrashCan from "@/components/icons/IconTrashCan.vue";
-import IconPhotoCamera from "@/components/icons/IconPhotoCamera.vue";
 import { ref, onMounted, watch } from "vue";
-import { Form, Field } from "vee-validate";
+import { Form } from "vee-validate";
 import InputFieldforEditQuote from "@/components/InputFieldforEditQuote.vue";
+import ImageEditQuote from "@/components/ImageEditQuote.vue";
 import instance from "@/api/index.js";
 import { useUserStore } from "@/stores/user.js";
 import { useRouter } from "vue-router";
@@ -115,7 +95,6 @@ const userStore = useUserStore();
 let formValues = ref({});
 
 let isLoading = ref(true);
-let newQuoteImage = ref();
 let errorMessage = ref("");
 
 const closeModal = () => {
@@ -156,16 +135,6 @@ watch(locale, (newLocale) => {
   setLocale(newLocale);
 });
 
-const handleFileSelect = (event) => {
-  const file = event.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      newQuoteImage.value = e.target.result;
-    };
-    reader.readAsDataURL(file);
-  }
-};
 const submitForm = (values) => {
   values.movie_id = formValues.value.movie_id;
   if (!(values.quote_image instanceof Blob)) {
