@@ -140,6 +140,7 @@ let id = router.currentRoute.value.params.id;
 const userStore = useUserStore();
 
 const isLiked = ref();
+const isInProgress = ref();
 const backendurl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
 const quote = ref();
 const postuser = ref();
@@ -155,6 +156,7 @@ async function fetchQuote(id) {
     quote.value = data;
     postuser.value = quote.value.user;
     movie.value = quote.value.movie;
+    isInProgress.value = false;
   } catch (error) {
     console.error("Error:", error);
   }
@@ -200,11 +202,12 @@ const savecomment = () => {
 };
 
 const addLike = () => {
-  const userLike = quote.value.likes.find(
+  const userLikes = quote.value.likes.filter(
     (like) => like.user_id === userStore.userData.user.id
   );
 
-  if (userLike) {
+  if (userLikes.length > 0 && isInProgress.value === false) {
+    isInProgress.value = true;
     const payload = {
       quote_id: quote.value.id,
       user_id: userStore.userData.user.id,
@@ -216,7 +219,8 @@ const addLike = () => {
       .catch((error) => {
         console.error("Error:", error);
       });
-  } else {
+  } else if (userLikes.length <= 0 && isInProgress.value === false) {
+    isInProgress.value = true;
     const payload = {
       quote_id: quote.value.id,
       quote_userid: quote.value.user_id,

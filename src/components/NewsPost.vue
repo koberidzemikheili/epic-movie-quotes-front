@@ -89,6 +89,7 @@ const { locale } = useI18n();
 const userStore = useUserStore();
 
 const isLiked = ref();
+const isInProgress = ref();
 const postuser = ref();
 const backendurl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
 let movie = ref();
@@ -131,7 +132,8 @@ const addLike = () => {
     (like) => like.user_id === userStore.userData.user.id
   );
 
-  if (userLikes.length > 0) {
+  if (userLikes.length > 0 && isInProgress.value === false) {
+    isInProgress.value = true;
     const payload = {
       quote_id: props.quote.id,
       user_id: userStore.userData.user.id,
@@ -141,7 +143,8 @@ const addLike = () => {
       .catch((error) => {
         console.error("Error:", error);
       });
-  } else {
+  } else if (userLikes.length <= 0 && isInProgress.value === false) {
+    isInProgress.value = true;
     const payload = {
       quote_id: props.quote.id,
       quote_userid: props.quote.user_id,
@@ -175,5 +178,6 @@ onMounted(async () => {
   isLiked.value = quote.value.likes.some(
     (like) => like.user_id === userStore.userData.user.id
   );
+  isInProgress.value = false;
 });
 </script>
