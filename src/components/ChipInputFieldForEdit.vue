@@ -1,5 +1,9 @@
 <template>
-  <Field v-slot="{ field }" :name="name" :rules="rules">
+  <Field
+    v-slot="{ field }"
+    :name="name"
+    :rules="hasSelectedTags ? null : rules"
+  >
     <div
       class="relative border border-white p-1 rounded flex flex-wrap mt-2 py-1 px-3 border-gray-300 rounded outline-none minheight-9"
     >
@@ -35,9 +39,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted, defineProps, defineEmits } from "vue";
+import { ref, onMounted, defineProps, defineEmits, computed } from "vue";
 import { Field, ErrorMessage } from "vee-validate";
-import instance from "@/api/index.js";
+import { fetchGenres } from "@/api/apiService.js";
 
 const props = defineProps({
   name: { type: String, required: true },
@@ -51,9 +55,10 @@ const emit = defineEmits(["update:modelValue"]);
 let selected = ref(null);
 let genres = ref([]);
 let selectedTags = ref(props.modelValue || []);
+const hasSelectedTags = computed(() => selectedTags.value.length > 0);
 
 onMounted(async () => {
-  const { data } = await instance.get("/api/genres");
+  const { data } = await fetchGenres();
   genres.value = data.genres;
 });
 const updateModelValue = () => {

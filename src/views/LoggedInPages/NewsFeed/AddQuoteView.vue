@@ -19,7 +19,7 @@
         name="title[en]"
         type="textarea"
         as="textarea"
-        rules="required|min:3"
+        rules="required|min:3|english"
         addclass="h-20"
         placeholder="Start create new quote"
         :error="errorMessage?.errors?.['title.en']?.[0] || ''"
@@ -29,7 +29,7 @@
         name="title[ka]"
         type="textarea"
         as="textarea"
-        rules="required|min:3"
+        rules="required|min:3|georgian"
         addclass="h-20"
         placeholder="ახალი ციტატა"
         :error="errorMessage?.errors?.['title.ka']?.[0] || ''"
@@ -70,12 +70,12 @@ import { ref, onMounted, watch } from "vue";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import InputFieldForAdd from "@/components/InputFieldForAdd.vue";
 import ModalForAdd from "@/components/Modals/ModalForAdd.vue";
-import instance from "@/api/index.js";
 import ImageUpload from "@/components/ImageUpload.vue";
 import { useUserStore } from "@/stores/user.js";
 import { useRouter } from "vue-router";
 import { setLocale } from "@vee-validate/i18n";
 import { useI18n } from "vue-i18n";
+import { addQuote, getAllMovies } from "@/api/apiService.js";
 
 const { locale } = useI18n();
 let router = useRouter();
@@ -88,7 +88,7 @@ let errorMessage = ref("");
 
 onMounted(async () => {
   try {
-    const response = await instance.get("/api/movie");
+    const response = await getAllMovies();
     movies.value = response.data.movies;
   } catch (error) {
     console.error("Error:", error);
@@ -96,7 +96,9 @@ onMounted(async () => {
 
   if (localStorage.getItem("last-locale")) {
     setLocale(localStorage.getItem("last-locale"));
-  } else setLocale("en");
+  } else {
+    setLocale("en");
+  }
 });
 
 watch(locale, (newLocale) => {
@@ -106,12 +108,7 @@ watch(locale, (newLocale) => {
 const submitForm = (values) => {
   values.quote_image = quotepic.value;
   values.movie_id = selectedMovie.value;
-  instance
-    .post("/api/quote", values, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    })
+  addQuote(values)
     .then((response) => {
       if (response.status === 201) {
         router.push({ name: "NewsFeed" });

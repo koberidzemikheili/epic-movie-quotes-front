@@ -11,15 +11,14 @@
   </div>
 </template>
 <script setup>
-import instance from "@/api/index.js";
+import { logout } from "@/api/apiService.js";
 import LanguageSelect from "@/components/LanguageSelect.vue";
 import router from "@/router";
 import { useUserStore } from "@/stores/user.js";
 
 const userStore = useUserStore();
 const LogOut = () => {
-  instance
-    .post("api/logout")
+  logout()
     .then((response) => {
       if (response.status === 201) {
         userStore.logout();

@@ -1,4 +1,4 @@
-import instance from "@/api/index.js";
+import { getUserData } from "@/api/apiService.js";
 import { defineStore } from "pinia";
 
 export const useUserStore = defineStore("user", {
@@ -9,7 +9,7 @@ export const useUserStore = defineStore("user", {
 
   actions: {
     async fetchUserData() {
-      const response = await instance.get("api/user");
+      const response = await getUserData();
       this.userData = response.data;
     },
     login() {

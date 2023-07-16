@@ -53,12 +53,12 @@ import { Form, Field } from "vee-validate";
 import InputField from "@/components/InputField.vue";
 import GoogleButton from "@/components/GoogleButton.vue";
 import TheModal from "@/components/Modals/TheModal.vue";
-import instance from "@/api/index.js";
 import { setLocale } from "@vee-validate/i18n";
 import { onMounted, watch, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import router from "@/router";
 import { useUserStore } from "@/stores/user.js";
+import { getCSRFToken, login, getUserData } from "@/api/apiService.js";
 
 const userStore = useUserStore();
 const { locale } = useI18n();
@@ -66,17 +66,17 @@ let errorMessage = ref("");
 let verificationError = ref("");
 
 const submitForm = (values) => {
-  instance.get("sanctum/csrf-cookie").then(() => {
-    instance
-      .post("/api/login", values)
+  getCSRFToken().then(() => {
+    login(values)
       .then(async () => {
         try {
-          const response = await instance.get("api/user");
-          if (response.status === 200) {
+          const userData = await getUserData();
+          if (userData.status === 200) {
             userStore.login();
             router.push({ name: "NewsFeed" });
           }
         } catch (error) {
+          console.log(error);
           verificationError.value = error.response.data.message;
         }
       })

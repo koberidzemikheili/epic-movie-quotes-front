@@ -84,10 +84,13 @@
 import IconBell from "@/components/icons/IconBell.vue";
 import IconChatQuote from "@/components/icons/IconChatQuote.vue";
 import IconHeartFill from "@/components/icons/IconHeartFill.vue";
-import instance from "@/api/index.js";
 import router from "@/router";
 import { ref, computed } from "vue";
 import { useUserStore } from "@/stores/user.js";
+import {
+  markNotificationAsSeen,
+  markAllNotificationsAsRead,
+} from "@/api/apiService.js";
 
 const userStore = useUserStore();
 const backendurl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
@@ -99,8 +102,7 @@ const props = defineProps({
 });
 
 const isQuoteSeen = (notificationId, quoteId) => {
-  instance
-    .post(`/api/notifications/${notificationId}/mark-as-seen`)
+  markNotificationAsSeen(notificationId)
     .then(() => {
       router.push({ name: "ViewQuote", params: { id: quoteId } });
     })
@@ -111,8 +113,7 @@ const isQuoteSeen = (notificationId, quoteId) => {
 
 const markAllAsRead = () => {
   const formData = { userId: userStore.userData.user.id };
-  instance
-    .post(`/api/notifications/mark-all-as-seen`, formData)
+  markAllNotificationsAsRead(formData)
     .then(() => {
       userStore.fetchUserData();
     })

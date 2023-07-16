@@ -49,13 +49,13 @@
 <script setup>
 import { ref, onMounted, watch, onUnmounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import instance from "@/api/index.js";
 import IconPencilSquare from "@/components/icons/IconPencilSquare.vue";
 import IconScope from "@/components/icons/IconScope.vue";
 import TheMainPage from "@/components/TheMainPage.vue";
 import SearchModal from "@/components/Modals/SearchModal.vue";
 import NewsPost from "@/components/NewsPost.vue";
 import instantiatePusher from "@/helpers/instantiatePusher.js";
+import { fetchQuoteDetails, fetchSingleQuote } from "@/api/apiService.js";
 
 let isModalOpen = ref(false);
 let quotes = ref([]);
@@ -86,27 +86,22 @@ const fetchquoteDetails = async (newSearch = false) => {
   }
   if (newSearch) {
     pageInfo.value.currentPage = 1;
-
     quotes.value = [];
   }
 
   pageInfo.value.loading = true;
 
   try {
-    let response = await instance.get(
-      `/api/quote?page=${pageInfo.value.currentPage}`,
-      {
-        params: {
-          searchBy: searchTerm.value,
-        },
-      }
+    const response = await fetchQuoteDetails(
+      pageInfo.value.currentPage,
+      searchTerm.value
     );
-    const newQuotes = response.data.data;
+    const newQuotes = response.data;
     newQuotes.forEach((quote) => {
       subscribeToQuoteComments(quote);
     });
     quotes.value = [...quotes.value, ...newQuotes];
-    pageInfo.value.lastPage = response.data.meta.last_page;
+    pageInfo.value.lastPage = response.meta.last_page;
 
     if (!newSearch) {
       pageInfo.value.currentPage++;
@@ -144,7 +139,7 @@ watch(
 );
 
 async function fetchQuoteDetailsById(id) {
-  const quoteResponse = await instance.get(`/api/quote/${id}`);
+  const quoteResponse = await fetchSingleQuote(id);
   return quoteResponse.data.quote;
 }
 

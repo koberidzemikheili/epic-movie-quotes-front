@@ -1,5 +1,5 @@
 <template>
-  <TheModal addclass="md:h-4/6">
+  <TheModal addclass="md:h-5/6">
     <div class="text-2xl text-white">
       {{ $t("register.texts.create_an_account") }}
     </div>
@@ -57,7 +57,7 @@ import InputField from "@/components/InputField.vue";
 import GoogleButton from "@/components/GoogleButton.vue";
 import TheModal from "@/components/Modals/TheModal.vue";
 import router from "@/router";
-import instance from "@/api/index.js";
+import { register } from "@/api/apiService.js";
 import { setLocale } from "@vee-validate/i18n";
 import { onMounted, watch, ref } from "vue";
 import { useI18n } from "vue-i18n";
@@ -66,8 +66,7 @@ const { locale } = useI18n();
 let errorMessage = ref("");
 
 const submitForm = (values) => {
-  instance
-    .post("api/register", values)
+  register(values)
     .then((response) => {
       if (response.status === 201) {
         router.push({ name: "VerifyAccount" });

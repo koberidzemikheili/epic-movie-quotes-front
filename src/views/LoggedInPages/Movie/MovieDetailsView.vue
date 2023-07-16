@@ -90,9 +90,13 @@ import IconTrashCan from "@/components/icons/IconTrashCan.vue";
 import IconPlusAdd from "@/components/icons/IconPlusAdd.vue";
 import { onMounted, ref, watchEffect } from "vue";
 import { useRouter } from "vue-router";
-import instance from "@/api/index.js";
 import { useRoute } from "vue-router";
 import { useI18n } from "vue-i18n";
+import {
+  fetchSingleMovie,
+  deleteQuote,
+  deleteMovie,
+} from "@/api/apiService.js";
 
 const { locale } = useI18n();
 const backendurl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
@@ -105,7 +109,7 @@ const idForTracking = ref(route.params.id);
 
 const fetchMovieDetails = async (movieId) => {
   try {
-    let response = await instance.get(`/api/movie/${movieId}`);
+    let response = await fetchSingleMovie(movieId);
     movie.value = response.data.movie;
   } catch (error) {
     console.error("Error:", error);
@@ -135,8 +139,7 @@ const OpenEditQuote = (id) => {
 };
 
 const DeleteMovie = async (id) => {
-  await instance
-    .delete(`/api/movie/${id}`)
+  await deleteMovie(id)
     .then((response) => {
       if (response.status === 201) {
         router.push({ name: "MoviePage" });
@@ -148,8 +151,7 @@ const DeleteMovie = async (id) => {
 };
 
 const DeleteQuote = async (quoteid) => {
-  await instance
-    .delete(`/api/quote/${quoteid}`)
+  await deleteQuote(quoteid)
     .then((response) => {
       if (response.status === 201) {
         fetchMovieDetails(id);

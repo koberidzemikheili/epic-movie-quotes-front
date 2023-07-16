@@ -17,6 +17,14 @@ defineRule("numeric", numeric);
 defineRule("alpha_num", alpha_num);
 defineRule("confirmed", confirmed);
 defineRule("email", email);
+defineRule("georgian", (value) => {
+  const georgianLetters = /^[ა-ჰ0-9\s]+$/;
+  return georgianLetters.test(value);
+});
+defineRule("english", (value) => {
+  const englishLetters = /^[a-z0-9\s]+$/;
+  return englishLetters.test(value);
+});
 
 configure({
   generateMessage: localize({
@@ -28,6 +36,8 @@ configure({
         numeric: "must be number",
         email: "must be email",
         confirmed: "password confirmation does not match",
+        georgian: "use only georgian letters",
+        english: "use only english letters",
       },
     },
     ka: {
@@ -38,6 +48,8 @@ configure({
         numeric: "მონაცემი უნდა იყოს რიცხვი",
         email: "გთხოვთ შეიყვანოთ იმეილი",
         confirmed: "განმეორებითი პაროლი არ ემთხვევა",
+        georgian: "გამოიყენეთ მხოლოდ ქართული ასოები",
+        english: "გამოიყენეთ მხოლოდ ინგლისური ასოები",
       },
     },
   }),
