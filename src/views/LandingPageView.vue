@@ -57,7 +57,7 @@
 import { ref, watchEffect, onMounted } from "vue";
 import router from "@/router";
 import { useRoute } from "vue-router";
-import LanguageSelect from "../components/LanguageSelect.vue";
+import LanguageSelect from "@/components/LanguageSelect.vue";
 import { getUserData } from "@/api/apiService.js";
 import { useUserStore } from "@/stores/user.js";
 import image1 from "@/assets/image-1.png";

@@ -15,7 +15,7 @@ import frame from "@/assets/Frame.png";
 
 const userStore = useUserStore();
 import { useUserStore } from "@/stores/user.js";
-import router from "../router";
+import router from "@/router";
 const returnhome = () => {
   if (userStore.isLoggedIn) {
     router.push({ name: "NewsFeed" });
