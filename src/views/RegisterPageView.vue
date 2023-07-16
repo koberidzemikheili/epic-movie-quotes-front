@@ -1,5 +1,5 @@
 <template>
-  <TheModal addclass="md:h-4/6">
+  <TheModal addclass="md:h-5/6">
     <div class="text-2xl text-white">
       {{ $t("register.texts.create_an_account") }}
     </div>
