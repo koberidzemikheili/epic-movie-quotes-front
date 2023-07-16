@@ -19,7 +19,7 @@
         name="name[en]"
         type="text"
         placeholder="Movie Name"
-        rules="required|min:3"
+        rules="required|min:3|english"
         :error="errorMessage?.errors?.['name.en']?.[0] || ''"
         langplaceholder="Eng"
       />
@@ -27,7 +27,7 @@
         name="name[ka]"
         type="text"
         placeholder="ფილმის სახელი"
-        rules="required|min:3"
+        rules="required|min:3|georgian"
         :error="errorMessage?.errors?.['name.ka']?.[0] || ''"
         langplaceholder="ქარ"
       />
@@ -48,7 +48,7 @@
         name="director[en]"
         type="text"
         placeholder="Director"
-        rules="required|min:3"
+        rules="required|min:3|english"
         :error="errorMessage?.errors?.['director.en']?.[0] || ''"
         langplaceholder="Eng"
       />
@@ -56,7 +56,7 @@
         name="director[ka]"
         type="text"
         placeholder="რეჟისორი"
-        rules="required|min:3"
+        rules="required|min:3|georgian"
         :error="errorMessage?.errors?.['director.ka']?.[0] || ''"
         langplaceholder="ქარ"
       />
@@ -66,7 +66,7 @@
         as="textarea"
         addclass="h-20"
         placeholder="Description"
-        rules="required|min:3"
+        rules="required|min:3|english"
         :error="errorMessage?.errors?.['description.en']?.[0] || ''"
         langplaceholder="Eng"
       />
@@ -76,7 +76,7 @@
         as="textarea"
         addclass="h-20"
         placeholder="აღწერა"
-        rules="required|min:3"
+        rules="required|min:3|georgian"
         :error="errorMessage?.errors?.['description.ka']?.[0] || ''"
         langplaceholder="ქარ"
       />
