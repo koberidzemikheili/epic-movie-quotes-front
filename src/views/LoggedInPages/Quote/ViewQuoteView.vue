@@ -122,13 +122,18 @@ import IconChatSquare from "@/components/icons/IconChatSquare.vue";
 import IconHeartFill from "@/components/icons/IconHeartFill.vue";
 import IconLike from "@/components/icons/IconLike.vue";
 import CommentCard from "@/components/CommentCard.vue";
-import instance from "@/api/index.js";
-import makeApiPostRequest from "@/api/apiService.js";
+import {
+  makeApiPostRequest,
+  fetchSingleQuote,
+  unlike,
+  deleteQuote,
+} from "@/api/apiService.js";
 import { useUserStore } from "@/stores/user.js";
 import instantiatePusher from "@/helpers/instantiatePusher.js";
 import IconPencil from "@/components/icons/IconPencil.vue";
 import IconTrashCan from "@/components/icons/IconTrashCan.vue";
 import { useRouter } from "vue-router";
+
 let router = useRouter();
 
 let id = router.currentRoute.value.params.id;
@@ -145,7 +150,7 @@ const canEditQuote = ref();
 
 async function fetchQuote(id) {
   try {
-    let response = await instance.get(`/api/quote/${id}`);
+    let response = await fetchSingleQuote(id);
     let data = response.data.quote;
     quote.value = data;
     postuser.value = quote.value.user;
@@ -204,8 +209,7 @@ const addLike = () => {
       quote_id: quote.value.id,
       user_id: userStore.userData.user.id,
     };
-    instance
-      .delete(`/api/like`, { data: payload })
+    unlike(payload)
       .then(() => {
         isLiked.value = false;
       })
@@ -230,8 +234,7 @@ const closeModal = () => {
   router.go(-1);
 };
 const DeleteQuote = async () => {
-  await instance
-    .delete(`/api/quote/${id}`)
+  await deleteQuote(id)
     .then((response) => {
       if (response.status === 201) {
         closeModal();

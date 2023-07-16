@@ -58,7 +58,7 @@ import { ref, watchEffect, onMounted } from "vue";
 import router from "@/router";
 import { useRoute } from "vue-router";
 import LanguageSelect from "../components/LanguageSelect.vue";
-import instance from "@/api/index.js";
+import { getUserData } from "@/api/apiService.js";
 import { useUserStore } from "@/stores/user.js";
 import image1 from "@/assets/image-1.png";
 import image2 from "@/assets/image-2.png";
@@ -99,7 +99,7 @@ watchEffect(() => {
 
 onMounted(async () => {
   try {
-    const response = await instance.get("api/user");
+    const response = await getUserData();
     if (response.data.user.google_id) {
       userStore.login();
       router.push({ name: "NewsFeed" });

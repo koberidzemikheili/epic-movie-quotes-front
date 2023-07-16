@@ -33,11 +33,9 @@ import InputField from "@/components/InputField.vue";
 import IconSmallArrowLeft from "@/components/icons/IconSmallArrowLeft.vue";
 import TheModal from "@/components/Modals/TheModal.vue";
 import router from "@/router";
-import instance from "@/api/index.js";
-
+import { forgotPassword } from "@/api/apiService.js";
 const submitForm = (values) => {
-  instance
-    .post("/api/forgot-password", values)
+  forgotPassword(values)
     .then((response) => {
       if (response.status === 201) {
         router.push({ name: "CheckEmail" });

@@ -96,7 +96,7 @@ import { ref, onMounted, watch } from "vue";
 import { Form } from "vee-validate";
 import InputFieldForAdd from "@/components/InputFieldForAdd.vue";
 import ModalForAdd from "@/components/Modals/ModalForAdd.vue";
-import instance from "@/api/index.js";
+import { addMovie } from "@/api/apiService.js";
 import ChipInputField from "@/components/ChipInputField.vue";
 import ImageUpload from "@/components/ImageUpload.vue";
 import { useUserStore } from "@/stores/user.js";
@@ -113,12 +113,7 @@ let errorMessage = ref("");
 
 const submitForm = (values) => {
   values.genres = genres.value;
-  instance
-    .post("/api/movie", values, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    })
+  addMovie(values)
     .then((response) => {
       if (response.status === 201) {
         router.push({ name: "MoviePage" });

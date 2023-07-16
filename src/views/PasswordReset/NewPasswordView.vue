@@ -34,14 +34,13 @@ import { ref } from "vue";
 import TheModal from "@/components/Modals/TheModal.vue";
 import { useRoute } from "vue-router";
 import router from "@/router";
-import instance from "@/api/index.js";
+import { resetPassword } from "@/api/apiService.js";
 const route = useRoute();
 const email = ref(route.query.email);
 const token = ref(route.query.token);
 
 const submitForm = (values) => {
-  instance
-    .post("/api/reset-password", values)
+  resetPassword(values)
     .then((response) => {
       if (response.status === 201) {
         router.push({ name: "PasswordSuccess" });

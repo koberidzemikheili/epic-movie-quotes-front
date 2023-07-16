@@ -134,13 +134,13 @@ import IconCamera from "@/components/icons/IconCamera.vue";
 import IconCameraWhite from "@/components/icons/IconCameraWhite.vue";
 import IconMenu from "@/components/icons/IconMenu.vue";
 import { ref, onMounted } from "vue";
-import instance from "@/api/index.js";
 import LanguageSelect from "@/components/LanguageSelect.vue";
 import TheNotifications from "@/components/TheNotifications.vue";
 import router from "@/router";
 import { useRoute } from "vue-router";
 import { useUserStore } from "@/stores/user.js";
 import instantiatePusher from "@/helpers/instantiatePusher.js";
+import { logout } from "@/api/apiService.js";
 
 let route = useRoute();
 const userStore = useUserStore();
@@ -150,8 +150,7 @@ let isLoading = ref(true);
 const pusherActive = ref(false);
 
 const LogOut = () => {
-  instance
-    .post("api/logout")
+  logout()
     .then((response) => {
       if (response.status === 201) {
         userStore.logout();

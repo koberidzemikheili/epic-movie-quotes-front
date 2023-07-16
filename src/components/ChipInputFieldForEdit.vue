@@ -37,7 +37,7 @@
 <script setup>
 import { ref, onMounted, defineProps, defineEmits } from "vue";
 import { Field, ErrorMessage } from "vee-validate";
-import instance from "@/api/index.js";
+import { fetchGenres } from "@/api/apiService.js";
 
 const props = defineProps({
   name: { type: String, required: true },
@@ -53,7 +53,7 @@ let genres = ref([]);
 let selectedTags = ref(props.modelValue || []);
 
 onMounted(async () => {
-  const { data } = await instance.get("/api/genres");
+  const { data } = await fetchGenres();
   genres.value = data.genres;
 });
 const updateModelValue = () => {

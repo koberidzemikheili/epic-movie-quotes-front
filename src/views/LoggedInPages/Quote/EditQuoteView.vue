@@ -79,11 +79,11 @@ import { ref, onMounted, watch } from "vue";
 import { Form } from "vee-validate";
 import InputFieldforEditQuote from "@/components/InputFieldforEditQuote.vue";
 import ImageEditQuote from "@/components/ImageEditQuote.vue";
-import instance from "@/api/index.js";
 import { useUserStore } from "@/stores/user.js";
 import { useRouter } from "vue-router";
 import { setLocale } from "@vee-validate/i18n";
 import { useI18n } from "vue-i18n";
+import { deleteQuote, fetchSingleQuote, editQuote } from "@/api/apiService.js";
 
 const { locale } = useI18n();
 let router = useRouter();
@@ -101,21 +101,19 @@ const closeModal = () => {
   router.go(-depth);
 };
 const DeleteQuote = async () => {
-  await instance
-    .delete(`/api/quote/${id}`)
-    .then((response) => {
-      if (response.status === 201) {
-        closeModal();
-      }
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
+  try {
+    const response = await deleteQuote(id);
+    if (response.status === 201) {
+      closeModal();
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
 };
 
 onMounted(async () => {
   try {
-    let response = await instance.get(`/api/quote/` + id);
+    let response = await fetchSingleQuote(id);
     let quote = response.data.quote;
     formValues.value = {
       ...quote,
@@ -141,12 +139,7 @@ const submitForm = (values) => {
     values.quote_image = "";
   }
   values._method = "PUT";
-  instance
-    .post(`/api/quote/${id}`, values, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    })
+  editQuote(id, values)
     .then((response) => {
       if (response.status === 200) {
         closeModal();

@@ -74,12 +74,12 @@ import { ref, onMounted, watch } from "vue";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import InputFieldForAdd from "@/components/InputFieldForAdd.vue";
 import ModalForAdd from "@/components/Modals/ModalForAdd.vue";
-import instance from "@/api/index.js";
 import ImageUpload from "@/components/ImageUpload.vue";
 import { useUserStore } from "@/stores/user.js";
 import { useRouter } from "vue-router";
 import { setLocale } from "@vee-validate/i18n";
 import { useI18n } from "vue-i18n";
+import { fetchUserMovies, addQuote } from "@/api/apiService.js";
 
 const { locale } = useI18n();
 let router = useRouter();
@@ -92,7 +92,7 @@ let errorMessage = ref("");
 
 onMounted(async () => {
   try {
-    const response = await instance.get("/api/user/movies");
+    const response = await fetchUserMovies();
     movies.value = response.data.movies;
     selectedMovie.value = movies.value.find(
       (movie) => movie.id === parseInt(id)
@@ -103,7 +103,9 @@ onMounted(async () => {
 
   if (localStorage.getItem("last-locale")) {
     setLocale(localStorage.getItem("last-locale"));
-  } else setLocale("en");
+  } else {
+    setLocale("en");
+  }
 });
 
 watch(locale, (newLocale) => {
@@ -112,12 +114,7 @@ watch(locale, (newLocale) => {
 
 const submitForm = (values) => {
   values.movie_id = selectedMovie.value.id;
-  instance
-    .post("/api/quote", values, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    })
+  addQuote(values)
     .then((response) => {
       if (response.status === 201) {
         router.push({ name: "MovieDetails", params: { id: id } });

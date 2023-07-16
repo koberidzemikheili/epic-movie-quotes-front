@@ -87,7 +87,7 @@ import IconSmallArrowLeft from "@/components/icons/IconSmallArrowLeft.vue";
 import TheMainPage from "@/components/TheMainPage.vue";
 import ProfileInputField from "@/components/ProfileInputField.vue";
 import SuccessModal from "@/components/Modals/SuccessModal.vue";
-import instance from "@/api/index.js";
+import { editUser } from "@/api/apiService.js";
 import router from "@/router";
 import { useI18n } from "vue-i18n";
 
@@ -186,12 +186,7 @@ const saveEdit = (values) => {
   });
   editing.value = false;
   values._method = "PUT";
-  instance
-    .post("/api/edit", values, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    })
+  editUser(values)
     .then(() => {
       if (values.email) {
         emailchangedsuccess.value = true;

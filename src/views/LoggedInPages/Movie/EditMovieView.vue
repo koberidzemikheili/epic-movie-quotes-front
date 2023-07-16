@@ -107,7 +107,7 @@ import { ref, onMounted, watch } from "vue";
 import { Form } from "vee-validate";
 import InputFieldForEdit from "@/components/InputFieldForEdit.vue";
 import ModalForAdd from "@/components/Modals/ModalForAdd.vue";
-import instance from "@/api/index.js";
+import { editMovie, fetchSingleMovie } from "@/api/apiService.js";
 import ChipInputFieldForEdit from "@/components/ChipInputFieldForEdit.vue";
 import ImageEdit from "@/components/ImageEdit.vue";
 import { useUserStore } from "@/stores/user.js";
@@ -127,7 +127,7 @@ let isLoading = ref(true);
 
 onMounted(async () => {
   try {
-    let response = await instance.get(`/api/movie/${id}`);
+    let response = await fetchSingleMovie(id);
     let movie = response.data.movie;
     formValues.value = {
       ...movie,
@@ -141,7 +141,9 @@ onMounted(async () => {
 
   if (localStorage.getItem("last-locale")) {
     setLocale(localStorage.getItem("last-locale"));
-  } else setLocale("en");
+  } else {
+    setLocale("en");
+  }
 });
 
 watch(locale, (newLocale) => {
@@ -151,12 +153,7 @@ watch(locale, (newLocale) => {
 const submitForm = (values) => {
   values.genres = formValues.value.genres;
   values._method = "PUT";
-  instance
-    .post(`/api/movie/${id}`, values, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    })
+  editMovie(id, values)
     .then((response) => {
       if (response.status === 200) {
         router.push({ name: "MovieDetails", params: { id: id } });

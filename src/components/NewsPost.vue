@@ -80,10 +80,10 @@ import IconChatSquare from "@/components/icons/IconChatSquare.vue";
 import IconLike from "@/components/icons/IconLike.vue";
 import IconHeartFill from "@/components/icons/IconHeartFill.vue";
 import CommentCard from "@/components/CommentCard.vue";
-import instance from "@/api/index.js";
-import makeApiPostRequest from "@/api/apiService.js";
+import { makeApiPostRequest } from "@/api/apiService.js";
 import { useUserStore } from "@/stores/user.js";
 import { useI18n } from "vue-i18n";
+import { unlike } from "@/api/apiService.js";
 
 const { locale } = useI18n();
 const userStore = useUserStore();
@@ -136,8 +136,7 @@ const addLike = () => {
       quote_id: props.quote.id,
       user_id: userStore.userData.user.id,
     };
-    instance
-      .delete(`/api/like`, { data: payload })
+    unlike(payload)
       .then(() => {})
       .catch((error) => {
         console.error("Error:", error);

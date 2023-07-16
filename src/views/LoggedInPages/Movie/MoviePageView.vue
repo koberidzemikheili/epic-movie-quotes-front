@@ -60,7 +60,7 @@
 import TheMainPage from "@/components/TheMainPage.vue";
 import { ref, onMounted, watchEffect, computed } from "vue";
 import router from "@/router";
-import instance from "@/api/index.js";
+import { fetchUserMovies } from "@/api/apiService.js";
 import IconChatQuote from "@/components/icons/IconChatQuote.vue";
 import IconPlusAdd from "@/components/icons/IconPlusAdd.vue";
 import { useRoute } from "vue-router";
@@ -78,7 +78,7 @@ const movies = ref([]);
 
 const fetchMovies = async () => {
   try {
-    const response = await instance.get("/api/user/movies");
+    const response = await await fetchUserMovies();
     movies.value = response.data.movies;
   } catch (error) {
     console.error("Error:", error);
