@@ -18,11 +18,11 @@ defineRule("alpha_num", alpha_num);
 defineRule("confirmed", confirmed);
 defineRule("email", email);
 defineRule("georgian", (value) => {
-  const georgianLetters = /^[ა-ჰ0-9\s]+$/;
+  const georgianLetters = /^[ა-ჰ0-9\s`'@#?!$,./"()-_]+$/;
   return georgianLetters.test(value);
 });
 defineRule("english", (value) => {
-  const englishLetters = /^[a-z0-9\s]+$/;
+  const englishLetters = /^[a-zA-Z0-9\s`'@#?!$,./"()-_]+$/;
   return englishLetters.test(value);
 });
 
