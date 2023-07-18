@@ -39,7 +39,7 @@
               v-for="genre in movie.genres"
               :key="genre.id"
             >
-              {{ genre.genre }}
+              {{ genre.genre[locale] }}
             </div>
           </div>
           <div class="text-white mt-2">

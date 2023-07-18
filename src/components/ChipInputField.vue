@@ -9,7 +9,7 @@
           :key="tag.id"
           class="px-1 mx-1 bg-gray-500 text-white text-sm rounded flex items-center"
         >
-          {{ tag.genre }}
+          {{ tag.genre[locale] }}
           <button @click="removeTag(index)" class="ml-2 text-white text-sm">
             X
           </button>
@@ -22,7 +22,7 @@
         v-bind="field"
       >
         <option v-for="tag in genres" :key="tag.id" :value="tag.id">
-          {{ tag.genre }}
+          {{ tag.genre[locale] }}
         </option>
       </select>
     </div>
@@ -35,6 +35,7 @@
 import { ref, watch, onMounted, defineProps, defineEmits } from "vue";
 import { Field, ErrorMessage } from "vee-validate";
 import { fetchGenres } from "@/api/apiService.js";
+import { useI18n } from "vue-i18n";
 
 defineProps({
   name: { type: String, required: true },
@@ -44,6 +45,7 @@ defineProps({
 
 const emit = defineEmits(["update:modelValue"]);
 
+const { locale } = useI18n();
 let selected = ref(null);
 let genres = ref([]);
 let selectedTags = ref([]);
