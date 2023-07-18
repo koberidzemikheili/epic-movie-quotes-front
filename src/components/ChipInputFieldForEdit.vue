@@ -13,7 +13,7 @@
           :key="tag.id"
           class="px-1 mx-1 bg-gray-500 text-white text-sm rounded flex items-center"
         >
-          {{ tag.genre }}
+          {{ tag.genre[locale] }}
           <button
             @click.prevent="removeTag(index)"
             class="ml-2 text-white text-sm"
@@ -29,7 +29,7 @@
         v-bind="field"
       >
         <option v-for="tag in genres" :key="tag.id" :value="tag.id">
-          {{ tag.genre }}
+          {{ tag.genre[locale] }}
         </option>
       </select>
     </div>
@@ -42,6 +42,7 @@
 import { ref, onMounted, defineProps, defineEmits, computed } from "vue";
 import { Field, ErrorMessage } from "vee-validate";
 import { fetchGenres } from "@/api/apiService.js";
+import { useI18n } from "vue-i18n";
 
 const props = defineProps({
   name: { type: String, required: true },
@@ -56,6 +57,7 @@ let selected = ref(null);
 let genres = ref([]);
 let selectedTags = ref(props.modelValue || []);
 const hasSelectedTags = computed(() => selectedTags.value.length > 0);
+const { locale } = useI18n();
 
 onMounted(async () => {
   const { data } = await fetchGenres();
